@@ -1,9 +1,0 @@
-<ul class="footer-links-right">
-    <?php foreach ($this->menu->pages as $page) { ?>
-    <li>
-        <a href="<?php echo $this->url($page->params); ?>" <?php echo ($page->isActive(true)) ? 'class="active"' : ''; ?>>
-            <?php echo $page->label; ?><span>|</span>
-        </a>
-    </li>
-    <?php } ?>
-</ul>

@@ -69,8 +69,12 @@
                     <li><a href="<?php echo $this->url("news"); ?>">News</a></li>
                     <li><a href="<?php echo $this->url("contact-us"); ?>">Contact us</a></li>
                 </ul>
-                <a class="btn btn-register" href="<?php echo $this->url(array('module' => 'members', 'controller' => 'user', 'action' => 'register')); ?>">Sign up</a>
-                <a class="btn btn-facebook" href="<?php echo $this->url(array('module' => 'members', 'controller' => 'user', 'action' => 'facebook-login')); ?>"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
+                <?php if (count($this->loggedInUser) > 0): ?>
+                    <a class="btn btn-register" href="<?php echo $this->url(null, 'members-index'); ?>">Welcome, <?= $this->loggedInUser['username'] ?></a>
+                <?php else: ?>
+                    <a class="btn btn-register" href="<?php echo $this->url(array('module' => 'members', 'controller' => 'user', 'action' => 'register')); ?>">Sign up</a>
+                    <a class="btn btn-facebook" href="<?php echo $this->url(array('module' => 'members', 'controller' => 'user', 'action' => 'facebook-login')); ?>"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
+                <?php endif; ?>
             </div>
         </div>
     </header>

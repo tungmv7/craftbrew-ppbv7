@@ -30,8 +30,7 @@
             <ul class="nav navbar-nav">
                 <?php if (count($this->loggedInUser) > 0) { ?>
                     <li>
-                        <a href="<?php echo $this->url(null,
-                            'members-index'); ?>"><?php echo $this->_('Members Area'); ?></a>
+                        <a href="<?php echo $this->url(null, 'members-index'); ?>"><?php echo $this->_('Members Area'); ?></a>
                     </li>
                     <li>
                         <a href="<?php echo $this->url(null, 'members-logout'); ?>"><?php echo $this->_('Logout'); ?></a>
