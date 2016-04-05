@@ -1,0 +1,56 @@
+/* search autocomplete mod css */
+.ui-autocomplete {
+    padding: 5px;
+    border: 1px solid #aaa;
+    background-color: white;
+    overflow: hidden;
+    position: absolute;
+    z-index: 10000 !important;
+    /*width: 550px;*/
+
+}
+
+.ui-autocomplete ul {
+    width: 100%;
+    list-style-position: outside;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 10000;
+}
+
+.ui-autocomplete li {
+    color: #333;
+    margin: 0px;
+    padding: 5px 9px;
+    cursor: default;
+    display: block;
+    /*font: menu;*/
+    /*font-size: 14px;*/
+
+    /*line-height: 24px;*/
+    /*overflow: hidden;*/
+}
+
+.ui-autocomplete .ui-menu-item .ui-state-focus {
+    cursor: pointer;
+    background-color: #ccc;
+    color: #fff;
+    text-decoration: none;
+}
+
+.tagged-text {
+    color: #1569C7;
+}
+
+.tagged-category {
+    color: #aaa;
+    font-style: italic;
+}
+
+.tagged-no-link {
+    color: #222;
+    font-style: italic;
+}
+
+

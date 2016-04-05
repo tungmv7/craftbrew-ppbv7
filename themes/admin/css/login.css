@@ -1,0 +1,56 @@
+body {
+    padding-top: 30px;
+}
+
+.login-container {
+    margin: 0 auto;
+    width: 300px;
+}
+
+header {
+    text-align: center;
+    margin-top: 30px;
+}
+
+legend {
+    font-weight: bold;
+    color: #404040;
+}
+
+.login-form {
+    padding: 0 20px 20px 20px;
+}
+
+.login-form form {
+    margin: 0;
+}
+
+.login-form div.input-group {
+    margin-top: 10px;
+    text-align: right;
+}
+
+
+
+.login-form div img {
+    margin-right: 15px;
+    margin-top: 10px;
+}
+
+footer {
+    text-align: center;
+}
+
+@media (max-width: 767px) {
+    body {
+        padding: 0;
+    }
+    .navbar-static-top {
+        margin: 0 auto;
+    }
+
+    .login-container {
+        width: auto;
+        margin: 0 20px;
+    }
+} 

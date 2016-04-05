@@ -1,0 +1,13 @@
+<?php if (!count($this->loggedInUser)) { ?>
+    <blockquote class="bq bq-info">
+
+        <a class="dialog-box"
+           href="<?php echo $this->url(array('module' => 'members', 'controller' => 'user', 'action' => 'login-modal')); ?>"
+           title="<?php echo $this->_('Log In'); ?>">
+            <?php echo $this->_('Already Registered? Click here to login.'); ?>
+        </a>
+    </blockquote>
+
+<?php } ?>
+
+<?php echo $this->form; ?>

@@ -1,0 +1,44 @@
+<?php
+/**
+ * @version 7.4
+ */
+/** @var \Ppb\Db\Table\Rowset\Listings $listings */
+/** @var string $class */
+/** @var bool $carousel */
+if (count($listings) > 0) {
+    $carouselId = 'carousel' . ucfirst($params['type']);
+    $nbListings = count($listings);
+
+    $counter = 0;
+    $active = 'active';
+    ?>
+    <div id="<?php echo $carouselId; ?>" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <?php foreach ($listings as $listing) { ?>
+                <?php if ($carousel && (($counter % 4) == 0)) { ?>
+                    <div class="item <?php echo $active; ?>">
+                    <?php $active = null; ?>
+                <?php } ?>
+                <?php
+                echo $this->partial('partials/listing-box.phtml', array(
+                    'listing'  => $listing,
+                    'class'    => $class,
+                    'settings' => $this->settings)); ?>
+                <?php if ($carousel && ((++$counter % 4) == 0 || $counter >= $nbListings)) { ?>
+                    </div>
+                <?php } ?>
+            <?php } ?>
+        </div>
+
+        <?php if ($carousel) { ?>
+            <a class="left carousel-control" href="#<?php echo $carouselId; ?>" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#<?php echo $carouselId; ?>" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+
+
+        <?php } ?>
+    </div>
+<?php } ?>

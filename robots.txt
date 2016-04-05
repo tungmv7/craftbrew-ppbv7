@@ -1,0 +1,78 @@
+User-agent: *
+Crawl-delay: 10
+#Sitemap: %SITE_PATH%/sitemap.xml
+
+## Do not crawl application folders
+Disallow: /config/
+Disallow: /library/
+Disallow: /module/
+
+## Do not crawl root files
+Disallow: /cron.php
+Disallow: /install.php
+Disallow: /error_log
+
+## Do not crawl pages with sorting or listings per page limit set
+Disallow: /*?sort*
+Disallow: /*?limit*
+Disallow: /*?parent_id*
+
+## Do not crawl language change pages
+Disallow: /*?lang=
+
+## Do not crawl links with session ids
+Disallow: /*?SID=
+
+## Do not crawl the admin module
+Disallow: /admin/
+
+## Do not crawl the install module
+Disallow: /install/
+
+## Do not crawl selected app module pages
+## - rss pages
+Disallow: /rss/
+
+## - advert related pages
+Disallow: /advert/
+
+## - play video action
+Disallow: /play-video/
+
+## async controller
+Disallow: /app/async*
+
+## Do not crawl selected members module pages
+Disallow: /members-area/
+Disallow: /members/
+Disallow: /login-modal/
+Disallow: /register-modal/
+Disallow: /forgot-username/
+Disallow: /forgot-password/
+
+## Do not crawl selected listings module pages
+## - bid/purchase/cart related pages
+Disallow: /bid/
+Disallow: /buy/
+Disallow: /offer/
+Disallow: /cart/
+Disallow: /listings/cart/
+
+## - search pages
+Disallow: /search/
+Disallow: /advanced-search/
+
+## - sell pages
+Disallow: /sell/
+
+## - categories list pages - uncomment to disallow
+#Disallow: /categories/
+
+## Uncomment if you do not wish to allow Google and Bing to index your images
+# User-agent: Googlebot-Image
+# Disallow: /
+# User-agent: msnbot-media
+# Disallow: /
+
+#Disallow: /*.php$
+

@@ -1,0 +1,29 @@
+<?php
+/**
+ * @version 7.4
+ */
+$filter = $this->request()->getRequest()->getParam('filter');
+?>
+<ul class="nav nav-tabs">
+    <?php
+    foreach ($this->menu->pages as $page) {
+        if ($page->filter == 'true') {
+            if ((!$page->settings || (intval($this->settings[(string)$page->settings['name']]) == $page->settings['value']))) {
+                $active = false;
+                $params = $page->params;
+                if (isset($params['filter'])) {
+                    if ($params['filter'] == $filter) {
+                        $active = true;
+                    }
+                }
+
+                ?>
+                <li <?php echo ($active) ? 'class="active"' : ''; ?>>
+                    <a href="<?php echo $this->url($page->params, null, true,
+                        array('page', 'submit')); ?>"><?php echo $page->label; ?></a>
+                </li>
+            <?php
+            }
+        }
+    } ?>
+</ul>

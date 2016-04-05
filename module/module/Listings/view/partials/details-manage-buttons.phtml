@@ -1,0 +1,78 @@
+<?php
+/**
+ * @version 7.4
+ */
+/** @var bool $live */
+/** @var int $social */
+/* @var \Ppb\Db\Table\Row\Listing $listing */
+/* @var \Ppb\Db\Table\Row\User $user */
+
+if ($live === true) {
+    ?>
+
+    <?php echo $this->formElement('\Ppb\Form\Element\PrintButton', 'printButton', $this->_('Print'))
+        ->setAttributes(array(
+            'class' => 'print-button btn btn-default',
+            'rel'   => 'print-area',
+        ))
+        ->render();
+    ?>
+    <?php if ($listing->isOwner()) { ?>
+        <?php if ($listing->canEdit()) { ?>
+            <a class="btn btn-default"
+               href="<?php echo $this->url(array('id' => $listing['id']), 'listings-edit'); ?>"
+               title="<?php echo $this->_('Edit Listing'); ?>">
+                <?php echo $this->_('Edit'); ?>
+            </a>
+        <?php } ?>
+        <?php if ($listing['active'] == 0) { ?>
+            <a class="btn btn-success"
+               href="<?php echo $this->url(array('module' => 'app', 'controller' => 'payment', 'action' => 'listing-setup', 'id' => $listing['id'])); ?>"
+               title="<?php echo $this->_('Make Listing Setup Fee Payment'); ?>">
+                <?php echo $this->_('Pay Listing Setup Fee'); ?>
+            </a>
+        <?php } ?>
+        <a class="btn btn-default"
+           href="<?php echo $this->url(array('id' => $listing['id']), 'listings-create-similar'); ?>"
+           title="<?php echo $this->_('Create Similar Listing'); ?>">
+            <?php echo $this->_('List Similar'); ?>
+        </a>
+        <?php if ($listing->canClose()) { ?>
+            <a class="btn btn-default confirm-box"
+               href="<?php echo $this->url(array('module' => 'listings', 'controller' => 'listing', 'action' => 'close', 'id' => $listing['id']),
+                   null, true); ?>"
+               title="<?php echo $this->_('Close Listing'); ?>"
+               data-message="<?php echo $this->_('Are you sure you want to close this listing?'); ?>">
+                <?php echo $this->_('Close'); ?>
+            </a>
+        <?php } ?>
+        <?php if ($listing->canDelete()) { ?>
+            <a class="btn btn-danger confirm-box"
+               href="<?php echo $this->url(array('module' => 'listings', 'controller' => 'listing', 'action' => 'delete', 'id' => $listing['id']),
+                   null, true); ?>"
+               title="<?php echo $this->_('Delete Listing'); ?>"
+               data-message="<?php echo $this->_('Are you sure you want to delete this listing?'); ?>">
+                <?php echo $this->_('Delete'); ?>
+            </a>
+        <?php } ?>
+    <?php
+    }
+    else {
+        ?>
+
+        <a class="btn btn-default"
+           href="<?php echo $this->url(array('module' => 'listings', 'controller' => 'listing', 'action' => 'watch', 'id' => $listing['id']),
+               null, true); ?>"
+           title="<?php echo $this->_('Wishlist'); ?>">
+            <?php echo ($listing->isWatched()) ? $this->_('Remove From Wishlist') : $this->_('Add To Wishlist'); ?>
+        </a>
+
+        <a class="btn btn-default"
+           href="<?php echo $this->url(array('module' => 'members', 'controller' => 'messaging', 'action' => 'create', 'listing_id' => $listing['id'], 'topic_type' => \Ppb\Service\Messaging::ABUSE_REPORT_LISTING)); ?>"
+           title="<?php echo $this->_('Report Abuse'); ?>">
+            <?php echo $this->_('Report Abuse'); ?>
+        </a>
+
+    <?php } ?>
+
+<?php } ?>

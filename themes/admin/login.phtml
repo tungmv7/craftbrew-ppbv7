@@ -1,0 +1,55 @@
+<?php
+/**
+ * @version 7.6
+ */
+?>
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <?php echo $this->headTitle(); ?>
+        <meta charset="utf-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+        <!-- Styles -->
+        <link href="<?php echo $this->baseUrl; ?>/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css" >
+        <link href="<?php echo $this->baseUrl; ?>/css/font-awesome.min.css" media="screen" rel="stylesheet" type="text/css" >
+        <link href="<?php echo $this->baseUrl; ?>/css/style.css" media="screen" rel="stylesheet" type="text/css" >
+        <link href="<?php echo $this->baseUrl; ?>/<?php echo $this->themesFolder; ?>/admin/css/style.css" media="screen" rel="stylesheet" type="text/css" >
+        <link href="<?php echo $this->baseUrl; ?>/<?php echo $this->themesFolder; ?>/admin/css/login.css" media="screen" rel="stylesheet" type="text/css" >
+        <link href="<?php echo $this->baseUrl; ?>/img/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" >
+    </head>
+
+    <body>
+        <div class="login-container">
+            <header>
+                <h1>
+                    <img src="<?php echo $this->baseUrl; ?>/<?php echo $this->themesFolder; ?>/admin/images/logo.png" alt="Logo">
+                </h1>
+            </header>
+            
+            
+            <?php echo $this->getContent(); ?>     
+            <hr />
+
+            <footer>
+                <small>
+                    v<?php echo \Ppb\Utility::VERSION; ?>
+                    &copy; <?php echo date('Y'); ?> Online Ventures Software. <br>
+                    All rights reserved.
+                </small>
+
+            </footer>
+
+        </div> 
+        <!-- /container -->
+
+
+        <!-- js global variables -->
+        <script type="text/javascript"> var baseUrl = '<?php echo $this->baseUrl; ?>'; </script>
+
+        <!-- client side scripts [loaded in bootstrap] -->
+        <?php //echo $this->script()->displayBodyCode(); ?>
+    </body>
+</html>

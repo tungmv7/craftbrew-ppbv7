@@ -1,0 +1,196 @@
+<?php
+/**
+ * @version 7.7
+ */
+$requirementsMet = true;
+$mysqlInfo = 'n/a';
+if (function_exists('mysql_get_client_info')) {
+    $mysqlInfo = @mysql_get_client_info();
+}
+?>
+
+<blockquote class="bg-info">
+    This process will install PHP Pro Bid on your server. <br>To proceed, please complete the data requested in by the
+    fields below.
+</blockquote>
+<h4 class="headline">
+    <i class="fa fa-angle-right"></i>
+    <span>Server Requirements</span>
+</h4>
+
+<div class="row">
+    <dl class="dl-horizontal">
+        <dt>mySQL 5.1 (5.5 recommended)</dt>
+        <dd>
+            <span class="label label-info"><?php echo $mysqlInfo; ?></span>
+            <?php
+            if (doubleval($mysqlInfo) >= 5.1 && stristr($mysqlInfo, 'mariadb') === false) {
+                echo '<label class="label label-success">Passed</label>';
+            }
+            else {
+//                $requirementsMet = false;
+                echo '<label class="label label-warning">Failed</label>';
+            } ?>
+        </dd>
+        <dt>PDO Library w/ MySQL Driver</dt>
+        <dd>
+            <div>
+                <?php
+                if (extension_loaded('pdo_mysql')) {
+                    echo '<span class="label label-success">Enabled</span>';
+                }
+                else {
+                    $requirementsMet = false;
+                    echo '<span class="label label-danger">Disabled</span>';
+                } ?>
+            </div>
+        </dd>
+        <dt>mcrypt Extension</dt>
+        <dd>
+            <div>
+                <?php
+                if (function_exists('mcrypt_encrypt')) {
+                    echo '<span class="label label-success">Enabled</span>';
+                }
+                else {
+                    $requirementsMet = false;
+                    echo '<span class="label label-danger">Disabled</span>';
+                } ?>
+            </div>
+        </dd>
+        <dt>GD Library</dt>
+        <dd>
+            <div>
+                <?php
+                if (extension_loaded('gd') && function_exists('gd_info')) {
+                    echo '<span class="label label-success">Enabled</span>';
+                }
+                else {
+                    $requirementsMet = false;
+                    echo '<span class="label label-danger">Disabled</span>';
+                } ?>
+            </div>
+        </dd>
+        <dt>ionCube Loaders</dt>
+        <dd>
+            <div>
+                <?php
+                if (extension_loaded('ionCube Loader')) {
+                    echo '<span class="label label-success">Enabled</span>';
+                }
+                else {
+                    echo '<span class="label label-warning">Disabled / Run-time Loaded</span>';
+                } ?>
+            </div>
+            <div>
+                <small>Important: ionCube Loaders are required.
+                    For more information on how to install them, please
+                    <a href="http://www.ioncube.com/loader_installation.php" target="_blank">click here</a>. <br>
+                    If they are run-time loaded, please disregard this message.
+                </small>
+            </div>
+        </dd>
+        <dt>Writable Files / Folders</dt>
+        <dd>
+            <div>
+                <label class="label label-info">File: global.config.php</label>
+                <?php
+                if (is_writable(__DIR__ . '/../../../../../config/global.config.php')) {
+                    echo '<span class="label label-success">Writable</span>';
+                }
+                else {
+                    $requirementsMet = false;
+                    echo '<span class="label label-danger">Not Writable</span>
+                        <p><small>Please give writing permissions to <strong>/config/global.config.php</strong></small></p>';
+                } ?>
+            </div>
+            <div>
+                <label class="label label-info">File: admin/module.config.php</label>
+                <?php
+                if (is_writable(__DIR__ . '/../../../../../module/Admin/config/module.config.php')) {
+                    echo '<span class="label label-success">Writable</span>';
+                }
+                else {
+                    $requirementsMet = false;
+                    echo '<span class="label label-danger">Not Writable</span>
+                        <p><small>Please give writing permissions to <strong>/module/Admin/config/module.config.php</strong></small></p>';
+                } ?>
+            </div>
+            <div>
+                <label class="label label-info">Folder: /cache/</label>
+                <?php
+                if (is_writable(__DIR__ . '/../../../../../cache')) {
+                    echo '<span class="label label-success">Writable</span>';
+                }
+                else {
+                    $requirementsMet = false;
+                    echo '<span class="label label-danger">Not Writable</span>';
+                } ?>
+            </div>
+            <div>
+                <label class="label label-info">Folder: /uploads/</label>
+                <?php echo (is_writable(__DIR__ . '/../../../../../uploads')) ?
+                    '<span class="label label-success">Writable</span>' : '<span class="label label-warning">Not Writable</span>'; ?>
+            </div>
+            <div>
+                <label class="label label-info">Folder: /uploads/cache/</label>
+                <?php echo (is_writable(__DIR__ . '/../../../../../uploads/cache')) ?
+                    '<span class="label label-success">Writable</span>' : '<span class="label label-warning">Not Writable</span>'; ?>
+            </div>
+        </dd>
+        <dt>
+            cURL Library
+        </dt>
+        <dd>
+            <div>
+                <?php echo function_exists('curl_version') ? '<span class="label label-success">Enabled</span>' : '<span class="label label-warning">Disabled</span>'; ?>
+            </div>
+            <div>
+                <small>(optional) The cURL library is needed by the USPS and Australia Post shipping modules.</small>
+            </div>
+        </dd>
+        <dt>
+            allow_url_fopen = on
+        </dt>
+        <dd>
+            <div>
+                <?php echo ini_get('allow_url_fopen') ? '<span class="label label-success">Enabled</span>' : '<span class="label label-warning">Disabled</span>'; ?>
+            </div>
+            <div>
+                <small>(optional) Required if you wish to allow remote images to be added to listings.</small>
+            </div>
+        </dd>
+        <dt>
+            SOAPClient
+        </dt>
+        <dd>
+            <div>
+                <?php echo class_exists('SOAPClient') ? '<span class="label label-success">Enabled</span>' : '<span class="label label-warning">Disabled</span>'; ?>
+            </div>
+            <div>
+                <small>(optional) The SOAPClient library is needed by the UPS and FedEx shipping modules.</small>
+            </div>
+        </dd>
+        <dt>Exif Library</dt>
+        <dd>
+            <div>
+                <?php echo function_exists('exif_read_data') ? '<span class="label label-success">Enabled</span>' : '<span class="label label-warning">Disabled</span>'; ?>
+            </div>
+            <div>
+                <small>(optional) The Exif library is required for rotating certain images uploaded by smartphones or
+                    tablets.
+                </small>
+            </div>
+
+        </dd>
+    </dl>
+</div>
+
+<?php
+if ($requirementsMet === true) {
+    echo $this->form;
+}
+else {
+    echo '<div class="alert alert-danger">Please make sure that all mandatory server requirements are met before proceeding with the installation.</div>';
+} ?>
+

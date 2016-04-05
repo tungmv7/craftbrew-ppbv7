@@ -1,0 +1,35 @@
+<?php if ($user->isVerified()) { ?>
+<blockquote class="bq bq-success">
+    <div>
+        <?php echo $this->_('Current Status:'); ?>
+        <strong><?php echo $this->_('Verified'); ?></strong>
+    </div>
+
+    <?php if ($user['user_verified_next_payment'] > 0) { ?>
+    <div>
+        <?php echo $this->_('Verified Until:'); ?>
+        <?php echo $this->date($user['user_verified_next_payment']); ?>
+    </div>
+    <?php } ?>
+</blockquote>
+<?php } else { ?>
+<blockquote class="bq bq-alert">
+    <?php echo $this->_('Current Status:'); ?>
+    <strong><?php echo $this->_('Not Verified'); ?></strong>
+</blockquote>
+<blockquote class="bq bq-info">
+    <p class="lead">
+        <?php echo $this->_("Please verify your account in order to take full advantage of the site's features."); ?>
+    </p>
+    <div>
+        <?php echo $this->_('Benefits of verification include:'); ?>
+    </div>
+    <ul>
+        <li><?php echo $this->_('Sellers - potential buyers are made aware that you are a verified seller'); ?></li>
+        <li><?php echo $this->_('Sellers - confirmation of your verified status will appear next to your profile and username in all areas'); ?></li>
+        <li><?php echo $this->_('Buyers - sellers will have additional evidence of your identity'); ?></li>
+    </ul>
+</blockquote>
+<?php } ?>
+
+<?php echo $this->form; ?>

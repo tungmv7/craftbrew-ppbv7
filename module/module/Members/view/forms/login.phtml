@@ -1,0 +1,39 @@
+<form action="<?php echo $this->form->getAction(); ?>" method="<?php echo $this->form->getMethod(); ?>" class="form">
+    <?php echo $this->form->hiddenElements; ?>
+    <div class="content">
+        <h3 class="headline">
+            <span><?php echo $this->_('Registered Users'); ?></span>
+        </h3>
+
+        <?php if ($this->messages) { ?>
+            <div class="alert alert-danger alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <?php foreach ((array)$this->messages as $message) { ?>
+                    <div><?php echo $this->_($message['msg']); ?></div>
+                <?php } ?>
+            </div>
+        <?php } ?>
+        <p>
+            <?php echo $this->_('If you have an account with us, please log in.'); ?>
+        </p>
+
+        <div class="form-group">
+            <?php echo $this->form->username; ?>
+        </div>
+        <div class="form-group">
+            <?php echo $this->form->password; ?>
+        </div>
+        <div class="checkbox">
+            <?php echo $this->form->remember_me; ?>
+        </div>
+        <div>
+            <small>
+                <a href="<?php echo $this->url(null, 'members-forgot-username'); ?>"><?php echo $this->_('Forgot your username'); ?></a>
+                <?php echo $this->_('or'); ?>
+                <a href="<?php echo $this->url(null, 'members-forgot-password'); ?>"><?php echo $this->_('Forgot your password'); ?></a>?
+            </small>
+        </div>
+    </div>
+    <?php echo $this->form->getElement(\Members\Form\Login::BTN_SUBMIT)->render(); ?>
+
+</form>

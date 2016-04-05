@@ -1,0 +1,32 @@
+<?php
+/**
+ * @version 7.4
+ */
+/** @var \Ppb\Db\Table\Row\Accounting $accounting */
+$accounting = $this->data['accounting'];
+?>
+<p>
+    <?php echo $this->_('A new sale transaction refund request has been made.'); ?>
+</p>
+<div>
+    <?php echo $this->_('Transaction details:'); ?>
+</div>
+<ul>
+    <li>
+        <?php echo $this->_('Name:'); ?>
+        <b><?php echo $accounting->displayName(); ?></b>
+    </li>
+    <li>
+        <?php echo $this->_('Amount:'); ?>
+        <b><?php echo $this->amount($accounting['amount'], $accounting['currency']); ?></b>
+    </li>
+</ul>
+<div>
+    <?php echo $this->_('Please'); ?>
+    [ <a
+        href="<?php echo $this->sitePath . $this->url(array('module' => 'admin', 'controller' => 'tools', 'action' => 'accounting', 'filter' => 'refund_requests'), null, false, null, false); ?>">
+        <?php echo $this->_('click here'); ?>
+    </a> ]
+    <?php echo $this->_('to access the pending refund requests page. Please note that you will have to log in first.'); ?>
+</div>
+

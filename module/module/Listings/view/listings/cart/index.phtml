@@ -1,0 +1,39 @@
+<?php
+/**
+ * @version 7.6
+ */
+/* @var int $id
+ * @var array                  $multiOptions
+ * @var \Ppb\Db\Table\Row\Sale $sale
+ */
+
+$quantities = array();
+$listingIds = array();
+
+if (count($multiOptions) > 1) {
+    ?>
+    <nav class="navbar navbar-filter">
+        <form class="pull-right" action="" method="get">
+            <div class="form-group">
+                <?php echo $this->formElement('select', 'id', $id)
+                    ->setAttributes(array(
+                        'class'    => 'form-control input-medium',
+                        'onchange' => 'this.form.submit();'))
+                    ->setMultiOptions($multiOptions)
+                    ->render();
+                ?>
+            </div>
+        </form>
+    </nav>
+<?php } ?>
+
+<?php if ($id) {
+    echo $this->form;
+}
+else {
+    ?>
+    <p class="text-center">
+        <?php echo $this->_('The shopping cart is empty.'); ?>
+    </p>
+<?php } ?>
+

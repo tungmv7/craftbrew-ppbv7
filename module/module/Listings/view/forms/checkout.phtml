@@ -1,0 +1,153 @@
+<?php
+/**
+ * @version 7.6
+ */
+/** @var \Listings\Form\Checkout $form */
+$sale = $form->getSale();
+$seller = $form->getSeller();
+$salesListings = $form->getSalesListings();
+$shippingDetails = $form->getShippingDetails();
+?>
+<form action="<?php echo $form->getAction(); ?>" method="<?php echo $form->getMethod(); ?>"
+      class="form-horizontal form-checkout">
+    <?php echo $form->hiddenElements; ?>
+
+    <div class="col-sm-7">
+        <?php
+        /** @var \Cube\Form\Element $element */
+        foreach ($form->getElements() as $element) {
+            if (!$element->isHidden() && $element->getName() != 'apply_insurance') {
+                echo $this->partial('partials/form-element.phtml', array('element' => $element));
+            }
+        } ?>
+    </div>
+    <div class="col-sm-5">
+        <?php if ($this->settings['enable_shipping']) { ?>
+            <div class="row shopping-cart-totals">
+                <h4 class="headline">
+                    <span><?php echo $this->_('Shipping Method'); ?></span>
+                </h4>
+
+                <div id="shipping-options">
+                    <?php echo $this->_('Loading ..'); ?>
+                </div>
+            </div>
+        <?php } ?>
+
+        <div class="row shopping-cart-totals">
+            <h4 class="headline">
+                <span><?php echo $this->_('Your Order'); ?></span>
+                <small class="pull-right">
+                    [ <a
+                        href="<?php echo $this->url(array('action' => 'index', 'id' => $sale['id'])); ?>"><?php echo $this->_('Edit'); ?></a>
+                    ]
+                </small>
+            </h4>
+
+            <table class="table table-condensed">
+                <thead>
+                <tr>
+                    <th><?php echo $this->_('Item'); ?></th>
+                    <th class="size-mini"><?php echo $this->_('Qty'); ?></th>
+                    <th class="size-mini"><?php echo $this->_('Subtotal'); ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                /** @var \Ppb\Db\Table\Row\SaleListing $saleListing */
+                foreach ($salesListings as $saleListing) {
+                    /** @var \Ppb\Db\Table\Row\Listing $listing */
+                    $listing = $saleListing->findParentRow('\Ppb\Db\Table\Listings');
+                    $calculatedPrice = $saleListing->price(true);
+                    ?>
+                    <tr>
+                        <td>
+                            <div>
+                                <?php echo $listing['name']; ?>
+                            </div>
+                            <?php if (!empty($saleListing['product_attributes'])) { ?>
+                                <div>
+                                    <small><?php echo $this->productAttributes($saleListing->getData('product_attributes'))->display(); ?></small>
+                                </div>
+                            <?php } ?>
+                        </td>
+                        <td>
+                            <?php echo $saleListing['quantity']; ?>
+                        </td>
+                        <td>
+                            <div>
+                                <?php echo $this->amount(($saleListing['quantity'] * $calculatedPrice),
+                                    $listing['currency']); ?>
+                            </div>
+                            <?php if ($calculatedPrice < $saleListing->getData('price')) { ?>
+                                <div class="discount">
+                                    <?php echo $this->_('Discount:'); ?>
+                                    <?php echo $this->amount(($saleListing['quantity'] * ($saleListing->getData('price') - $calculatedPrice)),
+                                        $listing['currency']); ?>
+
+                                </div>
+                            <?php } ?>
+
+                        </td>
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+
+            <?php
+            $voucherCode = (($voucher = $sale->getVoucher()) !== null) ? $voucher['code'] : null;
+
+            echo $this->partial('partials/voucher-code.phtml', array(
+                'userId'      => $seller['id'],
+                'voucherCode' => $voucherCode
+            )); ?>
+
+            <dl class="dl-horizontal">
+                <dt><?php echo $this->_('Subtotal'); ?></dt>
+                <dd><?php echo $this->amount($sale->calculateTotal(true), $sale['currency']); ?></dd>
+                <?php if ($this->settings['enable_shipping']) { ?>
+                    <dt><?php echo $this->_('Postage'); ?></dt>
+                    <?php if (!empty($shippingDetails['method']) && $form->getElement('postage_id')->getValue() !== null) { ?>
+                        <dd>
+                            <?php echo $this->amount($shippingDetails['price'], $shippingDetails['currency']); ?><br>
+                            <?php echo $shippingDetails['method']; ?>
+                        </dd>
+                    <?php
+                    }
+                    else {
+                        ?>
+                        <dd><?php echo $this->_('Get Quote'); ?></dd>
+                    <?php } ?>
+
+                    <?php
+                    $insuranceAmount = $form->getElement('insurance_amount')->getValue();
+                    if ($insuranceAmount > 0) {
+                        ?>
+                        <dt><?php echo $this->_('Insurance'); ?></dt>
+                        <dd class="reset-label">
+                            <?php echo $form->getElement('apply_insurance')->render(); ?>
+                            <?php echo $this->amount($insuranceAmount, $sale['currency']); ?>
+                        </dd>
+                    <?php } ?>
+                <?php } ?>
+
+                <?php if (($taxAmount = $sale->getTaxAmount(true)) > 0) { ?>
+                    <dt><?php echo $this->_('Tax'); ?></dt>
+                    <dd><?php echo $this->amount($taxAmount, $sale['currency']); ?></dd>
+                <?php } ?>
+
+                <dt><?php echo $this->_('Total'); ?></dt>
+                <dd class="total"><?php echo $this->amount($sale->calculateTotal(), $sale['currency']); ?></dd>
+            </dl>
+
+            <div class="text-right">
+                <?php echo $this->formElement('submit', \Listings\Form\Checkout::BTN_PLACE_ORDER,
+                    $this->_('Place Order'))
+                    ->setAttributes(array(
+                        'class' => 'btn btn-primary btn-lg btn-block'
+                    ))
+                    ->render(); ?>
+            </div>
+        </div>
+    </div>
+</form>

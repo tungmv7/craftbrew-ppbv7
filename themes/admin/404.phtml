@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <?php echo $this->headTitle(); ?>
+        <meta charset="utf-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+        <?php echo $this->script()->displayHeaderCode(); ?>
+        <link href="<?php echo $this->baseUrl; ?>/<?php echo $this->themesFolder; ?>/admin/css/style.css" media="screen" rel="stylesheet" type="text/css" >
+
+    </head>
+
+    <body>
+
+        <div class="container">
+            <div>
+                <?php echo $this->getContent(); ?>
+            </div>
+
+            <hr>
+
+            <footer>
+                <p>v7.0 &copy; <?php echo date('Y'); ?> Online Ventures Software LTD. All rights reserved.</p>
+            </footer>
+        </div> <!-- /container -->
+    </body>
+</html>

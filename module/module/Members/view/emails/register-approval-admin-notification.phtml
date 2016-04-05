@@ -1,0 +1,30 @@
+<h4>
+    <?php echo $this->_('A new user account has been created.'); ?>
+</h4>
+
+<div>
+    <?php echo $this->_('User Details:'); ?></div>
+<ul>
+    <li>
+        <?php echo $this->_('Username:'); ?>
+        <b><?php echo $this->data['username']; ?></b>
+    </li>
+    <li>
+        <?php echo $this->_('Email:'); ?>
+        <b><?php echo $this->data['email']; ?></b>
+    </li>
+</ul>
+<p>
+    <?php echo $this->_('Please'); ?> [ <a href="<?php echo $this->sitePath . $this->url(array(
+            'module'     => 'admin',
+            'controller' => 'users',
+            'action'     => 'browse',
+            'view'       => 'site',
+            'filter'     => 'awaiting_approval'), null, false, null, false); ?>">
+        <?php echo $this->_('click here'); ?>
+    </a> ]
+    <?php echo $this->_('to view a list of all accounts that are awaiting approval.'); ?>
+</p>
+<p>
+    <?php echo $this->_('Please note that you will have to log in first if not already logged in.'); ?>
+</p>

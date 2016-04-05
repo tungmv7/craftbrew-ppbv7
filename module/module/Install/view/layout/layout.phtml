@@ -1,0 +1,112 @@
+<?php
+/**
+ * @version 7.3
+ */
+?>
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>PHP Pro Bid v<?php echo \Ppb\Utility::VERSION; ?> / Installation</title>
+
+    <?php
+    $this->headMeta()
+        ->appendName('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
+        ->appendName('robots', 'noindex, nofollow')
+        ->appendHttpEquiv('X-UA-Compatible', 'IE=edge');
+
+    echo $this->headMeta();
+    ?>
+
+    <?php echo $this->script()->displayHeaderCode(); ?>
+    <link href="<?php echo $this->baseUrl; ?>/css/install.css" media="screen"
+          rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<div class="navbar navbar-install navbar-fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="<?php echo $this->baseUrl; ?>/img/logo-small.png"
+                 alt="PHP Pro Bid">
+        </a>
+
+        <div class="navbar-text navbar-left hidden-xs">
+            <?php echo $this->liveTime(time()); ?>
+        </div>
+
+        <?php if (!empty($this->loggedInUser['id'])) { ?>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'activate-license')); ?>">Activate
+                        License</a></li>
+                <li><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'upgrade')); ?>">Upgrade
+                        DB</a></li>
+                <li><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'mods')); ?>">Mods SQL</a>
+                </li>
+                <li><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'importer')); ?>">v6.x
+                        Importer</a></li>
+                <li>
+                    <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'logout')); ?>">
+                        Logout
+                    </a></li>
+            </ul>
+        <?php } ?>
+    </div>
+</div>
+<div class="container">
+    <div id="wrapper">
+        <h1>
+            <i class="fa fa-cubes"></i>
+            Installation / PHP Pro Bid
+            <small class="pull-right">
+                <i class="fa fa-cogs"></i>
+                <?php echo \Ppb\Utility::VERSION; ?>
+            </small>
+        </h1>
+
+        <!-- action messages -->
+        <?php foreach ((array)$this->messages as $message) { ?>
+            <?php if (!isset($message['local'])) { ?>
+                <div <?php echo (!empty($message['class'])) ? 'class="alert alert-dismissable ' . $message['class'] . '"' : ''; ?>>
+                    <?php if (!empty($message['class'])) { ?>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <?php } ?>
+                    <?php if (is_array($message['msg'])) { ?>
+                        <?php foreach ((array)$message['msg'] as $msg) { ?>
+                            <div><?php echo $this->_($msg); ?></div>
+                        <?php } ?>
+                        <?php
+                    }
+                    else {
+                        ?>
+                        <?php echo $this->_($message['msg']); ?>
+                    <?php } ?>
+                </div>
+            <?php } ?>
+        <?php } ?>
+
+        <div>
+            <?php echo $this->getContent(); ?>
+        </div>
+
+        <hr>
+
+        <footer>
+            <small>PHP Pro Bid v<?php echo \Ppb\Utility::VERSION; ?> &copy; <?php echo date('Y'); ?> Online Ventures
+                Software. All rights reserved.
+            </small>
+        </footer>
+    </div>
+
+</div>
+
+<div class="loading-modal"></div>
+
+<!-- js global variables -->
+<script type="text/javascript"> var baseUrl = '<?php echo $this->baseUrl; ?>'; </script>
+
+<!-- client side scripts [loaded in bootstrap] -->
+<?php echo $this->script()->displayBodyCode(); ?>
+</body>
+</html>

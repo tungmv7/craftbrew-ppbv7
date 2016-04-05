@@ -1,0 +1,46 @@
+# @version 7.6
+# disable direct access to folders
+Options -Indexes
+# Follow symbolic links
+Options +FollowSymLinks
+
+<IfModule mod_rewrite.c>
+
+RewriteEngine On
+
+#RewriteBase /
+
+# if installed in root folder
+#RewriteCond %{HTTP_HOST} !^www\.
+#RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+
+# if installed in subfolder
+#RewriteCond %{HTTP_HOST} !^www\.
+#RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/<subfolder>/$1 [R=301,L]
+
+# used to check if mod rewrite works
+RewriteRule ^test-mod-rewrite$ mod-rewrite.php [NC,L]
+
+# redirect all requests to index.php
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ index.php [NC,L]
+
+</IfModule>
+
+# 7 DAYS
+<FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$">
+Header set Cache-Control "max-age=604800, public"
+</FilesMatch>
+
+# 1 DAY - will prohibit the abuse on generating the sitemap xml file
+<FilesMatch "\.(xml|txt)$">
+Header set Cache-Control "max-age=86400, public, must-revalidate"
+</FilesMatch>
+
+# using apache mod_deflate for compressing static content
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript
+</IfModule>

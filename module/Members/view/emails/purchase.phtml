@@ -1,0 +1,22 @@
+<?php
+/**
+ * @version 7.4
+ */
+?>
+<p>
+    <?php echo sprintf(
+        $this->_('Thank you for your purchase on %s. Please find the details below:'),
+        $this->siteName); ?>
+</p>
+
+
+<?php echo $this->partial('partials/sale.phtml', array(
+    'sale'        => $this->data['sale'],
+    'postageDesc' => true,
+    'caption'     => true,
+    'type'        => 'bought')); ?>
+<p>
+    <?php echo $this->_('Best regards'); ?> <br>
+    <?php echo $this->siteName; ?>
+</p>
+

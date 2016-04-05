@@ -1,0 +1,141 @@
+<!-- 
+-->
+<?php
+/**
+ * left navigation view partial
+ * should only be called by the navigation view helper
+ *
+ * labels are already translated in page class
+ *
+ */
+$counter = 0;
+?>
+<div class="sidebar">
+    <ul class="nav nav-list">
+        <li class="nav-header">
+            <?php if (isset($this->menu->icon)) { ?>
+                <i class="<?php echo $this->menu->icon; ?>"></i>
+            <?php } ?>
+            <?php echo $this->menu->label; ?>
+        </li>
+        <?php foreach ($this->menu->pages as $key => $page) { ?>
+            <?php if ($page->hidden != 'true' && $page->filter != 'true' && $this->navigation()->accept($page)) { ?>
+                <?php
+                $class = array();
+                $mainMenuActive = false;
+                $activeAccordion = '';
+
+                if ($page->isActive(true)) {
+                    $class[] = 'active';
+                    $mainMenuActive = true;
+                }
+                if (!empty($page->pages) && $page->hidden_children != 'true') {
+                    $class[] = 'accordion-menu';
+
+                    foreach ($page->pages as $subPage) {
+                        if ($subPage->isActive(true)) {
+                            $activeAccordion = 'in';
+
+                            if (!$mainMenuActive) {
+                                $class[] = 'active';
+                            }
+                        }
+
+                        if (!empty($subPage->pages)) {
+                            foreach ($subPage->pages as $subSubPage) {
+                                if ($subSubPage->isActive(true)) {
+                                    $activeAccordion = 'in';
+
+                                    if (!$mainMenuActive) {
+                                        $class[] = 'active';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                ?>
+                <li <?php echo (count($class) > 0) ? 'class="' . implode(' ', $class) . '"' : ''; ?>>
+                    <a <?php echo (!empty($page->pages) && $page->hidden_children != 'true') ?
+                        'href="#' . $counter . '" data-toggle="collapse" class="accordion-toggle"' : 'href="' . $this->url($page->params) . '"'; ?>>
+                <span>
+                    <?php echo $page->label; ?>
+                    <?php if (!empty($page->pages) && $page->hidden_children != 'true') { ?>
+                        <i class="fa fa-chevron-down pull-right"></i>
+                    <?php } ?>
+                </span>
+                    </a>
+
+                    <?php if (!empty($page->pages) && $page->hidden_children != 'true') { ?>
+                        <div class="accordion-body collapse <?php echo $activeAccordion; ?> dropdown"
+                             id="<?php echo $counter++; ?>">
+                            <div class="accordion-inner">
+                                <ul class="nav nav-list">
+                                    <?php
+                                    foreach ($page->pages as $subKey => $subPage) {
+                                        if ($subPage->hidden != 'true' && $this->navigation()->accept($subPage)) {
+                                            $class = array();
+                                            $mainMenuActive = false;
+                                            $activeAccordion = '';
+
+                                            if ($subPage->isActive(true)) {
+                                                $class[] = 'active';
+                                                $mainMenuActive = true;
+                                            }
+                                            if (!empty($subPage->pages)) {
+                                                $class[] = 'accordion-menu';
+
+                                                foreach ($subPage->pages as $subSubPage) {
+                                                    if ($subSubPage->isActive(true)) {
+                                                        $activeAccordion = 'in';
+
+                                                        if (!$mainMenuActive) {
+                                                            $class[] = 'active';
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            ?>
+
+
+                                            <li <?php echo (count($class) > 0) ? 'class="' . implode(' ',
+                                                    $class) . '"' : ''; ?>>
+                                                <a <?php echo (!empty($subPage->pages) && $subPage->hidden != 'true') ?
+                                                    'href="#' . $counter . '" data-toggle="collapse" class="accordion-toggle"' : 'href="' . $this->url($subPage->params) . '"'; ?>>
+                                                    <span><?php echo $subPage->label; ?></span>
+                                                    <?php if (!empty($subPage->pages)) { ?>
+                                                        <i class="fa fa-chevron-down pull-right"></i>
+                                                    <?php } ?>
+                                                </a>
+
+                                                <?php if (!empty($subPage->pages)) { // here the hidden tag wont work ?>
+                                                    <div
+                                                        class="accordion-body collapse <?php echo $activeAccordion; ?> dropdown"
+                                                        id="<?php echo $counter++; ?>">
+                                                        <div class="accordion-inner">
+                                                            <ul class="nav nav-list">
+                                                                <?php foreach ((array)$subPage->pages as $subSubPage) { ?>
+                                                                    <?php if ($this->navigation()->accept($subSubPage)) { ?>
+                                                                        <li <?php echo ($subSubPage->isActive(true)) ? 'class="active"' : ''; ?>>
+                                                                            <a href="<?php echo $this->url($subSubPage->params); ?>"><?php echo $subSubPage->label; ?></a>
+                                                                        </li>
+                                                                    <?php } ?>
+                                                                <?php } ?>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                <?php } ?>
+                                            </li>
+                                        <?php
+                                        }
+                                    } ?>
+                                </ul>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </li>
+
+            <?php } ?>
+        <?php } ?>
+    </ul>
+</div>

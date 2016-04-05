@@ -1,0 +1,46 @@
+<p>
+    <?php echo sprintf(
+        $this->_('The high bid has been retracted on one of the auctions that you have listed on %s.'),
+        $this->siteName); ?>
+</p>
+
+
+<div>
+    <?php echo $this->_('Listing details:'); ?>
+</div>
+
+<ul>
+    <li>
+        <?php echo $this->_('Name:'); ?>
+        <b><?php echo $this->data['listing']['name']; ?></b>
+    </li>
+    <li>
+        <?php echo $this->_('Current bid:'); ?>
+        <b><?php echo $this->amount($this->data['listing']->currentBid(true), $this->data['listing']['currency']); ?></b>
+    </li>
+    <li>
+        <?php echo $this->_('Listing page:'); ?>
+        [ <a
+            href="<?php echo $this->sitePath . $this->url($this->data['listing']->link(), null, false, null, false); ?>">
+            <?php echo $this->_('click here'); ?>
+        </a> ].
+    </li>
+</ul>
+<div>
+    <?php echo $this->_('Bid details:'); ?>
+</div>
+<ul>
+    <li>
+        <?php echo $this->_('Amount:'); ?>
+        <b><?php echo $this->amount($this->data['bid']['amount'], $this->data['listing']['currency']); ?></b>
+    </li>
+    <li>
+        <?php echo $this->_('Bidder:'); ?>
+        <b><?php echo $this->data['bidder']['username']; ?></b>
+    </li>
+</ul>
+<p>
+    <?php echo $this->_('Best regards'); ?> <br>
+    <?php echo $this->siteName; ?>
+</p>
+

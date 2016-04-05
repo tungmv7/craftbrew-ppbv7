@@ -1,0 +1,146 @@
+<?php
+/**
+ * @version 7.4
+ */
+?>
+<!DOCTYPE html>
+
+<html lang="<?php echo $this->htmlLang(); ?>" dir="<?php echo $htmlDir = $this->htmlDir(); ?>">
+<head>
+    <?php echo $this->headTitle(); ?>
+
+    <?php
+    $this->headMeta()
+        ->appendName('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
+        ->appendHttpEquiv('X-UA-Compatible', 'IE=edge');
+
+    /** add rtl bootstrap css if the case */
+    if ($htmlDir == \Cube\View\Helper\HtmlDir::RTL) {
+        $this->script()
+            ->addHeaderCode('<link href="' . $this->baseUrl . '/css/bootstrap-rtl.min.css" rel="stylesheet" type="text/css">')
+            ->addHeaderCode('<link href="' . $this->baseUrl . '/css/style.rtl.css" media="all" rel="stylesheet" type="text/css"');
+    }
+
+    echo $this->headMeta();
+    ?>
+
+    <?php echo $this->script()->displayHeaderCode(); ?>
+
+    <link href="<?php echo $this->baseUrl; ?>/<?php echo $this->themesFolder; ?>/admin/css/style.css" media="screen"
+          rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<div class="navbar navbar-admin navbar-fixed-top">
+    <div class="container">
+        <a class="navbar-brand hidden-xs" href="<?php echo $this->settings['site_path']; ?>/" target="_blank">
+            <img src="<?php echo $this->baseUrl; ?>/<?php echo $this->themesFolder; ?>/admin/images/logo-small.png"
+                 alt="PHP Pro Bid">
+        </a>
+
+        <div class="navbar-text navbar-left hidden-xs">
+            <?php echo $this->liveTime(time()); ?>
+        </div>
+
+
+        <div class="navbar-right">
+            <input name="admin_quick_nav" type="text" placeholder="<?php echo $this->_('Quick Navigation'); ?>"
+                   class="form-control input-medium">
+            <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'logout')); ?>"
+               class="btn btn-default navbar-btn">
+                <i class="fa fa-power-off"></i>
+            </a>
+            <!--            <span><?php //echo $this->_('Logout'); ?></span> -->
+        </div>
+    </div>
+</div>
+
+<?php echo $this->navigation()->setPartial('navigation/navigation.phtml')->menu(); ?>
+
+<div class="container">
+    <div id="wrapper">
+        <div class="row row-offcanvas row-offcanvas-left">
+            <div class="col-md-3 sidebar-offcanvas">
+                <?php
+                if ($this->controller) {
+                    $controller = $this->controller;
+                }
+                else {
+                    $controller = $this->request()->getRequest()->getController();
+                }
+                $container = $this->navigation()->getContainer()->findOneBy('label', $this->_($controller)); // translate controller
+
+                if ($container !== null) {
+                    $this->navigation()->setContainer($container);
+                }
+
+                echo $this->navigation()->setPartial('navigation/left-side.phtml')->menu();
+                ?>
+            </div>
+            <div class="col-md-9">
+                <div class="main-content">
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-1 hidden-md hidden-lg">
+                            <button class="btn btn-default" data-toggle="offcanvas" type="button">
+                                <i class="fa fa-2x fa-list"></i>
+                            </button>
+                        </div>
+                        <div class="col-xs-10 col-sm-11 col-md-12">
+                            <?php echo $this->navigation()->setPartial('navigation/breadcrumbs.phtml')->setMinDepth(1)->breadcrumbs(); ?>
+                        </div>
+                    </div>
+
+                    <!-- BEGIN - site messages -->
+                    <?php foreach ((array)$this->messages as $message) { ?>
+                        <div class="alert alert-dismissable <?php echo $message['class']; ?>">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <?php if (is_array($message['msg'])) { ?>
+                                <?php foreach ((array)$message['msg'] as $msg) { ?>
+                                    <div><?php echo $this->_($msg); ?></div>
+                                <?php } ?>
+                            <?php
+                            }
+                            else {
+                                ?>
+                                <?php echo $this->_($message['msg']); ?>
+                            <?php } ?>
+                        </div>
+                    <?php } ?>
+                    <!-- END - site messages -->
+
+                    <?php echo $this->getContent(); ?>
+
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <footer>
+            <p>
+                <small><a href="http://www.phpprobid.com/" target="_blank">PHP Pro Bid</a> v<?php echo \Ppb\Utility::VERSION; ?> &copy; <?php echo date('Y'); ?> Online Ventures
+                    Software. All rights reserved.
+                </small>
+            </p>
+        </footer>
+
+    </div>
+</div>
+<!-- /container -->
+
+<div class="loading-modal"></div>
+
+<!-- client side scripts [loaded in bootstrap] -->
+<?php
+
+echo $this->script()
+    ->removeBodyCode($this->settings['google_analytics_code'])
+    ->displayBodyCode();
+?>
+
+<!-- any theme specific js code and includes should be added below -->
+<script type="text/javascript"
+        src="<?php echo $this->baseUrl; ?>/<?php echo $this->themesFolder; ?>/admin/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<p>
+    <?php echo sprintf(
+        $this->_('A new listing has been added in one of your favorite stores from %s.'),
+        $this->siteName); ?>
+</p>
+
+
+<div>
+    <?php echo $this->_('Listing details:'); ?>
+</div>
+
+<ul>
+    <li>
+        <?php echo $this->_('Name:'); ?>
+        <b><?php echo $this->data['listing']['name']; ?></b>
+    </li>
+    <li>
+        <?php echo $this->_('Listing page:'); ?>
+        [ <a
+            href="<?php echo $this->sitePath . $this->url($this->data['listing']->link(), null, false, null, false); ?>">
+            <?php echo $this->_('click here'); ?>
+        </a> ].
+    </li>
+</ul>
+<p>
+    <?php echo $this->_('Best regards'); ?> <br>
+    <?php echo $this->siteName; ?>
+</p>
+

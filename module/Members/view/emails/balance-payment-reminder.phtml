@@ -1,0 +1,24 @@
+<h4>
+    <?php echo $this->_('Account Balance Payment Reminder'); ?>
+</h4>
+<p>
+    <?php echo sprintf(
+        $this->_('This is a notification for clearing your account balance for your user account, <strong>%s</strong>. The balance is %s debit.'),
+        $this->data['user']['username'],
+        $this->amount($this->data['user']['balance'])); ?>
+</p>
+
+<p>
+    <?php echo $this->_('Please'); ?>
+    [ <a
+        href="<?php echo $this->sitePath . $this->url(array('module' => 'app', 'controller' => 'payment', 'action' => 'credit-balance'),
+                null, false, null, false); ?>">
+        <?php echo $this->_('click here'); ?>
+    </a> ]
+    <?php echo $this->_('to clear your account balance.'); ?> <br>
+    <?php echo $this->_('Please note that you will have to login first.'); ?>
+</p>
+<p>
+    <?php echo $this->_('Best regards'); ?> <br>
+    <?php echo $this->siteName; ?></p>
+</p>

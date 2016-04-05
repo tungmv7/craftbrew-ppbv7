@@ -1,0 +1,66 @@
+<?php
+$userId = (!empty($userId)) ? $userId : null;
+$listingId = (!empty($listingId)) ? $listingId : null;
+
+$voucherCode = (!empty($voucherCode)) ? $voucherCode : $this->request()->getRequest()->getParam('voucher_code');
+
+$voucher = null;
+if ($voucherCode) {
+    $vouchersService = new \Ppb\Service\Vouchers();
+    $voucher = $vouchersService->findBy($voucherCode, $userId);
+}
+?>
+<div class="form-group">
+    <div class="input-group">
+        <?php echo $this->formElement('text', 'voucher_code')
+            ->setValue($voucherCode)
+            ->setAttributes(array(
+                'class'       => 'form-control',
+                'placeholder' => $this->_('Voucher Code'),
+            ))
+            ->render();
+        ?>
+
+        <span class="input-group-btn">
+            <?php echo $this->formElement('submit', 'voucher_add', $this->_('Apply'))
+                ->setAttributes(array(
+                    'class' => 'btn btn-primary',
+                ))
+                ->render();
+            ?>
+        </span>
+    </div>
+    <div>
+        <?php
+        $valid = true;
+        if ($voucher instanceof \Ppb\Db\Table\Row\Voucher) {
+            if ($voucher->isValid($listingId)) {
+                ?>
+                <span class="label label-voucher label-success">
+                    <?php echo sprintf(
+                        $this->_('The voucher is valid. %s reduction applied'),
+                        (($voucher['reduction_type'] == 'percent') ? $voucher['reduction_amount'] . '%' : $this->amount($voucher['reduction_amount']))); ?>
+                </span>
+            <?php
+            }
+            else {
+                $valid = false;
+            }
+        }
+
+        if ($voucherCode && !$valid) {
+            ?>
+            <span class="label label-voucher label-danger">
+                <?php echo $this->_('The voucher is not valid.'); ?>
+            </span>
+        <?php
+        }
+        else {
+            ?>
+            <span class="help-block">
+                <?php echo $this->_('Enter your voucher code (if applicable) then click apply.'); ?>
+            </span>
+        <?php } ?>
+    </div>
+</div>
+

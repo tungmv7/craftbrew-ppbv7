@@ -1,0 +1,29 @@
+<?php
+/**
+ * main navigation view partial
+ * should only be called by the navigation view helper
+ *
+ * labels are already translated in page class
+ *
+ */
+?>
+<nav class="navbar navbar-default navbar-static-top main-navigation hidden-xs" role="navigation">
+    <div class="container">
+        <ul class="nav navbar-nav" id="main-nav">
+            <?php foreach ($this->menu->pages as $page) { ?>
+                <?php if ($page->filter != 'true' && $this->navigation()->accept($page)) { ?>
+                    <li <?php echo ($page->isActive(true)) ? 'class="active"' : ''; ?>>
+                        <a href="<?php echo $this->url($page->params); ?>">
+                            <?php if (isset($page->icon)) { ?>
+                                <div class="menu-icon">
+                                    <i class="<?php echo $page->icon; ?>"></i>
+                                </div>
+                            <?php } ?>
+                            <span><?php echo $page->label; ?></span>
+                        </a>
+                    </li>
+                <?php } ?>
+            <?php } ?>
+        </ul>
+    </div>
+</nav>

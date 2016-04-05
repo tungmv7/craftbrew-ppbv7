@@ -1,0 +1,25 @@
+<div>
+    <?php echo sprintf(
+        $this->_('Your account details on %s are:'),
+        $this->siteName); ?>
+</div>
+<ul>
+    <li>
+        <?php echo $this->_('Username:'); ?>
+        <b><?php echo $this->data['user']['username']; ?></b>
+    </li>
+    <li>
+        <?php echo $this->_('Password: - hidden -'); ?>
+    </li>
+</ul>
+<p>
+    <?php echo $this->_('Please'); ?>
+    [ <a href="<?php echo $this->sitePath . $this->url(null, 'members-login', false, null, false); ?>">
+        <?php echo $this->_('click here'); ?>
+    </a> ]
+    <?php echo $this->_('to log in.'); ?>
+</p>
+<p>
+    <?php echo $this->_('Best regards'); ?> <br>
+    <?php echo $this->siteName; ?>
+</p>

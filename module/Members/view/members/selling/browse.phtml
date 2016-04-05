@@ -1,0 +1,246 @@
+<?php
+/**
+ * @version 7.7
+ */
+/** @var string $filter */
+?>
+<nav class="navbar navbar-filter">
+    <div class="navbar-left">
+        <?php
+        switch ($filter) {
+            case 'open':
+                $filterLabel = $this->_('Selling Open Filter');
+                break;
+            case 'closed':
+                $filterLabel = $this->_('Selling Closed Filter');
+                break;
+            default:
+                $filterLabel = null;
+                break;
+        }
+
+        if ($filterLabel !== null) {
+            $container = $this->navigation()->getContainer();
+
+            echo $this->navigation()
+                ->setContainer($container->findOneBy('label', $filterLabel))
+                ->setPartial('navigation/browse-filter.phtml', array('key' => 'show'))
+                ->menu();
+
+            $this->navigation()->setContainer($container);
+        } ?>
+
+        <?php
+        $sortOptions = array(
+            'relevance'    => $this->_('Relevance'),
+            'price_asc'    => $this->_('Price Low to High'),
+            'price_desc'   => $this->_('Price High to Low'),
+            'started_desc' => $this->_('Recently Listed'),
+            'ending_asc'   => $this->_('Ending Soon')
+        );
+        $sort = (isset($params['sort'])) ? $params['sort'] : 'relevance';
+        ?>
+        <div class="btn-group">
+            <button
+                class="btn btn-default"><?php echo (array_key_exists($sort, $sortOptions)) ? $sortOptions[$sort] : $this->_('Sort By'); ?></button>
+            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+
+            <ul class="dropdown-menu">
+                <?php foreach ($sortOptions as $key => $value) { ?>
+                    <li>
+                        <a href="<?php echo $this->url(array('sort' => $key), null, true, array('page')); ?>"><?php echo $value; ?></a>
+                    </li>
+                <?php } ?>
+            </ul>
+        </div>
+    </div>
+
+    <form class="navbar-form navbar-right" action="" method="get">
+        <div class="form-group">
+            <?php echo $this->formElement('text', 'keywords', $this->keywords)
+                ->setAttributes(array('placeholder' => $this->_('Listing Title'), 'class' => 'form-control input-default'))
+                ->render();
+            ?>
+            <?php echo $this->formElement('text', 'listing_id', $this->listingId)
+                ->setAttributes(array('placeholder' => $this->_('Listing ID'), 'class' => 'form-control input-default'))
+                ->render();
+            ?>
+        </div>
+        <?php echo $this->formElement('submit', 'submit', $this->_('Search'))
+            ->setAttributes(array('class' => 'btn btn-default'))
+            ->render();
+        ?>
+    </form>
+</nav>
+
+<form action="" method="post">
+    <?php echo $this->formElement('hidden', 'option', '')->render(); ?>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <caption>
+                <strong><?php echo $this->paginator->getPages()->totalItemCount; ?></strong> <?php echo $this->_('listings found.'); ?>
+
+                <?php if ($this->paginator->getPages()->totalItemCount) { ?>
+                    <?php echo $this->_('Showing results'); ?>
+                    <strong><?php echo $this->paginator->getPages()->firstItemNumber; ?></strong>
+                    <?php echo $this->_('to'); ?>
+                    <strong><?php echo $this->paginator->getPages()->lastItemNumber; ?></strong>
+                <?php } ?>
+            </caption>
+            <?php if ($this->paginator->getPages()->totalItemCount) { ?>
+                <thead>
+                <tr>
+                    <th class="size-tiny">
+                        <?php echo $this->formElement('checkbox', 'selectAll')
+                            ->setMultiOptions(array(1 => null))
+                            ->render();
+                        ?>
+                    </th>
+                    <th><?php echo $this->_('Listing'); ?></th>
+                    <th class="size-mini"><?php echo $this->_('Status'); ?></th>
+                    <th class="size-tiny"></th>
+                </tr>
+                </thead>
+            <?php } ?>
+            <tbody>
+            <?php
+            /** @var \Ppb\Db\Table\Row\Listing $listing */
+            foreach ($this->paginator as $listing) {
+                ?>
+                <tr>
+                    <td>
+                        <?php echo $this->formElement('checkbox', 'id')
+                            ->setMultiOptions(array($listing['id'] => null))
+                            ->setAttributes(array('class' => 'select-all'))
+                            ->setMultiple()
+                            ->render();
+                        ?>
+                    </td>
+                    <td>
+                        <?php echo $this->partial('partials/listing-box.phtml',
+                            array(
+                                'listing'  => $listing,
+                                'seller'   => true,
+                                'enhanced' => true));
+                        ?>
+                    </td>
+                    <td>
+                        <?php echo $this->listingDetails($listing)->status(); ?>
+
+                        <?php if ($listing->countDependentRowset('\Ppb\Db\Table\Offers')) { ?>
+                            <div>
+                                <a class="btn btn-sm btn-default"
+                                   href="<?php echo $this->url(array('module' => 'members', 'controller' => 'offers', 'action' => 'browse', 'type' => 'selling', 'listing_id' => $listing['id'])); ?>">
+                                    <?php echo $this->_('View Offers'); ?></a>
+                            </div>
+                        <?php } ?>
+                    </td>
+                    <td>
+                        <div class="btn-group-vertical">
+
+                            <?php if ($listing->canEdit()) { ?>
+                                <a class="btn btn-sm btn-default"
+                                   href="<?php echo $this->url(array('id' => $listing['id']), 'listings-edit'); ?>"
+                                   title="<?php echo $this->_('Edit Listing'); ?>">
+                                    <i class="fa fa-folder-open"></i>
+                                </a>
+                            <?php } ?>
+                            <?php if ($listing['active'] == 0) { ?>
+                                <a class="btn btn-sm btn-success"
+                                   href="<?php echo $this->url(array('module' => 'app', 'controller' => 'payment', 'action' => 'listing-setup', 'id' => $listing['id'])); ?>"
+                                   title="<?php echo $this->_('Make Listing Setup Fee Payment'); ?>">
+                                    <i class="fa fa-money"></i>
+                                </a>
+                            <?php } ?>
+                            <?php if ($filter != 'drafts') { ?>
+                                <a class="btn btn-sm btn-default"
+                                   href="<?php echo $this->url(array('id' => $listing['id']), 'listings-create-similar'); ?>"
+                                   title="<?php echo $this->_('Create Similar Listing'); ?>">
+                                    <i class="fa fa-barcode"></i>
+                                </a>
+                                <?php if ($listing->canClose()) { ?>
+                                    <a class="btn btn-sm btn-default confirm-box"
+                                       href="<?php echo $this->url(array('module' => 'listings', 'controller' => 'listing', 'action' => 'close', 'id' => $listing['id']),
+                                           null, true); ?>"
+                                       title="<?php echo $this->_('Close Listing'); ?>"
+                                       data-message="<?php echo $this->_('Are you sure you want to close this listing?'); ?>">
+                                        <i class="fa fa-ban"></i>
+                                    </a>
+                                <?php } ?>
+                                <?php
+                            }
+                            else {
+                                ?>
+                                <a class="btn btn-sm btn-success"
+                                   href="<?php echo $this->url(array('id' => $listing['id']), 'listings-list-draft'); ?>"
+                                   title="<?php echo $this->_('List Draft'); ?>">
+                                    <i class="fa fa-share-alt"></i>
+                                </a>
+                            <?php } ?>
+                            <?php if ($listing->canDelete()) { ?>
+                                <a class="btn btn-sm btn-danger confirm-box"
+                                   href="<?php echo $this->url(array('module' => 'listings', 'controller' => 'listing', 'action' => 'delete', 'id' => $listing['id']),
+                                       null, true); ?>"
+                                   title="<?php echo $this->_('Delete Listing'); ?>"
+                                   data-message="<?php echo $this->_('Are you sure you want to delete this listing?'); ?>">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            <?php } ?>
+                        </div>
+                    </td>
+                </tr>
+            <?php } ?>
+            <?php if ($this->paginator->getPages()->totalItemCount) { ?>
+                <tr>
+                    <td colspan="6">
+                        <div class="btn-group">
+                            <?php if (in_array($this->filter, array('open'))) { ?>
+                                <button class="btn btn-default confirm-form" value="close"
+                                        data-message="<?php echo $this->_('Are you sure you want to close the listings you have selected?'); ?>">
+                                    <?php echo $this->_('Close'); ?>
+                                </button>
+                            <?php } ?>
+                            <?php if (in_array($this->filter, array('scheduled'))) { ?>
+                                <button class="btn btn-default confirm-form" value="open"
+                                        data-message="<?php echo $this->_('Are you sure you want to open the listings you have selected?'); ?>">
+                                    <?php echo $this->_('Open'); ?>
+                                </button>
+                            <?php } ?>
+                            <?php if (in_array($this->filter, array('closed'))) { ?>
+                                <button class="btn btn-default confirm-form" value="relist"
+                                        data-message="<?php echo $this->_('Are you sure you want to relist the listings you have selected?'); ?>">
+                                    <?php echo $this->_('Relist'); ?>
+                                </button>
+                            <?php } ?>
+                            <?php if (in_array($this->filter, array('drafts'))) { ?>
+                                <button class="btn btn-default confirm-form" value="draftsList"
+                                        data-message="<?php echo $this->_('Are you sure you want to list the selected drafts?'); ?>">
+                                    <?php echo $this->_('List Items'); ?>
+                                </button>
+                            <?php } ?>
+                            <button class="btn btn-default confirm-form" value="delete"
+                                    data-message="<?php echo $this->_('Are you sure you want to delete the listings you have selected?'); ?>">
+                                <?php echo $this->_('Delete'); ?>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+    </div>
+
+</form>
+
+<div class="clearfix"></div>
+<?php if ($this->paginator->getPages()->totalItemCount) {
+    ?>
+    <div class="pull-left">
+        <?php echo $this->partial('partials/items-per-page.phtml', array('itemsPerPage' => $itemsPerPage)); ?>
+    </div>
+<?php } ?>
+<div class="pull-right">
+    <?php echo $this->pagination($this->paginator, 'sliding', 'partials/pagination.phtml'); ?>
+</div>

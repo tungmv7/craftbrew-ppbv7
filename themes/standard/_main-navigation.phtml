@@ -1,0 +1,87 @@
+<?php
+/**
+ * @version 7.5
+ */
+?>
+<nav class="navbar navbar-default header-navigation" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navigation-collapse">
+            <span class="sr-only"><?php echo $this->_('Toggle navigation'); ?></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-navigation-collapse">
+        <div class="left-navbar">
+            <div class="hidden-xs">
+                <small>
+                    <?php echo $this->_('Welcome'); ?>,
+                    <strong>
+                        <?php echo (isset($this->loggedInUser['username'])) ?
+                            $this->loggedInUser['username'] : $this->_('Guest'); ?>
+                    </strong>
+                </small>
+            </div>
+
+            <ul class="nav navbar-nav">
+                <?php if (count($this->loggedInUser) > 0) { ?>
+                    <li>
+                        <a href="<?php echo $this->url(null,
+                            'members-index'); ?>"><?php echo $this->_('Members Area'); ?></a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $this->url(null, 'members-logout'); ?>"><?php echo $this->_('Logout'); ?></a>
+                    </li>
+                <?php
+                }
+                else {
+                    $registerModal = ($this->settings['registration_type'] == 'quick' && !\Ppb\Form\Element\ReCaptcha::$loaded) ? true : false;
+                    ?>
+                    <li>
+                        <a <?php echo ($registerModal) ? 'class="dialog-box"' : ''; ?>
+                            href="<?php echo $this->url(array('module' => 'members', 'controller' => 'user', 'action' => ($registerModal) ? 'register-modal' : 'register')); ?>"
+                            title="<?php echo $this->_('Sign up'); ?>"><?php echo $this->_('Sign up'); ?></a>
+                    </li>
+                    <li>
+                        <a class="dialog-box"
+                           href="<?php echo $this->url(array('module' => 'members', 'controller' => 'user', 'action' => 'login-modal')); ?>"
+                           title="<?php echo $this->_('Sign in'); ?>"><?php echo $this->_('Sign in'); ?></a>
+                    </li>
+                <?php } ?>
+                <li>
+                    <a href="<?php echo $this->url(array('module' => 'members', 'controller' => 'tools', 'action' => 'watched-items')); ?>"
+                       title="<?php echo $this->_('Wishlist'); ?>"><?php echo $this->_('Wishlist'); ?></a>
+                </li>
+
+            </ul>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <?php foreach ($this->menu->pages as $page) { ?>
+                <?php if ((!$page->settings || (intval($this->settings[(string)$page->settings['name']]) == $page->settings['value'])) &&
+                    ($this->navigation()->accept($page)) && $page->hidden != 'true'
+                ) {
+                    ?>
+                    <li <?php echo ($page->isActive(true)) ? 'class="active"' : ''; ?>>
+                        <a href="<?php echo $this->url($page->params); ?>">
+                            <?php echo $page->label; ?>
+                        </a>
+                    </li>
+                <?php } ?>
+            <?php } ?>
+
+            <?php if ($this->settings['enable_shopping_cart']) { ?>
+                <li class="visible-xs">
+                    <a href="<?php echo $this->url('cart'); ?>"><?php echo $this->_('Cart'); ?></a>
+                </li>
+                <li class="hidden-xs">
+                    <?php echo $this->cartDropdown(); ?>
+                </li>
+            <?php } ?>
+        </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+</nav>

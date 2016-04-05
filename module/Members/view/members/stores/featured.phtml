@@ -1,0 +1,18 @@
+<?php
+/**
+ * @version 7.7
+ */
+/** @var \Ppb\Db\Table\Rowset\Users $stores */
+if (count($stores) > 0) {
+    /** @var \Ppb\Db\Table\Row\User $store */
+    foreach ($stores as $store) {
+        ?>
+        <div>
+            <?php echo $this->partial('partials/store-box.phtml', array(
+                'store' => $store,
+                'class' => 'grid'));
+            ?>
+        </div>
+    <?php
+    }
+}

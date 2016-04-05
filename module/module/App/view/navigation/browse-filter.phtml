@@ -1,0 +1,47 @@
+<?php
+/**
+ * filters in navigation will need to be added for each menu that has them.
+ * for menus and breadcrumbs to display properly when filtering results,
+ * we need to set up routes for each page that has filtering available
+ *
+ * accepted filtering keys: filter or show
+ */
+
+$buttonLabel = 'Filter';
+$filteringVariables = array('show', 'filter');
+
+foreach ($this->menu->pages as $page) {
+    $params = $page->getParams();
+    foreach ($filteringVariables as $key) {
+        if (isset($params[$key])) {
+            if ($params[$key] == $this->request()->getRequest()->getParam($key)) {
+                $buttonLabel = $page->label;
+            }
+        }
+    }
+}
+?>
+<div class="btn-group">
+    <button class="btn btn-default"><?php echo $buttonLabel; ?></button>
+    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+    </button>
+
+    <ul class="dropdown-menu text-left">
+        <?php
+        foreach ($this->menu->pages as $page) {
+            if ($page->filter == 'true') {
+                if ((!$page->settings || (intval($this->settings[(string)$page->settings['name']]) == $page->settings['value']))) {
+                    ?>
+                    <li><a href="<?php echo $this->url($page->params, null, true,
+                            array('page', 'submit')); ?>"><?php echo $page->label; ?></a></li>
+                    <?php if ($page->caret == 'true') { ?>
+                        <li class="divider"></li>
+                    <?php } ?>
+                <?php
+                }
+            }
+        } ?>
+    </ul>
+
+</div>

@@ -1,0 +1,15 @@
+<?php
+/**
+ * breadcrumbs view helper
+ * labels are already translated in page class
+ */
+if (count($this->breadcrumbs) > 0) {
+    $breadcrumbs = array();
+    foreach ($this->breadcrumbs as $page) {
+        $breadcrumbs[] = $page->label;
+    }
+    ?>
+    <h2 class="breadcrumbs">
+        <?php echo implode(' <i class="fa fa-caret-right"></i> ', $breadcrumbs); ?>
+    </h2>
+<?php } ?>

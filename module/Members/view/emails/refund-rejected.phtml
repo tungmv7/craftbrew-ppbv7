@@ -1,0 +1,27 @@
+<?php
+/**
+ * @version 7.4
+ */
+/** @var \Ppb\Db\Table\Row\Accounting $accounting */
+$accounting = $this->data['accounting'];
+?>
+<p><?php echo $this->_('A sale transaction refund request that you have made was rejected by the site administrator.'); ?></p>
+<div><?php echo $this->_('Transaction details:'); ?></div>
+<ul>
+    <li>
+        <?php echo $this->_('Name:'); ?>
+        <b><?php echo $accounting->displayName(); ?></b>
+    </li>
+    <li>
+        <?php echo $this->_('Amount:'); ?>
+        <b><?php echo $this->amount($accounting['amount'], $accounting['currency']); ?></b>
+    </li>
+</ul>
+<div>
+    <?php echo $this->_('If you have any further questions, please do not hesitate to contact us.'); ?>
+</div>
+
+<p>
+    <?php echo $this->_('Best regards'); ?> <br>
+    <?php echo $this->siteName; ?>
+</p>

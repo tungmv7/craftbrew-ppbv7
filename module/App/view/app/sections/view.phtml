@@ -1,0 +1,49 @@
+<!-- CONTENT SECTIONS SUB LAYOUT -->
+<div class="sub-container">
+
+    <div class="row row-offcanvas row-offcanvas-left">
+        <?php
+        /** @var \Cube\Navigation\Page\AbstractPage $leftSideContainer */
+        if ($leftSideContainer->hasChildren()) { ?>
+        <div class="col-md-3 sidebar-offcanvas">
+            <!-- members area side navigation -->
+            <?php
+            echo $this->navigation()
+                ->setContainer($leftSideContainer)
+                ->setPartial('navigation/left-side.phtml')
+                ->menu();
+            ?>
+
+        </div>
+        <div class="col-md-9">
+            <p class="hidden-md hidden-lg">
+                <button class="btn btn-default" data-toggle="offcanvas" type="button">
+                    <i class="fa fa-2x fa-list"></i>
+                </button>
+            </p>
+
+            <?php echo $this->navigation()
+                ->setContainer($container)
+                ->setPartial('navigation/breadcrumbs.phtml')->setMinDepth(0)->breadcrumbs(); ?>
+        <?php } else { ?>
+            <div class="col-xs-12">
+        <?php } ?>
+
+
+                <?php foreach ($pages as $page) { ?>
+                    <article>
+                        <?php if (!empty($page['title'])) { ?>
+                            <h1 class="headline">
+                                <span><?php echo $page['title']; ?></span>
+                            </h1>
+                        <?php } ?>
+
+                        <div>
+                            <?php echo $this->renderHtml($page['content'], true); ?>
+                        </div>
+                    </article>
+                <?php } ?>
+
+            </div>
+        </div>
+    </div>

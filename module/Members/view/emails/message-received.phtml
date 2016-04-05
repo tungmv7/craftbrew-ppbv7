@@ -1,0 +1,38 @@
+<?php
+/**
+ * @version 7.2
+ */
+?>
+<h4>
+    <?php echo $this->_('New Message Received Notification'); ?>
+</h4>
+<p><?php echo sprintf(
+        $this->_('You have received a new message in your inbox on %s.'),
+        $this->siteName); ?></p>
+
+<div><?php echo $this->_('Message details:'); ?></div>
+<ul>
+    <li>
+        <?php echo $this->_('Sender:'); ?>
+        <b><?php echo $this->data['username']; ?></b>
+    </li>
+    <li>
+        <?php echo $this->_('Title:'); ?>
+        <b><?php echo $this->renderText($this->data['title']); ?></b>
+    </li>
+    <li>
+        <?php echo $this->_('Message:'); ?> <br>
+        <?php echo $this->renderText($this->data['message'], true); ?>
+    </li>
+</ul>
+<p>
+    <?php echo $this->_('Please'); ?>
+    [ <a href="<?php echo $this->sitePath . $this->url($this->data['link'], null, false, null, false); ?>">
+        <?php echo $this->_('click here'); ?>
+    </a> ]
+    <?php echo $this->_('to view the messaging topic.'); ?>
+</p>
+<p>
+    <?php echo $this->_('Best regards'); ?> <br>
+    <?php echo $this->siteName; ?>
+</p>

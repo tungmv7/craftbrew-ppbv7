@@ -1,0 +1,148 @@
+<?php
+/**
+ * @version 7.3
+ */
+?>
+<nav class="navbar navbar-filter">
+    <div class="navbar-left">
+        <?php
+        $container = $this->navigation()->getContainer();
+
+        echo $this->navigation()
+                ->setContainer($container->findOneBy('label', $this->_('Account History Filter')))
+                ->setPartial('navigation/browse-filter.phtml', array('key' => 'show'))
+                ->menu();
+
+        $this->navigation()->setContainer($container);
+        ?>
+    </div>
+
+    <form class="navbar-form navbar-right" action="" method="get">
+        <div class="form-group">
+            <?php
+            /** @var \Ppb\Form\Element\DateTime $dateTimeFrom */
+            $dateTimeFrom = $this->formElement('\Ppb\Form\Element\DateTime', 'date_from', $this->dateFrom)
+                    ->setAttributes(array('placeholder' => $this->_('From..'), 'class' => 'form-control input-default'));
+
+            /** @var \Ppb\Form\Element\DateTime $dateTimeTo */
+            $dateTimeTo = $this->formElement('\Ppb\Form\Element\DateTime', 'date_to', $this->dateTo)
+                    ->setAttributes(array('placeholder' => $this->_('To..'), 'class' => 'form-control input-default'));
+
+            $this->script()->addBodyCode(
+                $dateTimeTo->setCustomData(array('formData' => array('maxDate' => 'new Date()')))->getBodyCode());
+
+            echo $dateTimeFrom->render();
+            echo $dateTimeTo->render();
+            ?>
+        </div>
+        <?php echo $this->formElement('submit', 'submit', $this->_('Show'))
+                ->setAttributes(array('class' => 'btn btn-default'))
+                ->render();
+        ?>
+    </form>
+
+
+</nav>
+
+<?php if ($inAdmin && $userId) { ?>
+    <h4><?php echo $this->_(sprintf('Account History for user ID #%s', $userId)); ?></h4>
+<?php } ?>
+<p class="text-right">
+    <span class="label label-default">
+        <?php echo $this->_('Debit:'); ?>
+        <?php echo $this->amount($totals['debit'], null, null, true); ?>
+    </span>
+    <span class="label label-info">
+        <?php echo $this->_('Credit:'); ?>
+        <?php echo $this->amount($totals['credit'], null, null, true); ?>
+    </span>
+    <span class="label label-success">
+        <?php echo $this->_('Payments:'); ?>
+        <?php echo $this->amount($totals['payments'], null, null, true); ?>
+    </span>
+</p>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <caption>
+            <strong><?php echo $this->paginator->getPages()->totalItemCount; ?></strong> <?php echo $this->_('results found.'); ?>
+
+            <?php if ($this->paginator->getPages()->totalItemCount) { ?>
+                <?php echo $this->_('Showing results'); ?>
+                <strong><?php echo $this->paginator->getPages()->firstItemNumber; ?></strong>
+                <?php echo $this->_('to'); ?>
+                <strong><?php echo $this->paginator->getPages()->lastItemNumber; ?></strong>
+            <?php } ?>
+        </caption>
+        <?php if ($this->paginator->getPages()->totalItemCount) { ?>
+            <thead>
+            <tr>
+                <th><?php echo $this->_('Name'); ?></th>
+                <th class="size-mini"><?php echo $this->_('Type'); ?></th>
+                <th class="size-mini"><?php echo $this->_('Amount'); ?></th>
+                <th class="size-small"><?php echo $this->_('Date'); ?></th>
+            </tr>
+            </thead>
+        <?php } ?>
+        <tbody>
+        <?php
+        /** @var \Ppb\Db\Table\Row\Accounting $accounting */
+        foreach ($this->paginator as $accounting) {
+            $name = ($accounting['listing_id']) ?
+                    sprintf($this->_('Listing Setup Fees - Listing ID: #%s'),
+                        $accounting['listing_id']) : $accounting->displayName();
+            ?>
+            <tr>
+                <td>
+                    <a href="<?php echo $this->url($accounting->link()); ?>" target="_blank">
+                        <?php echo $name; ?>
+                    </a>
+
+                    <?php if ($accounting->canRequestRefund()) { ?>
+                        <div>
+                            <a class="btn btn-sm btn-default confirm-box"
+                               href="<?php echo $this->url(array('option' => 'refund_request', 'id' => $accounting['id']),
+                                   null, true); ?>"
+                               data-message="<?php echo $this->_('Are you sure that you wish to request a refund for this transaction?'); ?>">
+                                <?php echo $this->_('Request Refund'); ?>
+                            </a>
+                        </div>
+                    <?php
+                    }
+                    else if ($accounting->canProcessRefund()) {
+                        ?>
+                        <div>
+                            <a class="btn btn-sm btn-success confirm-box"
+                               href="<?php echo $this->url(array('option' => 'refund_accept', 'id' => $accounting['id']),
+                                   null, true); ?>"
+                               data-message="<?php echo $this->_('Are you sure you wish to refund this transaction?'); ?>">
+                                <?php echo $this->_('Accept Refund Request'); ?>
+                            </a>
+                            <a class="btn btn-sm btn-danger confirm-box"
+                               href="<?php echo $this->url(array('option' => 'refund_decline', 'id' => $accounting['id']),
+                                   null, true); ?>"
+                               data-message="<?php echo $this->_('Are you sure you wish to decline this refund request?'); ?>">
+                                <?php echo $this->_('Decline Refund Request'); ?>
+                            </a>
+                        </div>
+                    <?php } ?>
+                </td>
+                <td>
+                    <?php echo $this->_($accounting['transaction_filter']); ?>
+                </td>
+                <td>
+                    <span class="<?php echo ($accounting['total_amount'] < 0) ? 'text-success' : ''; ?>">
+                        <?php echo $this->amount(abs($accounting['total_amount']), $accounting['currency']); ?>
+                    </span>
+                </td>
+                <td>
+                    <small><?php echo $this->date($accounting['created_at']); ?></small>
+                </td>
+            </tr>
+        <?php } ?>
+        </tbody>
+    </table>
+</div>
+
+
+<?php echo $this->pagination($this->paginator, 'sliding', 'partials/pagination.phtml'); ?>

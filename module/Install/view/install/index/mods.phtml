@@ -1,0 +1,18 @@
+<?php if ($connected) { ?>
+<?php if ($submitted) { ?>
+    <blockquote>
+        <?php echo sprintf(
+            $this->_('Please <a href="%s">click here</a> to access your website.'),
+            $this->url(null, 'app-home')); ?>
+    </blockquote>
+<?php
+}
+else {
+    ?>
+    <blockquote>
+        <div><?php echo $this->_('Please use this form to run the SQL for any official add-ons you have installed.'); ?></div>
+    </blockquote>
+<?php } ?>
+
+<?php echo $this->form; ?>
+<?php } ?>

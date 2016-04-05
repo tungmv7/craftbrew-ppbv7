@@ -1,0 +1,26 @@
+<?php
+/**
+ * @version 7.5
+ */
+
+/* @var \Ppb\Db\Table\Row\Listing $listing */
+$form = new \Listings\Form\Purchase($listing, null, 'buy');
+$form->setData(
+    $this->request()->getRequest()->getParams());
+
+/** @var \Cube\Form\Element $element */
+foreach ($form->getElements() as $element) {
+    $name = $element->getName();
+
+    if (strstr($name, 'product_attributes')) {
+        $element->setRequired(false);
+        $this->script()->addBodyCode($element->getBodyCode());
+        ?>
+            <div class="form-group product-attribute-element">
+                <label><?php echo $element->getLabel(); ?></label>
+
+                <?php echo $element->render(); ?>
+            </div>
+    <?php
+    }
+}

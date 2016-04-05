@@ -1,0 +1,91 @@
+<?php
+/**
+ * this partial will require either a:
+ *
+ * @var \Ppb\Db\Table\Row\Message $message
+ *      => in this case it will display all messages from the topic in desc order
+ * @var \Ppb\Db\Table\Row\Listing $listing
+ *      => in this case it will display all questions and answers for the listing in desc order
+ */
+/**
+ * @version 7.5
+ */
+
+$message = (isset($message)) ? $message : null;
+$listing = (isset($listing)) ? $listing : null;
+
+$publicQuestions = false;
+$messages = array();
+if ($message instanceof \Ppb\Db\Table\Row\Message) {
+    $messages = $message->findDependentRowset('\Ppb\Db\Table\Messaging');
+}
+else if ($listing instanceof \Ppb\Db\Table\Row\Listing) {
+    $publicQuestions = true;
+    $messages = $listing->findDependentRowset('\Ppb\Db\Table\Messaging');
+}
+
+?>
+
+<?php if (count($messages) <= 0) { ?>
+    <div class="no-results">
+        <?php echo $this->_('There are no messages posted.'); ?>
+    </div>
+<?php } ?>
+<?php foreach ($messages as $message) {
+    $sender = $message->findParentRow('\Ppb\Db\Table\Users', 'Sender'); ?>
+    <dl class="dl-horizontal">
+        <dt>
+            <?php if ($publicQuestions) { ?>
+                <i class="fa fa-2x fa-question"></i>
+            <?php
+            }
+            else {
+                echo $sender->username;
+            } ?>
+        </dt>
+        <dd>
+            <div>
+                <?php if ($publicQuestions) { ?>
+                    <div><?php echo $this->userDetails($sender)->display(); ?></div>
+                <?php } ?>
+                <?php if (!empty($message['title'])) { ?>
+                    <strong><?php echo $this->renderText($message['title']); ?></strong>
+                <?php } ?>
+                <div class="pull-right">
+                    <?php echo $this->date($message['created_at']); ?>
+                </div>
+            </div>
+            <div>
+                <?php echo $this->renderText($message['content'], true); ?>
+            </div>
+        </dd>
+
+        <?php if ($publicQuestions) {
+            $answers = $message->findDependentRowset('\Ppb\Db\Table\Messaging', null,
+                $message->getTable()->select()->where('listing_id IS NULL')->order('created_at ASC'));
+
+            foreach ($answers as $answer) {
+                ?>
+                <!-- display all answers for the above question -->
+                <dt>
+                    <i class="fa fa-reply"></i>
+                </dt>
+                <dd>
+                    <div>
+                        <?php if (!empty($answer['title'])) { ?>
+                            <strong><?php echo $this->renderText($answer['title']); ?></strong>
+                        <?php } ?>
+                        <div class="pull-right">
+                            <?php echo $this->date($answer['created_at']); ?>
+                        </div>
+                    </div>
+                    <div>
+                        <?php echo $this->renderText($answer['content'], true); ?>
+                    </div>
+                </dd>
+            <?php } ?>
+
+        <?php } ?>
+    </dl>
+<?php } ?>
+

@@ -1,0 +1,31 @@
+/* @version 7.5 */
+body {
+    font-family: Arial, sans-serif !important;
+}
+
+.form-horizontal .form-group {
+    margin-right: 0;
+}
+
+.carousel-control.left,
+.carousel-control.right {
+    background-image: none !important;
+}
+
+.actions .details-tabs {
+    margin-right: 20px;
+}
+
+.radio, .checkbox {
+    padding-left: 0;
+    padding-right: 20px;
+}
+
+.purchase .btn {
+    float: none;
+}
+
+.login-box .first {
+    border-right: none;
+    border-left: 1px solid #ddd;
+}

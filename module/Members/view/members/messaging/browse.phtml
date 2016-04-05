@@ -1,0 +1,184 @@
+<?php
+/**
+ * @version 7.4
+ */
+
+/* @var bool $inAdmin */
+/* @var bool $archived */
+/* @var bool $summary */
+
+
+if (!$summary) {
+    ?>
+    <nav class="navbar navbar-filter">
+        <?php if ($inAdmin) { ?>
+            <div class="navbar-left">
+                <?php
+                $container = $this->navigation()->getContainer();
+
+                echo $this->navigation()
+                    ->setContainer($container->findOneBy('label', $this->_('Messaging Filter')))
+                    ->setPartial('navigation/browse-filter.phtml')
+                    ->menu();
+
+                $this->navigation()->setContainer($container);
+                ?>
+            </div>
+        <?php } ?>
+        <form class="navbar-form navbar-right" action="" method="get">
+            <div class="form-group">
+                <?php echo $this->formElement('text', 'keywords', $this->keywords)
+                    ->setAttributes(array('placeholder' => $this->_('Keywords'), 'class' => 'form-control input-default'))
+                    ->render();
+                ?>
+            </div>
+            <?php echo $this->formElement('submit', 'submit', $this->_('Search'))
+                ->setAttributes(array('class' => 'btn btn-default'))
+                ->render();
+            ?>
+        </form>
+    </nav>
+<?php } ?>
+
+    <form action="" method="post">
+        <?php echo $this->formElement('hidden', 'option', '')->render(); ?>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <caption>
+                    <strong><?php echo $this->paginator->getPages()->totalItemCount; ?></strong> <?php echo $this->_('messages found.'); ?>
+
+                    <?php if ($this->paginator->getPages()->totalItemCount) { ?>
+                        <?php echo $this->_('Showing results'); ?>
+                        <strong><?php echo $this->paginator->getPages()->firstItemNumber; ?></strong>
+                        <?php echo $this->_('to'); ?>
+                        <strong><?php echo $this->paginator->getPages()->lastItemNumber; ?></strong>
+                    <?php } ?>
+                </caption>
+                <?php if ($this->paginator->getPages()->totalItemCount) { ?>
+                    <thead>
+                    <tr>
+                        <?php if (!$archived && !$summary) { ?>
+                            <th class="size-tiny">
+                                <?php echo $this->formElement('checkbox', 'selectAll')
+                                    ->setMultiOptions(array(1 => null))
+                                    ->render();
+                                ?>
+                            </th>
+                        <?php } ?>
+                        <th class="size-tiny"></th>
+                        <th><?php echo $this->_('Message Title'); ?></th>
+                        <?php if (in_array($this->filter, array('received', 'all'))) { ?>
+                            <th class="size-medium"><?php echo $this->_('From'); ?></th>
+                        <?php } ?>
+                        <?php if (in_array($this->filter, array('sent', 'all'))) { ?>
+                            <th class="size-medium"><?php echo $this->_('To'); ?></th>
+                        <?php } ?>
+
+                    </tr>
+                    </thead>
+                <?php } ?>
+                <tbody>
+                <?php
+                /** @var \Ppb\Db\Table\Row\Message $message */
+                foreach ($this->paginator as $message) {
+                    $link = $message->link($inAdmin);
+                    $topicTitle = $this->message($message)->topicTitle();
+                    ?>
+                    <tr>
+                        <?php if (!$archived && !$summary) { ?>
+                            <td>
+                                <?php echo $this->formElement('checkbox', 'id')
+                                    ->setMultiOptions(array($message['id'] => null))
+                                    ->setAttributes(array('class' => 'select-all'))
+                                    ->setMultiple()
+                                    ->render();
+                                ?>
+                            </td>
+                        <?php } ?>
+                        <td>
+                            <?php if (!$message['flag_read']) { ?>
+                                <i class="fa fa-envelope"></i>
+                            <?php } ?>
+                        </td>
+                        <td>
+                            <div>
+                                <?php if ($link !== false) { ?>
+                                    <a href="<?php echo $this->url($link); ?>">
+                                        <?php echo $this->fieldDisplay($this->renderText($message['title']), null, $this->_('Message')); ?>
+                                    </a>
+                                <?php
+                                }
+                                else {
+                                    ?>
+                                    <?php echo $this->renderText($message['title']); ?>
+                                <?php } ?>
+                            </div>
+                            <?php if (!empty($topicTitle)) { ?>
+                                <div>
+                                    <small>
+                                        <strong><?php echo $this->renderText($topicTitle); ?></strong>
+                                    </small>
+                                </div>
+                            <?php } ?>
+
+                            <div>
+                                <small class="muted"><?php echo $this->date($message['created_at']); ?></small>
+                            </div>
+
+                            <?php if ($inAdmin) { ?>
+                                <div>
+                                    <small><?php echo $this->renderText($message['content'], true); ?></small>
+                                </div>
+                            <?php } ?>
+                        </td>
+
+
+                        <?php if (in_array($this->filter, array('received', 'all'))) { ?>
+                            <td>
+                                <?php echo $this->userDetails($message->findParentRow('\Ppb\Db\Table\Users',
+                                    'Sender'))->display(); ?>
+                            </td>
+                        <?php } ?>
+                        <?php if (in_array($this->filter, array('sent', 'all'))) { ?>
+                            <td>
+                                <?php echo $this->userDetails($message->findParentRow('\Ppb\Db\Table\Users',
+                                    'Receiver'))->display(); ?>
+                            </td>
+                        <?php } ?>
+                    </tr>
+                <?php } ?>
+                <?php if ($this->paginator->getPages()->totalItemCount) { ?>
+                    <tr>
+                        <td colspan="6">
+                            <div class="btn-group">
+                                <?php if (!$archived && !$summary) { ?>
+                                    <?php if ($inAdmin) { ?>
+                                        <button class="btn btn-default confirm-form" value="delete"
+                                                data-message="<?php echo $this->_('Are you sure you want to delete these messages?'); ?>">
+                                            <?php echo $this->_('Delete'); ?>
+                                        </button>
+                                    <?php
+                                    }
+                                    else {
+                                        ?>
+                                        <button class="btn btn-default confirm-form" value="archive"
+                                                data-message="<?php echo $this->_('Are you sure you want to archive these messages?'); ?>">
+                                            <?php echo $this->_('Archive'); ?>
+                                        </button>
+                                    <?php } ?>
+                                <?php } ?>
+                            </div>
+                        </td>
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    </form>
+
+
+<?php
+if (!$summary) {
+    echo $this->pagination($this->paginator, 'sliding', 'partials/pagination.phtml');
+}
+?>

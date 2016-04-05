@@ -1,0 +1,113 @@
+<?php
+/**
+ * @version 7.7
+ */
+$this->script()->addHeaderCode(
+    '<link href="' . $this->baseUrl . '/css/stores/default.css" media="all" rel="stylesheet" type="text/css">');
+
+/* @var \Ppb\Db\Table\Row\User $store */
+$this->userDetails($store);
+$storeSettings = $store->getStoreSettings();
+$logo = $store->storeLogo();
+?>
+<div id="store">
+    <header>
+        <div class="row">
+
+            <div class="col-sm-2">
+                <?php echo $this->thumbnail($logo, 150, true, array('alt' => $store->storeName(), 'crop' => false)); ?>
+            </div>
+
+            <div class="col-sm-2">
+                <dl>
+                    <dt><?php echo $this->_('Owner'); ?></dt>
+                    <dd>
+                        <?php echo $this->userDetails()->display(); ?>
+                    </dd>
+                    <dd>
+                        <i class="fa fa-globe"></i>
+                        <?php echo $this->userDetails()->location(); ?>
+                    </dd>
+
+                    <dt><?php echo $this->_('Member Since'); ?></dt>
+                    <dd><?php echo $this->date($store->getData('created_at')); ?></dd>
+                </dl>
+            </div>
+
+            <div class="col-sm-8">
+
+                <h1 class="pull-left">
+                    <?php echo $store->storeName(); ?>
+                </h1>
+
+                <?php if ($this->loggedInUser) { ?>
+                    <div class="pull-right">
+                        <a class="btn btn-default"
+                           href="<?php echo $this->url(array('action' => 'favorite-store', 'id' => $store['id'])); ?>">
+                            <?php echo ($store->isFavoriteStore($this->loggedInUser['id'])) ? $this->_('Remove from Favorites') : $this->_('Add to Favorites'); ?>
+                        </a>
+                    </div>
+                <?php } ?>
+
+                <div class="clearfix"></div>
+                <div>
+                    <?php echo !empty($storeSettings['store_description']) ? $storeSettings['store_description'] : null; ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar navbar-default">
+            <div class="container">
+                <a class="navbar-brand"
+                   href="<?php echo $this->url(array(), null, true, array('page')); ?>"><?php echo $store->storeName(); ?></a>
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="<?php echo $this->url(array(), null, true, array('page')); ?>">
+                            <?php echo $this->_('Home'); ?>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $this->url(array('page' => 'store_about'), null, true); ?>">
+                            <?php echo $this->_('About Us'); ?>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $this->url(array('page' => 'store_shipping_information'), null, true); ?>">
+                            <?php echo $this->_('Shipping Information'); ?>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $this->url(array('page' => 'store_company_policies'), null, true); ?>">
+                            <?php echo $this->_('Company Policies'); ?>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+
+    <?php if (!empty($page) && !is_numeric($page)) {
+        if (isset($storeSettings[$page])) {
+            echo $this->renderHtml($storeSettings[$page]);
+        }
+    }
+    else {
+        echo
+        $this->partial('listings/browse/index.phtml',
+            array(
+                'storeId'         => $store['id'],
+                'paginator'       => $paginator,
+                'parentId'        => $parentId,
+                'params'          => $params,
+                'itemsPerPage'    => $itemsPerPage,
+                'browsePageTitle' => $browsePageTitle,
+                'basicSearchForm' => $basicSearchForm,
+            )
+        );
+    }
+    ?>
+    <footer>
+
+    </footer>
+</div>

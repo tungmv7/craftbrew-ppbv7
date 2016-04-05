@@ -1,0 +1,9 @@
+<?php
+/**
+ * @version 7.4
+ */
+if ($this->userDetails($this->loggedInUser['id'])->getUser()->isVerified() === false) {
+    echo $this->partial('partials/user-verification-message.phtml', null);
+}
+
+echo $this->form;

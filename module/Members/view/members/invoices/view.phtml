@@ -1,0 +1,116 @@
+<?php
+/**
+ * @version 7.7
+ */
+/** @var \Ppb\Db\Table\Row\Sale $sale */
+/** @var \Ppb\Db\Table\Row\User $buyer */
+$buyer = $sale->findParentRow('\Ppb\Db\Table\Users', 'Buyer');
+/** @var \Ppb\Db\Table\Row\User $seller */
+$seller = $sale->findParentRow('\Ppb\Db\Table\Users', 'Seller');
+
+$storeSettings = $seller->getStoreSettings();
+$logo = (!empty($storeSettings['store_logo_path'])) ? $storeSettings['store_logo_path'] : null;
+
+?>
+
+<div id="print-area">
+    <div class="row">
+        <div class="col-sm-6">
+            <?php if ($logo) { ?>
+                <?php echo $this->thumbnail($logo, 200, null, array('alt' => $seller->storeName(), 'crop' => false)); ?>
+            <?php } ?>
+        </div>
+
+        <div class="col-sm-6">
+            <table class="table table-condensed well">
+                <tbody>
+                <tr>
+                    <td class="text-right"><strong><?php echo $this->_('Invoice #'); ?></strong></td>
+                    <td><?php echo $sale['id']; ?></td>
+                </tr>
+                <tr>
+                    <td class="text-right"><strong><?php echo $this->_('Invoice Date'); ?></strong></td>
+                    <td><?php echo $this->date(max(array($sale['created_at'], $sale['updated_at'])), true); ?></td>
+                </tr>
+                <tr>
+                    <td class="text-right"><strong><?php echo $this->_('Payment Status'); ?></strong></td>
+                    <td><?php echo $this->_($sale->getPaymentStatusDescription()); ?></td>
+                </tr>
+
+                <?php if ($transaction = $sale->getSaleTransaction()) { ?>
+                    <tr>
+                        <td class="text-right"><strong><?php echo $this->_('Payment Method'); ?></strong></td>
+                        <td><?php echo $transaction->findParentRow('\Ppb\Db\Table\PaymentGateways')->getData('name'); ?></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right"><strong><?php echo $this->_('Transaction ID'); ?></strong></td>
+                        <td><?php echo $transaction['gateway_transaction_code']; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right"><strong><?php echo $this->_('Payment Date'); ?></strong></td>
+                        <td><?php echo $this->date(max(array($transaction['created_at'], $transaction['updated_at'])),
+                                true); ?></td>
+                    </tr>
+
+                <?php } ?>
+
+                </tbody>
+            </table>
+            <?php echo $this->renderText($seller['sale_invoices_content'], true); ?>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <?php echo $this->_('Seller Address:'); ?>
+            <?php echo $this->userDetails($seller)->displayFullAddress(); ?>
+
+
+        </div>
+
+        <div class="col-sm-3">
+            <?php echo $this->_('Billing Address:'); ?>
+            <?php echo $this->userDetails($buyer)->setAddress($sale['billing_address_id'])->displayFullAddress(); ?>
+        </div>
+
+        <?php if ($sale->hasPostage()) { ?>
+            <div class="col-sm-3">
+                <div>
+                    <?php echo $this->_('Delivery Address:'); ?>
+                    <?php echo $this->userDetails($buyer)->setAddress($sale['shipping_address_id'])->displayFullAddress(); ?>
+                </div>
+                <p>
+                    <?php echo $this->_('Delivery Method:'); ?> <br>
+                    <strong><?php echo $sale->getPostageMethod(); ?></strong>
+                </p>
+            </div>
+        <?php } ?>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <?php echo $this->partial('partials/sale.phtml', array(
+                'sale'    => $sale,
+                'invoice' => true,
+                'caption' => '<h2>' . $this->_('Invoice') . '</h2>')); ?>
+
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<div>
+    <?php echo $this->formElement('\Ppb\Form\Element\PrintButton', 'printButton', $this->_('Print'))
+        ->setAttributes(array(
+            'class' => 'btn btn-lg btn-info',
+            'rel'   => 'print-area',
+        ))
+        ->render();
+    ?>
+</div>
+
+
+
+

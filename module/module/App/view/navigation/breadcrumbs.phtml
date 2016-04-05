@@ -1,0 +1,17 @@
+<!--
+breadcrumbs view helper
+-->
+<?php
+if (count($this->breadcrumbs) > 0) {
+    $breadcrumbs = array();
+    foreach ($this->breadcrumbs as $page) {
+        $breadcrumbs[] = '<a href="' . $this->url($page->params) . '">' . $page->label . '</a>';
+    }
+?>
+<div class="breadcrumbs">
+    <span>
+        <i class="fa fa-home"></i>
+        <?php echo implode(' &gt; ', $breadcrumbs); ?>
+    </span>
+</div>
+<?php } ?>

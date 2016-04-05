@@ -1,0 +1,26 @@
+<?php $logo = $this->form->getGatewayLogo(); ?>
+
+<div class="payment-box">
+    <form action="<?php echo $this->form->getAction(); ?>" method="<?php echo $this->form->getMethod(); ?>" class="form-horizontal" id="<?php echo $this->form->getGatewayName(); ?>">
+        <?php echo $this->form->hiddenElements; ?>
+        <?php if ($logo !== null) { ?>
+        <div class="pull-left">
+            <img src="<?php echo $this->baseUrl; ?><?php echo $logo; ?>">
+        </div>
+        <?php } ?>
+
+        <!-- any non hidden elements will appear here !!! -->
+        <div class="pull-left payment-desc">
+            <?php echo $this->form->getGatewayDescription(); ?>
+            <?php foreach ($this->form->getElements() as $element) { ?>
+            <?php if ($element->getType() != 'submit') { ?>
+            <?php echo $this->partial('partials/form-element.phtml', array('element' => $element)); ?>
+            <?php } ?>
+            <?php } ?>
+        </div>
+
+        <div class="pull-right payment-btn">
+            <?php echo $this->form->submit; ?>
+        </div>
+    </form>
+</div>    

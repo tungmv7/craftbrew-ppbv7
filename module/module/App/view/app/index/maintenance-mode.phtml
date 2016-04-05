@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <?php echo $this->headTitle(); ?>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <?php echo $this->script()->displayHeaderCode(); ?>
+    <link href="<?php echo $this->baseUrl; ?>/<?php echo $this->themesFolder; ?>/admin/images/favicon.ico"
+          rel="shortcut icon" type="image/vnd.microsoft.icon">
+
+</head>
+
+<body>
+
+<div class="maintenance-mode">
+    <h3>
+        <?php echo $this->settings['sitename']; ?> :: <?php echo $this->_('Maintenance Mode'); ?>
+    </h3>
+
+    <p>
+        <?php echo $this->_('Sorry for the inconvenience. <br>'
+            . 'The website is currently in maintenance mode. <br>'
+            . 'Thank you for your understanding.'); ?>
+    </p>
+</div>
+
+
+</body>
+</html>

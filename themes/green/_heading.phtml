@@ -1,0 +1,24 @@
+<?php if ($this->headline) { ?>
+    <h3 class="headline">
+        <span><?php echo $this->_($this->headline); ?></span>
+    </h3>
+<?php } ?>
+
+    <!-- action messages -->
+<?php foreach ((array)$this->messages as $message) { ?>
+    <?php if (!isset($message['local'])) { ?>
+        <div <?php echo (!empty($message['class'])) ? 'class="alert alert-dismissable ' . $message['class'] . '"' : ''; ?>>
+            <?php if (!empty($message['class'])) { ?>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <?php } ?>
+            <?php if (is_array($message['msg'])) { ?>
+                <?php foreach ((array)$message['msg'] as $msg) { ?>
+                    <div><?php echo $this->_($msg); ?></div>
+                <?php } ?>
+            <?php }
+            else { ?>
+                <?php echo $this->_($message['msg']); ?>
+            <?php } ?>
+        </div>
+    <?php } ?>
+<?php } ?>

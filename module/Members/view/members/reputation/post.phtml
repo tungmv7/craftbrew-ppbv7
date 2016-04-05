@@ -1,0 +1,91 @@
+<?php
+/**
+ * @version 7.3
+ */
+?>
+<table class="table table-striped">
+    <caption>
+        <?php echo $this->_('Please post your feedback for the below selected transactions.'); ?>
+    </caption>
+    <thead>
+    <tr>
+
+        <th class="size-mini"><?php echo $this->_('Picture'); ?></th>
+        <th><?php echo $this->_('Listing Details'); ?></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php
+    /** @var \Ppb\Db\Table\Row\Reputation $reputation */
+    foreach ($this->rowset as $reputation) {
+        $listingLink = null;
+        $listingName = null;
+
+        if ($reputation['sale_listing_id'] != null) {
+            /** @var \Ppb\Db\Table\Row\SaleListing $saleListing */
+            $saleListing = $reputation->findParentRow('\Ppb\Db\Table\SalesListings');
+
+            /** @var \Ppb\Db\Table\Row\Listing $listing */
+            $listing = null;
+            if ($saleListing) {
+                $listing = $saleListing->findParentRow('\Ppb\Db\Table\Listings');
+            }
+
+            if ($listing) {
+                $listingLink = $listing->link();
+                $listingName = $listing['name'];
+            }
+        }
+
+        $user = $reputation->findParentRow('\Ppb\Db\Table\Users', 'User');
+
+        $userType = null;
+        switch ($reputation['reputation_type']) {
+            case \Ppb\Service\Reputation::SALE:
+                $userType = 'Seller';
+                break;
+            case \Ppb\Service\Reputation::PURCHASE:
+                $userType = 'Buyer';
+                break;
+        }
+
+        if (empty($listingName)) {
+            $listingName = ($reputation['listing_name']) ? $reputation['listing_name'] : $this->_('Listing Deleted');
+        }
+        ?>
+        <tr>
+            <td>
+                <?php if ($listingLink) { ?>
+                    <a href="<?php echo $this->url($listingLink); ?>">
+                        <?php echo $this->thumbnail($listing->getMainImage(), 68, true,
+                            array('alt' => $listingName)); ?>
+                    </a>
+                <?php
+                }
+                else {
+                    ?>
+                    <?php echo $this->thumbnail(null, 68, true,
+                        array('alt' => $listingName)); ?>
+                <?php } ?>
+            </td>
+            <td>
+                <?php if ($listingLink) { ?>
+                    <a href="<?php echo $this->url($listingLink); ?>">
+                        <?php echo $listingName; ?>
+                    </a>
+                <?php
+                }
+                else {
+                    ?>
+                    <em><?php echo $listingName; ?></em>
+                <?php } ?>
+                <div>
+                    <?php echo $this->_($userType); ?>: <?php echo $this->userDetails()->setUser($user)->display(); ?>
+                </div>
+            </td>
+        </tr>
+    <?php } ?>
+    </tbody>
+</table>
+
+<?php echo $this->form; ?>

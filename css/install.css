@@ -1,0 +1,134 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+body {
+    font-family: "Helvetica Neue", "Open Sans", Arial, sans-serif;
+    font-weight: 400;
+    padding-top: 50px;
+    background-color: #F0F0F0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Helvetica Neue", "Open Sans", Arial, sans-serif;
+    font-weight: 700;
+}
+
+a:hover, a:focus {
+    text-decoration: none;
+}
+
+.navbar-btn {
+    margin-top: 4px;
+}
+
+#wrapper {
+    margin-top: 0;
+    padding: 20px 15px 10px;
+    background-color: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-install {
+    background-color: #333;
+}
+
+.navbar-install .navbar-text {
+    color: #f1f1f1;
+}
+
+.navbar .navbar-brand {
+    font-weight: bold;
+    padding-top: 3px;
+}
+
+.navbar-static-top {
+    margin-bottom: 0;
+}
+
+.navbar .navbar-right {
+    margin-top: 4px;
+}
+
+h1 {
+    margin: 0 0 20px 0;
+    line-height: 23px;
+    border-radius: 3px 3px 3px 3px;
+    padding: 10px 15px 8px 15px;
+    border: 1px solid #D0D0D0;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    font-weight: 400;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+
+    font-size: 18px;
+
+    background: #f8f8f8; /* Old browsers */
+    background: -moz-linear-gradient(top, #f8f8f8 0%, #f8f8f8 50%, #e8e8e8 51%, #e8e8e8 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f8f8f8), color-stop(50%, #f8f8f8), color-stop(51%, #e8e8e8), color-stop(100%, #e8e8e8)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #f8f8f8 0%, #f8f8f8 50%, #e8e8e8 51%, #e8e8e8 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #f8f8f8 0%, #f8f8f8 50%, #e8e8e8 51%, #e8e8e8 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #f8f8f8 0%, #f8f8f8 50%, #e8e8e8 51%, #e8e8e8 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #f8f8f8 0%, #f8f8f8 50%, #e8e8e8 51%, #e8e8e8 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8f8f8', endColorstr='#e8e8e8', GradientType=0); /* IE6-9 */
+}
+
+h1 > i {
+    font-size: 18px;
+    margin: 0 5px 0 5px;
+}
+
+.subtitle {
+    font-size: 16px;
+    padding-left: 50px;
+    margin-bottom: 17px;
+}
+
+.nav-list {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.btn-primary {
+    background-color: #449DD0;
+    border: 1px solid #54779F;
+    color: #FAFAFA;
+}
+
+.btn-primary:hover {
+    background-color: #4083a9;
+}
+
+.btn-primary, .btn-success, .btn-info, .btn-warning, .btn-danger {
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+.dl-horizontal dt {
+    width: 260px;
+}
+
+.dl-horizontal dd {
+    margin-left: 290px;
+}
+
+/* mobile phones */
+@media (max-width: 767px) {
+    body {
+
+        padding-top: 50px;
+        overflow-x: hidden;
+    }
+
+    .navbar-fixed-top {
+        padding-top: 5px;
+    }
+}
+
+/* tablets */
+@media (max-width: 991px) {
+    body {
+        background-color: #fff;
+    }
+
+    #wrapper {
+        padding: 10px 0;
+        box-shadow: none;
+    }
+}

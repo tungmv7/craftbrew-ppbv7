@@ -1,0 +1,21 @@
+<?php
+/**
+ * @version 7.6
+ */
+/** @var \Ppb\Db\Table\Rowset\Listings $listings */
+/** @var string $class */
+if (count($listings) > 0) {
+    ?>
+    <div class="recently-viewed">
+        <h3 class="headline">
+            <span><?php echo $this->_('Recently Viewed'); ?></span>
+        </h3>
+        <?php foreach ($listings as $listing) { ?>
+            <?php
+            echo $this->partial('partials/listing-box.phtml', array(
+                'listing'  => $listing,
+                'class'    => $class,
+                'settings' => $this->settings)); ?>
+        <?php } ?>
+    </div>
+<?php } ?>

@@ -1,0 +1,26 @@
+<p>
+    <?php echo $this->_('A new message has been posted through the contact form.'); ?>
+</p>
+
+<div>
+    <strong><?php echo $this->_('User details:'); ?></strong>
+</div>
+
+<ul>
+    <li>
+        <?php echo $this->_('Name:'); ?>
+        <b><?php echo $this->data['name']; ?></b>
+    </li>
+    <li>
+        <?php echo $this->_('Email:'); ?>
+        <b><?php echo $this->data['email']; ?></b>
+    </li>
+</ul>
+
+<p>
+    <strong><?php echo $this->_('Question / Query:'); ?></strong>
+</p>
+
+<?php echo $this->data['message']; ?>
+
+

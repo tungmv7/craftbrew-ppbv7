@@ -1,0 +1,3 @@
+header,Site Header
+slider,Home Page Slider
+footer,Site Footer

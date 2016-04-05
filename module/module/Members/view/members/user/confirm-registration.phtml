@@ -1,0 +1,21 @@
+<?php if ($this->verified === true) { ?>
+    <p class="lead">
+        <?php echo $this->_('Email address verification successful.'); ?>
+    </p>
+    <?php if ($this->settings['signup_settings'] == 1) { ?>
+        <p>
+            <?php echo $this->_('Thank you for verifying your email address.<br>'
+                . 'You can now login using your username and password.'); ?>
+        </p>
+    <?php
+    }
+    else if ($this->settings['signup_settings'] == 2) {
+        ?>
+        <p>
+            <?php echo $this->_('You can now login using your username and password if the account '
+                . 'has been approved by the administrator.'); ?>
+        </p>
+    <?php } ?>
+<?php } ?>
+
+

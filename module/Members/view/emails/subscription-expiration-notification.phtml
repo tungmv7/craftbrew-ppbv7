@@ -1,0 +1,31 @@
+<h4>
+    <?php echo sprintf(
+        $this->_('%s Expiration Notice'),
+        ucfirst($this->data['subscription']['name'])); ?>
+</h4>
+<p>
+    <?php echo sprintf(
+        $this->_('Your %s on <strong>%s</strong> will expire in %s days.'),
+        $this->data['subscription']['name'], $this->siteName, $this->data['days']); ?>
+</p>
+
+
+<p>
+    <?php echo $this->_('Please'); ?> [ <a
+        href="<?php echo $this->sitePath . $this->url($this->data['subscription']['renewalLink'], null, false, null, false); ?>">
+        <?php echo $this->_('click here'); ?>
+    </a> ]
+    <?php echo $this->_('to renew your subscription.'); ?> <br>
+    <?php echo $this->_('Please note that you will have to login first.'); ?>
+</p>
+
+<?php if ($this->settings['rebill_expired_subscriptions'] && $this->data['user']->userPaymentMode() == 'account') { ?>
+    <p>
+        <?php echo $this->_('The subscription will be renewed automatically when expiring, '
+            . 'and the subscription amount will be debited from your account balance.'); ?>
+    </p>
+<?php } ?>
+<p>
+    <?php echo $this->_('Best regards'); ?> <br>
+    <?php echo $this->siteName; ?></p>
+</p>

@@ -1,0 +1,124 @@
+<?php
+/**
+ * @version 7.6
+ */
+?>
+<?php /** @var \Ppb\Db\Table\Row\Listing $listing */ ?>
+<?php if ($this->userDetails($this->loggedInUser['id'])->getUser()->isVerified() === false) { ?>
+    <?php echo $this->partial('partials/user-verification-message.phtml', null); ?>
+<?php } ?>
+
+<?php
+/** @var \Ppb\Db\Table\Row\User $seller */
+$seller = $listing->findParentRow('\Ppb\Db\Table\Users');
+$this->userDetails($seller);
+$this->listingDetails($listing);
+$productAttributes = $this->request()->getRequest()->getParam('product_attributes');
+?>
+
+<div class="pull-right">
+    <a href="<?php echo $this->url($listing->link()); ?>" class="btn btn-default">
+        <?php echo $this->_('Return to Listing'); ?>
+    </a>
+</div>
+
+<form action="<?php echo $this->form->getAction(); ?>" method="<?php echo $this->form->getMethod(); ?>"
+      class="form-horizontal">
+    <?php echo $this->form->hiddenElements; ?>
+
+    <dl class="dl-horizontal">
+        <dt><?php echo $this->_('Name'); ?></dt>
+        <dd><?php echo $listing['name']; ?></dd>
+
+        <?php $media = $listing->getMedia(array('image', 'video')); ?>
+        <?php if (count($media) > 0) {
+            $mainImage = $listing->getMainImage();
+            ?>
+            <dd>
+                <?php echo $this->thumbnail($mainImage, 76, true,
+                    array('alt' => $listing['name'])); ?>
+            </dd>
+        <?php } ?>
+
+        <?php if ($listing->isBuyOut()) { ?>
+            <dt><?php echo $this->_('Price'); ?></dt>
+            <dd>
+                <span id="product-price">
+                    <?php echo $this->amount($price, $listing['currency']); ?>
+                </span>
+            </dd>
+
+            <?php if ($this->type == 'buy') { ?>
+                <dd>
+                    <div class="col-sm-6 col-xs-12">
+                        <?php echo $this->partial('partials/voucher-code.phtml', array(
+                            'userId'    => $seller['id'],
+                            'listingId' => $listing['id'],
+                        )); ?>
+                    </div>
+                </dd>
+            <?php } ?>
+
+            <dt><?php echo $this->_('Quantity Available'); ?></dt>
+            <dd>
+                <span id="quantity-available">
+                    <?php echo $this->listingDetails()->availableQuantity($productAttributes); ?>
+                </span>
+            </dd>
+        <?php } ?>
+        <?php if ($this->type == 'bid') { ?>
+            <dt><?php echo $this->_('Current Bid'); ?></dt>
+            <dd><?php echo $this->amount($listing->currentBid(true), $listing['currency']); ?></dd>
+
+            <dt><?php echo $this->_('Bids'); ?></dt>
+            <dd><?php echo count($listing->getBids()); ?></dd>
+
+            <dt><?php echo $this->_('Minimum Bid'); ?></dt>
+            <dd><?php echo $this->amount($listing->minimumBid(), $listing['currency']); ?></dd>
+        <?php } ?>
+        <?php if ($this->type == 'offer') { ?>
+            <?php if ($seller->displayMakeOfferRanges()) { ?>
+                <dt><?php echo $this->_('Offer Range'); ?></dt>
+                <dd><?php echo $this->offerRanges($listing); ?></dd>
+            <?php } ?>
+        <?php } ?>
+
+        <?php if (($taxType = $listing->getTaxType()) !== false) { ?>
+            <dt><?php echo $this->_('Tax'); ?></dt>
+            <dd><?php echo $this->taxType($taxType)->display(); ?></dd>
+        <?php } ?>
+
+        <dt><?php echo $this->_('Payment Methods'); ?></dt>
+        <dd><?php
+            $object = $this;
+            echo $this->fieldDisplay(array_map(function ($array) use (&$object) {
+                return $object->_($array['name']);
+            }, $listing->getPaymentMethods()), null, 'N/A'); ?></dd>
+
+        <?php if ($this->type == 'buy' && $this->settings['enable_shipping'] && !$listing->pickUpOnly()) { ?>
+            <?php if ($listing[\Ppb\Model\Shipping::FLD_INSURANCE] > 0) { ?>
+                <dt><?php echo $this->_('Insurance'); ?></dt>
+                <dd><?php echo $this->amount($listing[\Ppb\Model\Shipping::FLD_INSURANCE],
+                        $listing['currency']); ?></dd>
+            <?php } ?>
+
+            <dt class="shipping-costs-padding"><?php echo $this->_('Shipping Costs'); ?></dt>
+            <dd>
+                <?php echo $this->action('calculate-postage', 'listing', 'listings',
+                    array(
+                        'ids'        => $listing['id'],
+                        'quantity'   => $quantity,
+                        'locationId' => $user['country'],
+                        'postCode'   => $user['zip_code']
+                    ));
+                ?>
+            </dd>
+        <?php } ?>
+    </dl>
+
+
+    <?php foreach ($this->form->getElements() as $element) { ?>
+        <?php echo $this->partial('partials/form-element.phtml', array('element' => $element)); ?>
+    <?php } ?>
+</form>
+

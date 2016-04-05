@@ -1,0 +1,29 @@
+<?php
+/**
+ * @version 7.7
+ */
+?>
+
+<h4>
+    <?php echo sprintf(
+        $this->_('%s Expiration Notice'),
+        ucfirst($this->data['subscription']['name'])); ?>
+</h4>
+<p>
+    <?php echo sprintf(
+        $this->_('Your %s on <strong>%s</strong> has expired.'),
+        $this->data['subscription']['name'], $this->siteName); ?>
+</p>
+<p>
+    <?php echo $this->_('Please'); ?> [ <a
+        href="<?php echo $this->sitePath . $this->url($this->data['subscription']['renewalLink'], null, false, null, false); ?>">
+        <?php echo $this->_('click here'); ?>
+    </a> ]
+    <?php echo $this->_('to renew your subscription.'); ?> <br>
+    <?php echo $this->_('Please note that you will have to login first.'); ?>
+</p>
+<p>
+    <?php echo $this->_('Best regards'); ?> <br>
+    <?php echo $this->siteName; ?>
+</p>
+

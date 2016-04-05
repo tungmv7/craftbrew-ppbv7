@@ -1,0 +1,188 @@
+<?php
+/**
+ * @version 7.6
+ */
+/** @var \Listings\Form\Cart $form */
+$sale = $form->getSale();
+$seller = $form->getSeller();
+$salesListings = $form->getSalesListings();
+$shippingDetails = $form->getShippingDetails();
+
+if (count($salesListings)) {
+    ?>
+    <form action="" method="post">
+        <?php echo $form->hiddenElements; ?>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-cart">
+                <thead>
+                <tr>
+                    <th class="size-mini"></th>
+                    <th><?php echo $this->_('Item Description'); ?></th>
+                    <th class="size-mini"><?php echo $this->_('Quantity'); ?></th>
+                    <th class="size-mini"><?php echo $this->_('Price'); ?></th>
+                    <th class="size-mini"><?php echo $this->_('Subtotal'); ?></th>
+                    <th class="size-tiny"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                /** @var \Ppb\Db\Table\Row\SaleListing $saleListing */
+                foreach ($salesListings as $saleListing) {
+                    /** @var \Ppb\Db\Table\Row\Listing $listing */
+                    $listing = $saleListing->findParentRow('\Ppb\Db\Table\Listings');
+
+                    $link = $this->url($listing->link());
+
+                    $quantities[] = $saleListing['quantity'];
+                    $listingIds[] = $listing['id'];
+                    ?>
+                    <tr>
+
+                        <td>
+                            <a href="<?php echo $link; ?>" target="_blank">
+                                <?php echo $this->thumbnail($listing->getMainImage(), 68, true,
+                                    array('alt' => $listing['name'])); ?>
+                            </a>
+                        </td>
+                        <td>
+                            <div>
+                                <a href="<?php echo $link; ?>" target="_blank">
+                                    <?php echo $listing['name']; ?>
+                                </a>
+                            </div>
+                            <?php if (!empty($saleListing['product_attributes'])) { ?>
+                                <div>
+                                    <small><?php echo $this->productAttributes($saleListing->getData('product_attributes'))->display(); ?></small>
+                                </div>
+                            <?php } ?>
+                        </td>
+                        <td>
+                            <?php echo $form->getElement('quantity')
+                                ->setData($saleListing['quantity'])
+                                ->setBrackets('[' . $saleListing['id'] . ']')
+                                ->render(); ?>
+                        </td>
+                        <td>
+                            <?php echo $this->amount($saleListing['price'], $sale['currency']); ?>
+                        </td>
+                        <td>
+                            <?php echo
+                            $this->amount(($saleListing['quantity'] * $saleListing['price']),
+                                $sale['currency']); ?>
+                        </td>
+                        <td>
+                            <a class="confirm-box"
+                               href="<?php echo
+                               $this->url(array('action' => 'delete', 'item_id' => $saleListing['id']),
+                                   null, true); ?>"
+                               title="<?php echo $this->_('Remove Product from Cart'); ?>"
+                               data-message="<?php echo $this->_('Are you sure you want to remove this product from the shopping cart?'); ?>">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </td>
+                    </tr>
+                <?php } ?>
+                <tr>
+                    <td colspan="3">
+                        <a class="btn btn-default" href="<?php echo $this->url($seller->storeLink()); ?>">
+                            <?php echo $this->_('Continue Shopping'); ?>
+                        </a>
+                        <?php if ($this->settings['pending_sales_listings_expire_hours']) { ?>
+                            <small>
+                                <?php echo sprintf($this->_('*Stock is reserved for %s minute(s).'),
+                                    $this->settings['pending_sales_listings_expire_hours']); ?>
+                            </small>
+                        <?php } ?>
+                    </td>
+                    <td colspan="3" class="text-right">
+                        <?php echo $form->getElement(\Listings\Form\Cart::BTN_UPDATE_CART)->render(); ?>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            <div class="col-sm-6">
+                <?php if ($this->settings['enable_shipping']) { ?>
+                    <div class="shopping-cart-totals">
+                        <h4 class="headline">
+                            <span><?php echo $this->_('Calculate Shipping'); ?></span>
+                        </h4>
+                        <?php if ($seller->getShipping()->getShippableLocations()) { ?>
+                            <?php echo $this->partial('partials/shipping-calculator.phtml', array(
+                                'enableSelection' => 1,
+                                'quantity'        => $quantities,
+                                'listingId'       => $listingIds,
+                                'locationId'      => $form->getData('locationId'),
+                                'postCode'        => $form->getData('postCode'),
+                                'user'            => $seller)); ?>
+                        <?php
+                        }
+                        else {
+                            ?>
+                            <div class="alert alert-info"><?php echo $this->_('No shipping available.'); ?></div>
+                        <?php } ?>
+                    </div>
+                <?php } ?>
+            </div>
+            <div class="col-sm-5 col-sm-offset-1 shopping-cart-totals">
+                <h4 class="headline">
+                    <span><?php echo $this->_('Cart Summary'); ?></span>
+                </h4>
+                <dl class="dl-horizontal">
+                    <dt><?php echo $this->_('Subtotal'); ?></dt>
+                    <dd><?php echo $this->amount($sale->calculateTotal(true, false), $sale['currency']); ?></dd>
+
+                    <?php if ($this->settings['enable_shipping']) { ?>
+                        <dt><?php echo $this->_('Postage'); ?></dt>
+                        <?php if (!empty($shippingDetails['method'])) { ?>
+                            <dd>
+                                <?php echo $this->amount($shippingDetails['price'], $shippingDetails['currency']); ?>
+                                <br>
+                                <?php echo $this->_($shippingDetails['method']); ?>
+                            </dd>
+                        <?php
+                        }
+                        else {
+                            ?>
+                            <dd><?php echo $this->_('Get Quote'); ?></dd>
+                        <?php } ?>
+
+                        <?php
+                        $insuranceAmount = $form->getElement('insurance_amount')->getValue();
+                        if ($insuranceAmount > 0) {
+                            ?>
+                            <dt><?php echo $this->_('Insurance'); ?></dt>
+                            <dd class="reset-label">
+                                <?php echo $form->getElement('apply_insurance')->render(); ?>
+                                <?php echo $this->amount($insuranceAmount, $sale['currency']); ?>
+                            </dd>
+                        <?php } ?>
+                    <?php } ?>
+
+                    <?php if (($taxAmount = $sale->getTaxAmount(true)) > 0) { ?>
+                        <dt><?php echo $this->_('Tax'); ?></dt>
+                        <dd><?php echo $this->amount($taxAmount, $sale['currency']); ?></dd>
+                    <?php } ?>
+
+                    <dt><?php echo $this->_('Total'); ?></dt>
+                    <dd class="total"><?php echo $this->amount($sale->calculateTotal(false, false), $sale['currency']); ?></dd>
+                </dl>
+
+                <div class="text-right">
+                    <?php echo $form->getElement(\Listings\Form\Cart::BTN_CHECKOUT)->render(); ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+    </form>
+<?php
+}
+else {
+    ?>
+    <p class="text-center">
+        <?php echo $this->_('The shopping cart is empty.'); ?>
+    </p>
+<?php } ?>

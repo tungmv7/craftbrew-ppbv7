@@ -1,0 +1,140 @@
+<?php
+/**
+ * @version 7.6
+ */
+?>
+<div class="home-page">
+    <?php
+    $adverts = $this->advert()->findBySection('slider', true);
+
+    $nbAdverts = count($adverts);
+    $activeClass = 'active';
+
+    if ($nbAdverts > 0) {
+        ?>
+        <div class="jq-slider">
+            <?php foreach ($adverts as $advert) { ?>
+                <div>
+                    <?php echo $this->advert($advert)->display(); ?>
+                </div>
+            <?php } ?>
+        </div>
+
+    <?php } ?>
+
+    <?php echo $this->renderHtml($this->settings['home_page_html']); ?>
+
+    <?php
+    $tabs = array();
+
+    if ($this->settings['hpfeat_nb']) {
+        $tabs[] = array(
+            'type'     => 'homepage',
+            'show'     => 'featured',
+            'title'    => $this->_('Featured Listings'),
+            'limit'    => $this->settings['hpfeat_nb'],
+            'carousel' => (bool)$this->settings['hpfeat_carousel'],
+            'class'    => $this->settings['hpfeat_box'],
+            'tabbed'   => $this->settings['hpfeat_tabbed'],
+        );
+    }
+
+    if ($this->settings['recent_nb']) {
+        $tabs[] = array(
+            'type'     => 'recent',
+            'title'    => $this->_('Recently Listed'),
+            'limit'    => $this->settings['recent_nb'],
+            'carousel' => (bool)$this->settings['recent_carousel'],
+            'class'    => $this->settings['recent_box'],
+            'tabbed'   => $this->settings['recent_tabbed'],
+        );
+    }
+
+    if ($this->settings['ending_nb']) {
+        $tabs[] = array(
+            'type'     => 'ending',
+            'title'    => $this->_('Ending Soon'),
+            'limit'    => $this->settings['ending_nb'],
+            'carousel' => (bool)$this->settings['ending_carousel'],
+            'class'    => $this->settings['ending_box'],
+            'tabbed'   => $this->settings['ending_tabbed'],
+        );
+    }
+
+    if ($this->settings['popular_nb']) {
+        $tabs[] = array(
+            'type'     => 'popular',
+            'title'    => $this->_('Popular Listings'),
+            'limit'    => $this->settings['popular_nb'],
+            'carousel' => (bool)$this->settings['popular_carousel'],
+            'class'    => $this->settings['popular_box'],
+            'tabbed'   => $this->settings['popular_tabbed'],
+        );
+    }
+
+    if (count($tabs) > 0) {
+        foreach ($tabs as $tab) {
+            if (!$tab['tabbed']) {
+                ?>
+                <h2 class="headline">
+                    <span><?php echo $tab['title']; ?></span>
+                </h2>
+
+                <div class="featured listings">
+                    <?php echo $this->action('listings', 'browse', 'listings',
+                        array(
+                            'type'     => $tab['type'],
+                            'carousel' => $tab['carousel'],
+                            'class'    => $tab['class'],
+                            'limit'    => $tab['limit'])); ?>
+                    <div class="text-right">
+                        <a class="btn btn-sm btn-default"
+                           href="<?php echo $this->url(array('module' => 'listings', 'controller' => 'browse', 'action' => 'index', 'show' => (!empty($tab['show'])) ? $tab['show'] : $tab['type'])); ?>">
+                            <?php echo $this->_('View All'); ?>
+                        </a>
+                    </div>
+                </div>
+                <?php
+            }
+        } ?>
+
+        <?php $activeTab = 'class="active"'; ?>
+        <ul class="nav nav-tabs">
+            <?php foreach ($tabs as $tab) {
+                if ($tab['tabbed']) {
+                    ?>
+                    <li <?php echo $activeTab; ?>>
+                        <a href="#<?php echo $tab['type']; ?>" data-toggle="tab"><?php echo $tab['title']; ?></a>
+                    </li>
+                    <?php $activeTab = null; ?>
+                    <?php
+                }
+            } ?>
+        </ul>
+
+        <?php $activeTab = 'active'; ?>
+        <div class="tab-content">
+            <?php foreach ($tabs as $tab) {
+                if ($tab['tabbed']) {
+                    ?>
+                    <div class="listings tab-pane <?php echo $activeTab; ?>" id="<?php echo $tab['type']; ?>">
+                        <?php echo $this->action('listings', 'browse', 'listings',
+                            array(
+                                'type'     => $tab['type'],
+                                'carousel' => $tab['carousel'],
+                                'class'    => $tab['class'],
+                                'limit'    => $tab['limit'])); ?>
+                        <div class="text-right">
+                            <a class="btn btn-sm btn-default"
+                               href="<?php echo $this->url(array('module' => 'listings', 'controller' => 'browse', 'action' => 'index', 'show' => (!empty($tab['show'])) ? $tab['show'] : $tab['type'])); ?>">
+                                <?php echo $this->_('View All'); ?>
+                            </a>
+                        </div>
+                    </div>
+                    <?php $activeTab = null; ?>
+                    <?php
+                }
+            } ?>
+        </div>
+    <?php } ?>
+</div>

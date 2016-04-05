@@ -1,0 +1,1066 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- @version 7.7 -->
+<config>
+    <navigation>
+        <label>Home</label>
+        <uri>admin</uri>
+        <pages>
+            <settings>
+                <label>Settings</label>
+                <uri>admin/settings/site_setup</uri>
+                <icon>fa fa-cog</icon>
+                <resource>Settings</resource>
+                <pages>
+                    <site_setup>
+                        <label>Site Setup</label>
+                        <uri>admin/settings/site_setup</uri>
+                    </site_setup>
+                    <user_settings>
+                        <label>User Settings</label>
+                        <uri>admin/settings/signup_settings</uri>
+                        <pages>
+                            <user_registration_verification>
+                                <label>Registration &amp; Verification</label>
+                                <uri>admin/settings/registration_verification</uri>
+                            </user_registration_verification>
+                            <user_signup_confirmation>
+                                <label>Signup Confirmation</label>
+                                <uri>admin/settings/signup_settings</uri>
+                            </user_signup_confirmation>
+                            <account_settings>
+                                <label>Account Settings</label>
+                                <uri>admin/settings/account_settings</uri>
+                            </account_settings>
+                            <private_reputation_comments>
+                                <label>Private Reputation Comments</label>
+                                <uri>admin/settings/private_reputation_comments</uri>
+                            </private_reputation_comments>
+                            <user_reputation>
+                                <label>Users Reputation</label>
+                                <uri>admin/settings/users_reputation</uri>
+                            </user_reputation>
+                            <facebook_connect>
+                                <label>Facebook Login [ Mod ]</label>
+                                <uri>admin/settings/facebook_login</uri>
+                            </facebook_connect>
+                        </pages>
+                    </user_settings>
+
+                    <site_settings>
+                        <label>Site Settings</label>
+                        <uri>admin/settings/time_date</uri>
+                        <pages>
+                            <home_page>
+                                <label>
+                                    Home Page Appearance
+                                </label>
+                                <uri>admin/settings/home_page_appearance</uri>
+                            </home_page>
+                            <time_date>
+                                <label>Time and Date</label>
+                                <uri>admin/settings/time_date</uri>
+                            </time_date>
+                            <multilanguage_support>
+                                <label>Multi Language Support</label>
+                                <uri>admin/settings/user_languages</uri>
+                            </multilanguage_support>
+                            <meta_tags>
+                                <label>SEO Settings</label>
+                                <uri>admin/settings/seo_settings</uri>
+                            </meta_tags>
+                            <cron_jobs>
+                                <label>Cron Jobs</label>
+                                <uri>admin/settings/cron_jobs</uri>
+                            </cron_jobs>
+                            <private_site>
+                                <label>Private Site/Single Seller</label>
+                                <uri>admin/settings/private_site</uri>
+                            </private_site>
+                            <ask_poster_question>
+                                <label>Users Messaging</label>
+                                <uri>admin/settings/users_messaging</uri>
+                            </ask_poster_question>
+                            <preferred_sellers>
+                                <label>Preferred Sellers Feature</label>
+                                <uri>admin/settings/preferred_sellers</uri>
+                            </preferred_sellers>
+                            <site_invoices>
+                                <label>Site Invoices Settings</label>
+                                <uri>admin/settings/site_invoices</uri>
+                            </site_invoices>
+                            <address_display_format>
+                                <label>Address Display Format</label>
+                                <uri>admin/settings/address_display_format</uri>
+                            </address_display_format>
+                            <google_analytics>
+                                <label>Google Analytics</label>
+                                <uri>admin/settings/google_analytics</uri>
+                            </google_analytics>
+                            <combine_purchases>
+                                <label>Allow Buyer to Combine Purchases</label>
+                                <uri>admin/settings/combine_purchases</uri>
+                            </combine_purchases>
+                            <social_network_links>
+                                <label>Social Network Links</label>
+                                <uri>admin/settings/social_network_links</uri>
+                            </social_network_links>
+                            <cookie_usage_confirmation>
+                                <label>Cookie Usage Confirmation</label>
+                                <uri>admin/settings/cookie_usage</uri>
+                            </cookie_usage_confirmation>
+                            <google_recaptcha>
+                                <label>Google reCAPTCHA</label>
+                                <uri>admin/settings/google_recaptcha</uri>
+                            </google_recaptcha>
+                            <admin_bcc_emails>
+                                <label>BCC Emails to Admin</label>
+                                <uri>admin/settings/bcc_emails</uri>
+                            </admin_bcc_emails>
+                            <recently_viewed_listings>
+                                <label>Recently Viewed Listings Box</label>
+                                <uri>admin/settings/recently_viewed_listings</uri>
+                            </recently_viewed_listings>
+                            <bulk_lister>
+                                <label>Bulk Lister</label>
+                                <uri>admin/settings/bulk_lister</uri>
+                            </bulk_lister>
+                        </pages>
+                    </site_settings>
+                    <listing_settings>
+                        <label>Listings Settings</label>
+                        <uri>admin/settings/currency_settings</uri>
+                        <pages>
+                            <listings_settings_global>
+                                <label>Global Settings</label>
+                                <uri>admin/settings/currency_settings</uri>
+                                <pages>
+                                    <currency_settings>
+                                        <label>Currency Settings</label>
+                                        <uri>admin/settings/currency_settings</uri>
+                                    </currency_settings>
+                                    <character_length>
+                                        <label>Title Character Length</label>
+                                        <uri>admin/settings/character_length</uri>
+                                    </character_length>
+                                    <listing_subtitle>
+                                        <label>Listing Subtitle</label>
+                                        <uri>admin/settings/listing_subtitle</uri>
+                                    </listing_subtitle>
+                                    <images_settings>
+                                        <label>Listing Images</label>
+                                        <uri>admin/settings/images_settings</uri>
+                                    </images_settings>
+                                    <media_upload>
+                                        <label>Media Uploads</label>
+                                        <uri>admin/settings/media_upload</uri>
+                                    </media_upload>
+                                    <listings_approval>
+                                        <label>Listings Approval</label>
+                                        <uri>admin/settings/listings_approval</uri>
+                                    </listings_approval>
+                                    <auto_relists>
+                                        <label>Auto Relist Settings</label>
+                                        <uri>admin/settings/auto_relists</uri>
+                                    </auto_relists>
+                                    <marked_deleted>
+                                        <label>Marked Deleted Listings Removal</label>
+                                        <uri>admin/settings/marked_deleted</uri>
+                                    </marked_deleted>
+                                    <closed_listings_deletion>
+                                        <label>Closed Listings Deletion</label>
+                                        <uri>admin/settings/closed_listings_deletion</uri>
+                                    </closed_listings_deletion>
+                                    <additional_category_listing>
+                                        <label>Additional Category Listing</label>
+                                        <uri>admin/settings/additional_category_listing</uri>
+                                    </additional_category_listing>
+                                    <listings_counters>
+                                        <label>Listings Counters</label>
+                                        <uri>admin/settings/listings_counters</uri>
+                                    </listings_counters>
+                                    <terms_box>
+                                        <label>Terms and Conditions Box</label>
+                                        <uri>admin/settings/listing_terms_box</uri>
+                                    </terms_box>
+                                    <display_free_fees>
+                                        <label>Display Free Fees on User End</label>
+                                        <uri>admin/settings/display_free_fees</uri>
+                                    </display_free_fees>
+                                    <custom_start_end_times>
+                                        <label>Custom Start &amp; End Times</label>
+                                        <uri>admin/settings/custom_start_end_times</uri>
+                                    </custom_start_end_times>
+                                    <search_settings>
+                                        <label>Search Engine Settings</label>
+                                        <uri>admin/settings/listings_search_settings</uri>
+                                    </search_settings>
+                                </pages>
+                            </listings_settings_global>
+                            <listing_settings_auctions>
+                                <label>Auctions &amp; Products</label>
+                                <uri>admin/settings/auctions_settings</uri>
+                                <pages>
+                                    <auctions_settings>
+                                        <label>Auctions Settings</label>
+                                        <uri>admin/settings/auctions_settings</uri>
+                                    </auctions_settings>
+                                    <products_settings>
+                                        <label>Products Settings</label>
+                                        <uri>admin/settings/products_settings</uri>
+                                    </products_settings>
+                                    <buy_out>
+                                        <label>Buy Out Feature</label>
+                                        <uri>admin/settings/buy_out</uri>
+                                    </buy_out>
+                                    <make_offer>
+                                        <label>Make Offer Feature</label>
+                                        <uri>admin/settings/make_offer</uri>
+                                    </make_offer>
+                                    <!--
+                                    <items_swapping>
+                                        <label>Items Swapping Feature</label>
+                                        <uri>admin/settings/items_swapping</uri>
+                                    </items_swapping>
+                                    -->
+                                    <shipping_settings>
+                                        <label>Shipping Settings</label>
+                                        <uri>admin/settings/shipping_settings</uri>
+                                    </shipping_settings>
+
+                                    <user_phone_numbers>
+                                        <label>User Phone Numbers Display</label>
+                                        <uri>admin/settings/user_phone_numbers</uri>
+                                    </user_phone_numbers>
+                                    <other_items_seller>
+                                        <label>Seller's Other Items Box</label>
+                                        <uri>admin/settings/other_items_seller</uri>
+                                    </other_items_seller>
+                                    <digital_downloads>
+                                        <label>Digital Downloads</label>
+                                        <uri>admin/settings/digital_downloads</uri>
+                                    </digital_downloads>
+                                    <sale_fee_refunds>
+                                        <label>Sale Transaction Fee Refunds</label>
+                                        <uri>admin/settings/sale_fee_refunds</uri>
+                                    </sale_fee_refunds>
+                                </pages>
+                            </listing_settings_auctions>
+                            <!--
+                            <listing_settings_reverse>
+                                <label>Reverse Auctions</label>
+                                <uri>admin/settings/reverse_auctions_settings</uri>
+                                <pages>
+                                    <reverse_auctions_settings>
+                                        <label>Reverse Auctions Settings</label>
+                                        <uri>admin/settings/reverse_auctions_settings</uri>
+                                    </reverse_auctions_settings>
+                                </pages>
+                            </listing_settings_reverse>
+                            <listing_settings_wanted>
+                                <label>Wanted Ads</label>
+                                <uri>admin/settings/wanted_ads_settings</uri>
+                                <pages>
+                                    <wanted_ads_settings>
+                                        <label>Wanted Ads Settings</label>
+                                        <uri>admin/settings/wanted_ads_settings</uri>
+                                    </wanted_ads_settings>
+                                </pages>
+                            </listing_settings_wanted>
+                            <listing_settings_first_bidder>
+                                <label>First Bidder Auctions</label>
+                                <uri>admin/settings/first_bidder_auctions_settings</uri>
+                                <pages>
+                                    <first_bidder_auctions_settings>
+                                        <label>First Bidder Auctions Settings</label>
+                                        <uri></uri>
+                                    </first_bidder_auctions_settings>
+                                </pages>
+                            </listing_settings_first_bidder>
+                            -->
+                        </pages>
+                    </listing_settings>
+                </pages>
+            </settings>
+            <users>
+                <label>Users</label>
+                <module>admin</module>
+                <controller>users</controller>
+                <action>browse</action>
+                <resource>Users</resource>
+                <params>
+                    <view>site</view>
+                </params>
+                <icon>fa fa-user</icon>
+                <pages>
+                    <site_users>
+                        <label>Site Users</label>
+                        <module>admin</module>
+                        <controller>users</controller>
+                        <action>browse</action>
+                        <params>
+                            <view>site</view>
+                        </params>
+                        <hidden_children>true</hidden_children>
+                        <pages>
+                            <users_add>
+                                <label>Create Account</label>
+                                <module>admin</module>
+                                <controller>users</controller>
+                                <action>add</action>
+                                <params>
+                                    <view>site</view>
+                                </params>
+                                <hidden>true</hidden>
+                            </users_add>
+                            <users_edit>
+                                <label>Edit Account</label>
+                                <module>admin</module>
+                                <controller>users</controller>
+                                <action>manage</action>
+                                <params>
+                                    <view>site</view>
+                                </params>
+                                <hidden>true</hidden>
+                            </users_edit>
+                        </pages>
+                    </site_users>
+                    <admin_users>
+                        <label>Admin Users</label>
+                        <module>admin</module>
+                        <controller>users</controller>
+                        <action>browse</action>
+                        <params>
+                            <view>admin</view>
+                        </params>
+                        <hidden_children>true</hidden_children>
+                        <pages>
+                            <users_add>
+                                <label>Create Account</label>
+                                <module>admin</module>
+                                <controller>users</controller>
+                                <action>add</action>
+                                <params>
+                                    <view>admin</view>
+                                </params>
+                                <hidden>true</hidden>
+                            </users_add>
+                            <users_edit>
+                                <label>Edit Account</label>
+                                <module>admin</module>
+                                <controller>users</controller>
+                                <action>manage</action>
+                                <params>
+                                    <view>admin</view>
+                                </params>
+                                <hidden>true</hidden>
+                            </users_edit>
+                        </pages>
+                    </admin_users>
+                    <users_reputation_management>
+                        <label>Users Reputation Management</label>
+                        <module>admin</module>
+                        <controller>users</controller>
+                        <action>reputation</action>
+                    </users_reputation_management>
+                </pages>
+            </users>
+
+            <listings>
+                <label>Listings</label>
+                <module>admin</module>
+                <controller>listings</controller>
+                <action>browse</action>
+                <resource>Listings</resource>
+                <params>
+                    <listing_type>all</listing_type>
+                </params>
+                <icon>fa fa-files-o</icon>
+                <pages>
+                    <all_listings>
+                        <label>All Listings</label>
+                        <module>admin</module>
+                        <controller>listings</controller>
+                        <action>browse</action>
+                        <params>
+                            <listing_type>all</listing_type>
+                        </params>
+                    </all_listings>
+                    <auctions>
+                        <label>Auctions</label>
+                        <module>admin</module>
+                        <controller>listings</controller>
+                        <action>browse</action>
+                        <params>
+                            <listing_type>auction</listing_type>
+                        </params>
+                    </auctions>
+                    <products>
+                        <label>Products</label>
+                        <module>admin</module>
+                        <controller>listings</controller>
+                        <action>browse</action>
+                        <params>
+                            <listing_type>product</listing_type>
+                        </params>
+                    </products>
+                    <sales_management>
+                        <label>Sales Management</label>
+                        <module>admin</module>
+                        <controller>listings</controller>
+                        <action>sales</action>
+                    </sales_management>
+                    <edit_listing>
+                        <label>Edit Listing</label>
+                        <uri>admin/listings/edit</uri>
+                        <hidden>true</hidden>
+                    </edit_listing>
+                </pages>
+            </listings>
+
+            <stores>
+                <label>Stores</label>
+                <uri>admin/stores/settings</uri>
+                <icon>fa fa-shopping-cart</icon>
+                <resource>Stores</resource>
+                <pages>
+                    <stores_settings>
+                        <label>Settings</label>
+                        <module>admin</module>
+                        <controller>stores</controller>
+                        <action>settings</action>
+                    </stores_settings>
+                    <stores_subscriptions>
+                        <label>Subscriptions</label>
+                        <module>admin</module>
+                        <controller>stores</controller>
+                        <action>subscriptions</action>
+                    </stores_subscriptions>
+                    <stores_management>
+                        <label>Manage Stores</label>
+                        <module>admin</module>
+                        <controller>stores</controller>
+                        <action>management</action>
+                    </stores_management>
+                </pages>
+            </stores>
+
+            <tables>
+                <label>Tables</label>
+                <uri>admin/tables/table/relational.Categories</uri>
+                <icon>fa fa-table</icon>
+                <resource>Tables</resource>
+                <pages>
+                    <categories>
+                        <label>Categories</label>
+                        <uri>admin/tables/table/relational.Categories</uri>
+                    </categories>
+                    <locations_table>
+                        <label>Locations</label>
+                        <uri>admin/tables/table/relational.Locations</uri>
+                    </locations_table>
+                    <auction_durations>
+                        <label>Listings Durations</label>
+                        <uri>admin/tables/table/durations</uri>
+                    </auction_durations>
+                    <bid_increments>
+                        <label>Bid Increments</label>
+                        <uri>admin/tables/table/bidIncrements</uri>
+                    </bid_increments>
+                    <currencies>
+                        <label>Currencies</label>
+                        <uri>admin/tables/table/currencies</uri>
+                    </currencies>
+                    <offline_payment>
+                        <label>Offline Payment Methods</label>
+                        <uri>admin/tables/table/offlinePaymentMethods</uri>
+                    </offline_payment>
+                    <content_sections>
+                        <label>Content Sections</label>
+                        <uri>admin/tables/table/relational.ContentSections</uri>
+                    </content_sections>
+                </pages>
+            </tables>
+
+            <custom_fields>
+                <label>Custom Fields</label>
+                <uri>admin/custom-fields/browse/type/item</uri>
+                <icon>fa fa-list</icon>
+                <resource>CustomFields</resource>
+                <pages>
+                    <auctions>
+                        <label>Auctions / Products</label>
+                        <uri>admin/custom-fields/browse/type/item</uri>
+                    </auctions>
+                    <users>
+                        <label>User Registration</label>
+                        <uri>admin/custom-fields/browse/type/user</uri>
+                    </users>
+                    <create_field>
+                        <label>Create Custom Field</label>
+                        <uri>admin/custom-fields/add</uri>
+                        <hidden>true</hidden>
+                    </create_field>
+                    <edit_field>
+                        <label>Edit Custom Field</label>
+                        <uri>admin/custom-fields/edit</uri>
+                        <hidden>true</hidden>
+                    </edit_field>
+                </pages>
+            </custom_fields>
+
+            <site_content>
+                <label>Site Content</label>
+                <uri>admin/site-content/pages</uri>
+                <icon>fa fa-file</icon>
+                <resource>SiteContent</resource>
+                <pages>
+                    <content_pages>
+                        <label>Content Pages</label>
+                        <uri>admin/site-content/pages</uri>
+                        <hidden_children>true</hidden_children>
+                        <pages>
+                            <create_page>
+                                <label>Create Content Page</label>
+                                <uri>admin/site-content/add-page</uri>
+                                <hidden>true</hidden>
+                            </create_page>
+                            <edit_page>
+                                <label>Edit Content Page</label>
+                                <uri>admin/site-content/edit-page</uri>
+                                <hidden>true</hidden>
+                            </edit_page>
+                        </pages>
+                    </content_pages>
+                    <banners_management>
+                        <label>Adverts Management</label>
+                        <uri>admin/site-content/advertising</uri>
+                        <hidden_children>true</hidden_children>
+                        <pages>
+                            <create_advert>
+                                <label>Create Advert</label>
+                                <uri>admin/site-content/create-advert</uri>
+                                <hidden>true</hidden>
+                            </create_advert>
+                            <edit_advert>
+                                <label>Edit Advert</label>
+                                <uri>admin/site-content/edit-advert</uri>
+                                <hidden>true</hidden>
+                            </edit_advert>
+                        </pages>
+                    </banners_management>
+                    <edit_system_emails>
+                        <label>Edit System Emails</label>
+                        <uri>admin/site-content/emails</uri>
+                    </edit_system_emails>
+                    <edit_language_files>
+                        <label>Edit Language Files</label>
+                        <uri>admin/site-content/languages</uri>
+                    </edit_language_files>
+                </pages>
+            </site_content>
+
+            <fees>
+                <label>Fees</label>
+                <uri>admin/fees/gateways</uri>
+                <icon>fa fa-money</icon>
+                <resource>Fees</resource>
+                <pages>
+
+                    <payment_gateways>
+                        <label>Payment Gateways</label>
+                        <module>admin</module>
+                        <controller>fees</controller>
+                        <action>gateways</action>
+                    </payment_gateways>
+
+
+                    <fees_management>
+                        <label>Fees Management</label>
+                        <uri>admin/fees/edit/setup</uri>
+                        <pages>
+                            <general>
+                                <label>General</label>
+                                <uri>admin/fees/default/signup</uri>
+                                <pages>
+                                    <user_signup>
+                                        <label>User Signup</label>
+                                        <uri>admin/fees/default/signup</uri>
+                                    </user_signup>
+                                </pages>
+                            </general>
+                            <auctions_products>
+                                <label>Auctions / Products</label>
+                                <uri>admin/fees/default/setup</uri>
+                                <pages>
+                                    <auction_setup>
+                                        <label>Listing Setup Fee</label>
+                                        <uri>admin/fees/default/setup</uri>
+                                    </auction_setup>
+                                    <auction_sale>
+                                        <label>Sale Fee</label>
+                                        <uri>admin/fees/default/sale</uri>
+                                    </auction_sale>
+                                    <auction_hpfeat>
+                                        <label>Home Page Featuring Fee</label>
+                                        <uri>admin/fees/default/hpfeat</uri>
+                                    </auction_hpfeat>
+                                    <auction_catfeat>
+                                        <label>Category Pages Featuring Fee</label>
+                                        <uri>admin/fees/default/catfeat</uri>
+                                    </auction_catfeat>
+                                    <auction_highlighted>
+                                        <label>Highlighted Listing Fee</label>
+                                        <uri>admin/fees/default/highlighted</uri>
+                                    </auction_highlighted>
+                                    <listing_subtitle>
+                                        <label>Listing Subtitle Fee</label>
+                                        <uri>admin/fees/default/subtitle</uri>
+                                    </listing_subtitle>
+                                    <!--<auction_bold>-->
+                                    <!--<label>Bold Listing Fee</label>-->
+                                    <!--<uri>admin/fees/edit/bold</uri>-->
+                                    <!--</auction_bold>-->
+                                    <auction_images>
+                                        <label>Listing Images Fee</label>
+                                        <uri>admin/fees/default/images</uri>
+                                    </auction_images>
+                                    <auction_media>
+                                        <label>Media Upload Fee</label>
+                                        <uri>admin/fees/default/media</uri>
+                                    </auction_media>
+                                    <auction_downloads>
+                                        <label>Digital Downloads Fee</label>
+                                        <uri>admin/fees/default/digital_downloads_fee</uri>
+                                    </auction_downloads>
+                                    <auction_addlcat>
+                                        <label>Additional Category Listing Fee</label>
+                                        <uri>admin/fees/default/addl_category</uri>
+                                    </auction_addlcat>
+                                    <auction_reserve>
+                                        <label>Reserve Price Fee</label>
+                                        <uri>admin/fees/default/reserve_price</uri>
+                                    </auction_reserve>
+                                    <auction_buyout>
+                                        <label>Buy Out Fee</label>
+                                        <uri>admin/fees/default/buyout</uri>
+                                    </auction_buyout>
+                                    <auction_makeoffer>
+                                        <label>Make Offer Fee</label>
+                                        <uri>admin/fees/default/make_offer_fee</uri>
+                                    </auction_makeoffer>
+
+                                </pages>
+                            </auctions_products>
+
+                        </pages>
+                    </fees_management>
+
+
+                </pages>
+            </fees>
+            <tax>
+                <label>Tax</label>
+                <uri>admin/tax/settings</uri>
+                <icon>fa fa-suitcase</icon>
+                <resource>Tax</resource>
+                <pages>
+                    <tax_settings>
+                        <label>Settings</label>
+                        <module>admin</module>
+                        <controller>tax</controller>
+                        <action>settings</action>
+                    </tax_settings>
+                    <tax_management>
+                        <label>Configuration</label>
+                        <module>admin</module>
+                        <controller>tax</controller>
+                        <action>configuration</action>
+                    </tax_management>
+                </pages>
+            </tax>
+
+            <tools>
+                <label>Tools</label>
+                <uri>admin/tools/accounting</uri>
+                <icon>fa fa-wrench</icon>
+                <resource>Tools</resource>
+                <pages>
+                    <accounting>
+                        <label>Accounting</label>
+                        <module>admin</module>
+                        <controller>tools</controller>
+                        <action>accounting</action>
+                        <hidden_children>true</hidden_children>
+                        <pages>
+                            <messaging_topic>
+                                <label>View Invoice</label>
+                                <module>admin</module>
+                                <controller>tools</controller>
+                                <action>view-invoice</action>
+                                <hidden>true</hidden>
+                            </messaging_topic>
+                        </pages>
+                    </accounting>
+                    <messaging>
+                        <label>Messaging</label>
+                        <module>admin</module>
+                        <controller>tools</controller>
+                        <action>messaging</action>
+                        <hidden_children>true</hidden_children>
+                        <pages>
+                            <messaging_topic>
+                                <label>View Conversation</label>
+                                <module>admin</module>
+                                <controller>tools</controller>
+                                <action>messaging-topic</action>
+                                <hidden>true</hidden>
+                            </messaging_topic>
+                        </pages>
+                    </messaging>
+                    <whos_online>
+                        <label>Who's Online</label>
+                        <module>admin</module>
+                        <controller>tools</controller>
+                        <action>users-statistics</action>
+                    </whos_online>
+                    <newsletters>
+                        <label>Newsletters</label>
+                        <uri>admin/tools/newsletters</uri>
+                        <hidden_children>true</hidden_children>
+                        <pages>
+                            <create_newsletter>
+                                <label>Create Newsletter</label>
+                                <uri>admin/tools/add-newsletter</uri>
+                                <hidden>true</hidden>
+                            </create_newsletter>
+                            <edit_newsletter>
+                                <label>Edit Newsletter</label>
+                                <uri>admin/tools/edit-newsletter</uri>
+                                <hidden>true</hidden>
+                            </edit_newsletter>
+                        </pages>
+                    </newsletters>
+                    <blocked_users>
+                        <label>Blocked Users</label>
+                        <module>admin</module>
+                        <controller>tools</controller>
+                        <action>blocked-users</action>
+                        <hidden_children>true</hidden_children>
+                        <pages>
+                            <add_blocked_user>
+                                <label>Add Blocked User</label>
+                                <uri>admin/tools/add-blocked-user</uri>
+                                <hidden>true</hidden>
+                            </add_blocked_user>
+                            <edit_blocked_user>
+                                <label>Edit Blocked User</label>
+                                <uri>admin/tools/edit-blocked-user</uri>
+                                <hidden>true</hidden>
+                            </edit_blocked_user>
+                        </pages>
+                    </blocked_users>
+                    <vouchers>
+                        <label>Vouchers</label>
+                        <module>admin</module>
+                        <controller>tools</controller>
+                        <action>vouchers</action>
+                        <hidden_children>true</hidden_children>
+                        <pages>
+                            <add_voucher>
+                                <label>Create Voucher</label>
+                                <uri>admin/tools/add-voucher</uri>
+                                <hidden>true</hidden>
+                            </add_voucher>
+                            <edit_voucher>
+                                <label>Edit Voucher</label>
+                                <uri>admin/tools/edit-voucher</uri>
+                                <hidden>true</hidden>
+                            </edit_voucher>
+                        </pages>
+                    </vouchers>
+                    <shipping_carriers>
+                        <label>Shipping Carriers Management</label>
+                        <uri>admin/tools/shipping-carriers</uri>
+                    </shipping_carriers>
+                    <word_filter>
+                        <label>Word Filter</label>
+                        <uri>admin/tools/word-filter</uri>
+                    </word_filter>
+                    <link_redirects>
+                        <label>SEO Link Redirects</label>
+                        <module>admin</module>
+                        <controller>tools</controller>
+                        <action>link-redirects</action>
+                    </link_redirects>
+                </pages>
+            </tools>
+
+            <filter_users>
+                <label>Filter Site Users</label>
+                <filter>true</filter>
+                <params>
+                    <filter/>
+                </params>
+                <pages>
+                    <filter_all>
+                        <label>All</label>
+                        <params>
+                            <filter/>
+                        </params>
+                        <caret>true</caret>
+                        <filter>true</filter>
+                    </filter_all>
+                    <filter_active>
+                        <label>Active</label>
+                        <params>
+                            <filter>active</filter>
+                        </params>
+                        <filter>true</filter>
+                    </filter_active>
+                    <filter_suspended>
+                        <label>Suspended</label>
+                        <params>
+                            <filter>suspended</filter>
+                        </params>
+                        <filter>true</filter>
+                    </filter_suspended>
+                    <filter_awaiting_approval>
+                        <label>Awaiting Approval</label>
+                        <params>
+                            <filter>awaiting_approval</filter>
+                        </params>
+                        <filter>true</filter>
+                    </filter_awaiting_approval>
+                    <filter_email_not_verified>
+                        <label>Email Not Verified</label>
+                        <params>
+                            <filter>email_not_verified</filter>
+                        </params>
+                        <caret>true</caret>
+                        <filter>true</filter>
+                    </filter_email_not_verified>
+                    <filter_accounts_with_debit>
+                        <label>Accounts with Debit</label>
+                        <params>
+                            <filter>with_debit</filter>
+                        </params>
+                        <filter>true</filter>
+                    </filter_accounts_with_debit>
+                    <filter_debit_balance_exceeded>
+                        <label>Debit Balance Exceeded</label>
+                        <params>
+                            <filter>debit_balance_exceeded</filter>
+                        </params>
+                        <filter>true</filter>
+                        <caret>true</caret>
+                    </filter_debit_balance_exceeded>
+                    <filter_verified_users>
+                        <label>Verified Users</label>
+                        <params>
+                            <filter>verified_users</filter>
+                        </params>
+                        <filter>true</filter>
+                    </filter_verified_users>
+                    <filter_can_sell>
+                        <label>Seller Accounts</label>
+                        <params>
+                            <filter>private_site</filter>
+                        </params>
+                        <filter>true</filter>
+                        <settings>
+                            <name>private_site</name>
+                            <value>1</value>
+                        </settings>
+                    </filter_can_sell>
+                    <filter_preferred_sellers>
+                        <label>Preferred Sellers</label>
+                        <params>
+                            <filter>preferred</filter>
+                        </params>
+
+                        <filter>true</filter>
+                        <settings>
+                            <name>preferred_sellers</name>
+                            <value>1</value>
+                        </settings>
+                    </filter_preferred_sellers>
+                    <filter_store_owners>
+                        <label>Store Owners</label>
+                        <params>
+                            <filter>stores</filter>
+                        </params>
+                        <filter>true</filter>
+                        <settings>
+                            <name>enable_stores</name>
+                            <value>1</value>
+                        </settings>
+                    </filter_store_owners>
+                </pages>
+            </filter_users>
+
+            <filter_auctions_products>
+                <label>Filter Auctions Products</label>
+                <filter>true</filter>
+                <params>
+                    <filter/>
+                </params>
+                <pages>
+                    <filter_all>
+                        <label>All</label>
+                        <filter>true</filter>
+                        <caret>true</caret>
+                        <params>
+                            <filter/>
+                        </params>
+                    </filter_all>
+                    <filter_open>
+                        <label>Open</label>
+                        <filter>true</filter>
+                        <params>
+                            <filter>open</filter>
+                        </params>
+                    </filter_open>
+                    <filter_scheduled>
+                        <label>Scheduled</label>
+                        <filter>true</filter>
+                        <params>
+                            <filter>scheduled</filter>
+                        </params>
+
+                    </filter_scheduled>
+                    <filter_closed>
+                        <label>Closed</label>
+                        <filter>true</filter>
+                        <caret>true</caret>
+                        <params>
+                            <filter>closed</filter>
+                        </params>
+                    </filter_closed>
+
+                    <filter_drafts>
+                        <label>Drafts</label>
+                        <filter>true</filter>
+                        <caret>true</caret>
+                        <params>
+                            <filter>drafts</filter>
+                        </params>
+                    </filter_drafts>
+                    <filter_awaiting_approval>
+                        <label>Awaiting Approval</label>
+                        <filter>true</filter>
+                        <params>
+                            <filter>awaiting_approval</filter>
+                        </params>
+
+                    </filter_awaiting_approval>
+                    <filter_suspended>
+                        <label>Suspended</label>
+                        <filter>true</filter>
+                        <params>
+                            <filter>suspended</filter>
+                        </params>
+
+                    </filter_suspended>
+                    <filter_deleted>
+                        <label>Marked Deleted</label>
+                        <filter>true</filter>
+                        <caret>true</caret>
+                        <params>
+                            <filter>deleted</filter>
+                        </params>
+
+                    </filter_deleted>
+                    <filter_sold>
+                        <label>Sold Items</label>
+                        <filter>true</filter>
+                        <params>
+                            <filter>sold</filter>
+                        </params>
+                    </filter_sold>
+                </pages>
+            </filter_auctions_products>
+
+            <!-- same as on app navigation -->
+            <account_history_filter>
+                <label>Account History Filter</label>
+                <filter>true</filter>
+                <params>
+                    <filter/>
+                </params>
+                <pages>
+                    <filter_all>
+                        <label>All</label>
+                        <params>
+                            <filter/>
+                        </params>
+                        <filter>true</filter>
+                        <caret>true</caret>
+                    </filter_all>
+                    <filter_receipt>
+                        <label>Receipt</label>
+                        <params>
+                            <filter>receipt</filter>
+                        </params>
+                        <filter>true</filter>
+                    </filter_receipt>
+                    <filter_debit>
+                        <label>Debit</label>
+                        <params>
+                            <filter>debit</filter>
+                        </params>
+                        <filter>true</filter>
+                    </filter_debit>
+                    <filter_credit>
+                        <label>Credit</label>
+                        <params>
+                            <filter>credit</filter>
+                        </params>
+                        <filter>true</filter>
+                    </filter_credit>
+                    <filter_refund_requests>
+                        <label>Pending Refund Requests</label>
+                        <params>
+                            <filter>refund_requests</filter>
+                        </params>
+                        <filter>true</filter>
+                        <settings>
+                            <name>enable_sale_fee_refunds</name>
+                            <value>1</value>
+                        </settings>
+                    </filter_refund_requests>
+                </pages>
+            </account_history_filter>
+            <messaging_filter>
+                <label>Messaging Filter</label>
+                <filter>true</filter>
+                <params>
+                    <filter/>
+                </params>
+
+                <pages>
+                    <inbox>
+                        <label>Inbox</label>
+                        <params>
+                            <filter/>
+                        </params>
+                        <filter>true</filter>
+                    </inbox>
+                    <sent>
+                        <label>Sent</label>
+                        <params>
+                            <filter>sent</filter>
+                        </params>
+                        <filter>true</filter>
+                    </sent>
+                    <users_messages>
+                        <label>Users Messages</label>
+                        <params>
+                            <filter>all</filter>
+                        </params>
+                        <filter>true</filter>
+                    </users_messages>
+                </pages>
+            </messaging_filter>
+        </pages>
+    </navigation>
+</config>

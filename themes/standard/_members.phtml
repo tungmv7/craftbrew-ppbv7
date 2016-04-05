@@ -1,0 +1,57 @@
+<?php
+/**
+ * @version 7.4
+ */
+?>
+<!-- MEMBERS AREA SUB LAYOUT -->
+<!-- members area top navigation -->
+<div class="sub-container">
+    <?php $container = $this->navigation()->getInitialContainer()->findOneBy('label', $this->_('Members Area')); ?>
+
+    <!-- display members main navigation menu -->
+    <?php echo $this->navigation()
+            ->setContainer($container)
+            ->setPartial('navigation/navigation.phtml')
+            ->menu(); ?>
+
+    <!-- display breadcrumbs -->
+    <?php echo $this->navigation()->setPartial('navigation/breadcrumbs.phtml')->setMinDepth(0)->breadcrumbs(); ?>
+
+    <?php if ($this->userDetails($this->loggedInUser['id'])->getUser()->isVerified() === false) { ?>
+    <?php echo $this->partial('partials/user-verification-message.phtml', null); ?>
+    <?php } ?>
+
+    <div class="row row-offcanvas row-offcanvas-left">
+        <div class="col-md-3 sidebar-offcanvas">
+            <!-- members area side navigation -->
+            <?php
+            if ($this->controller) {
+                $controller = $this->controller;
+            }
+            else {
+                $controller = $this->request()->getRequest()->getController();
+            }
+
+            $container = $this->navigation()->getInitialContainer()->findOneBy('label', $this->_($controller));
+
+
+            echo $this->navigation()
+                    ->setContainer($container)
+                    ->setPartial('navigation/left-side.phtml')
+                    ->menu();
+            ?>
+
+        </div>
+        <div class="col-md-9">
+            <p class="hidden-md hidden-lg">
+                <button class="btn btn-default" data-toggle="offcanvas" type="button">
+                    <i class="fa fa-2x fa-list"></i>
+                </button>
+            </p>
+            <!-- members area content -->
+            <?php echo $this->render('_heading.phtml'); ?>
+            <?php echo $this->getContent(); ?>
+        </div>
+    </div>
+</div>
+

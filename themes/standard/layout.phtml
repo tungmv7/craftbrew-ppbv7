@@ -1,0 +1,274 @@
+<?php
+/**
+ * @version 7.7
+ */
+?>
+<!DOCTYPE html>
+
+<html dir="<?php echo $htmlDir = $this->htmlDir(); ?>" lang="<?php echo $this->htmlLang(); ?>">
+<head>
+    <?php echo $this->headTitle(); ?>
+
+    <?php
+    $this->headMeta()
+        ->appendName('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
+        ->appendHttpEquiv('X-UA-Compatible', 'IE=edge');
+    echo $this->headMeta();
+
+    /** add rtl bootstrap css if the case */
+    if ($htmlDir == \Cube\View\Helper\HtmlDir::RTL) {
+        $this->script()
+            ->addHeaderCode('<link href="' . $this->baseUrl . '/css/bootstrap-rtl.min.css" rel="stylesheet" type="text/css">')
+            ->addHeaderCode('<link href="' . $this->baseUrl . '/css/style.rtl.css" media="all" rel="stylesheet" type="text/css">');
+    }
+    ?>
+
+    <?php echo $this->script()->displayHeaderCode(); ?>
+    <link href="<?php echo $this->baseUrl; ?>/<?php echo $this->themesFolder; ?>/standard/css/style.css" media="all"
+          rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<!--container fluid -->
+<div class="container">
+    <!-- branding header -->
+    <div class="branding-header">
+        <!-- logo left -->
+        <div class="logo">
+            <a href="<?php echo $this->url(null, 'app-home'); ?>" title="<?php echo $this->settings['sitename']; ?>">
+                <img src="<?php echo $this->thumbnail()->generateImagePath($this->settings['site_logo_path']); ?>"
+                     alt="<?php echo $this->settings['sitename']; ?>">
+            </a>
+        </div>
+        <!-- end logo left -->
+
+        <!-- header content -->
+        <div class="header-content">
+            <!-- horizontal menu -->
+            <?php
+            $container = $this->navigation()->getInitialContainer()->findOneBy('id', 'header');
+
+            echo $this->navigation()
+                ->setContainer($container)
+                ->setPartial('_main-navigation.phtml')
+                ->menu();
+            ?>
+            <!-- end horizontal menu -->
+        </div>
+        <!-- end header content -->
+    </div>
+    <!-- end branding header -->
+    <div class="clear"></div>
+    <!-- header advert -->
+    <?php
+    /** @var \Cube\Controller\Request $request */
+    $request = $this->request()->getRequest();
+    $parentId = $request->getParam('parent_id');
+
+    $advert = $this->advert()->findBySection('header', false, array($parentId));
+
+    if ($advert !== null) {
+        ?>
+        <p class="text-center">
+            <?php echo $this->advert($advert)->display(); ?>
+        </p>
+    <?php } ?>
+
+    <?php
+    $categories = $this->categories()->getData();
+
+    if (!count($categories)) {
+        $categoriesService = $this->categories()->getCategories();
+        $categories = $this->categories(
+            $categoriesService->getTable()
+                ->select()
+                ->where('parent_id IS NULL')
+                ->where('enable_auctions = ?', 1)
+                ->where('user_id IS NULL')
+                ->order(array('order_id ASC', 'name ASC'))
+        );
+    }
+
+    $categoryId = $request->getParam('category_id');
+    ?>
+    <!-- search bar -->
+    <div class="search-bar">
+
+        <!-- browse menu -->
+        <div class="browse-menu col-sm-2 hidden-xs">
+            <a id="browse-btn" href="#"><?php echo $this->_('Browse'); ?><span> &#x25BC; </span></a>
+
+        </div>
+
+        <ul id="browse-content">
+            <?php
+            /** @var \Ppb\Db\Table\Row\Category $category */
+            foreach ($categories as $category) {
+                $counter = $category->getCounter();
+
+                if ($counter > 0 || !$this->settings['hide_empty_categories']) {
+                    ?>
+                    <li>
+                        <a href="<?php echo $this->url($category->link()); ?>">
+                            <?php echo $this->_($category['name']); ?>
+                        </a>
+
+                        <?php
+                        if ($this->settings['category_counters']) {
+                            echo '<small>(' . $counter . ')</small>';
+                        }
+                        ?>
+
+                    </li>
+                <?php } ?>
+            <?php } ?>
+        </ul>
+        <!-- end browse menu -->
+
+        <!-- search and categories -->
+        <div class="col-sm-8 col-xs-12">
+            <form class="form-inline form-header" action="<?php echo $this->url(null, 'listings-search'); ?>"
+                  method="get">
+                <div class="form-group hidden-xs hidden-sm">
+                    <select name="parent_id" id="category_id">
+                        <option value="0"><?php echo $this->_('Choose Category'); ?></option>
+                        <?php foreach ($categories as $category) { ?>
+                            <option
+                                value="<?php echo $category['id']; ?>" <?php echo ($category['id'] == $request->getParam('parent_id')) ? 'selected' : ''; ?>><?php echo $this->_($category['name']); ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input id="basic-search" type="text" name="keywords" class="form-control input-search"
+                           value="<?php echo $this->request()->getRequest()->getParam('keywords'); ?>"
+                           placeholder="<?php echo $this->_('Search ...'); ?>" required>
+                </div>
+                <button type="submit" class="btn btn-primary hidden-xs"><?php echo $this->_('Search'); ?></button>
+            </form>
+        </div>
+        <!-- end search and categories -->
+
+        <!-- advanced search -->
+
+        <div class="col-md-1 hidden-xs hidden-sm advanced-search-box">
+            <a href="<?php echo $this->url(array('module' => 'listings', 'controller' => 'search', 'action' => 'advanced')); ?>"><?php echo $this->_('Advanced'); ?></a>
+        </div>
+        <div class="col-md-1 col-sm-2">
+            <?php if ($this->settings['user_languages']) { ?>
+                <?php echo $this->language(); ?>
+            <?php } ?>
+        </div>
+
+        <!-- end advanced search -->
+    </div>
+    <!-- end search bar -->
+
+    <div class="clearfix"></div>
+
+    <!-- layout content -->
+    <?php if ($this->isMembersModule === true) { ?>
+        <?php echo $this->render('_members.phtml'); ?>
+    <?php
+    }
+    else {
+        ?>
+        <?php echo $this->render('_heading.phtml'); ?>
+        <?php echo $this->getContent(); ?>
+    <?php } ?>
+
+    <div class="clearfix"></div>
+    <footer>
+        <?php
+        if ($this->settings['enable_recently_viewed_listings']) {
+            echo $this->action('recently-viewed', 'browse', 'listings');
+        }
+        ?>
+
+        <!-- footer adverts -->
+        <?php
+        $advert = $this->advert()->findBySection('footer', false, array($parentId));
+
+        if ($advert !== null) {
+            ?>
+            <p class="text-center">
+                <?php echo $this->advert($advert)->display(); ?>
+            </p>
+        <?php } ?>
+
+        <div class="col-sm-5 col-xs-12">
+            <div>
+                Copyright &copy;<?php echo date('Y'); ?>. All Rights Reserved Craftbrews.com.au
+            </div>
+            <?php if ($this->settings['enable_social_network_links']) { ?>
+                <div class="social">
+                    <?php echo $this->social()->setNetworks([
+                        'Facebook'   => array(
+                            'img'  => '/social/facebook.png',
+                            'link' => 'https://www.facebook.com/CraftbrewsAustralia',
+                        ),
+                        'Twitter'    => array(
+                            'img'  => '/social/twitter.png',
+                            'link' => 'https://twitter.com/team_CraftbrewsGo',
+                        ),
+                        'RSS'        => array(
+                            'img'    => '/social/rss.png',
+                            'link'   => '[RSS_URL]',
+                            'target' => '_self',
+                        )
+                    ])->clearListing()->display(); ?>
+                </div>
+            <?php } ?>
+        </div>
+
+        <div class="col-sm-7 col-xs-12">
+            <?php
+            $contentSectionsService = $this->contentSections()->getContentSections();
+            $contentSections = $this->contentSections(
+                $contentSectionsService->getTable()
+                    ->select()
+                    ->where('parent_id IS NULL')
+                    ->order('order_id ASC')
+            );
+            ?>
+            <!-- these links are only temporary - will alter all of this while in beta -->
+
+            <ul class="links">
+                <?php
+                /** @var \Ppb\Db\Table\Row\ContentSection $section */
+                foreach ($contentSections as $section) {
+                    ?>
+                    <li>
+                        &nbsp;
+                        <a href="<?php echo $this->url($section->link()); ?>">
+                            <?php echo $this->_($section['name']); ?>
+                        </a>
+                    </li>
+                <?php } ?>
+            </ul>
+
+
+        </div>
+        <div class="clearfix"></div>
+    </footer>
+</div>
+<!-- end container fluid -->
+
+<!-- cookie usage confirmation helper -->
+<?php echo $this->cookieUsage(); ?>
+
+<?php //var_dump(\Cube\Debug::getSqlQueries()); ?>
+
+<div class="loading-modal"></div>
+
+<!-- Scroll to Top -->
+<a class="scroll-top" style="display: none; ">&#8679;</a>
+
+<!-- client side scripts [loaded in bootstrap] -->
+<?php echo $this->script()->displayBodyCode(); ?>
+
+<!-- any theme specific js code and includes should be added below -->
+<script src="<?php echo $this->baseUrl; ?>/<?php echo $this->themesFolder; ?>/standard/js/all.js"
+        type="text/javascript"></script>
+
+</body>
+</html>

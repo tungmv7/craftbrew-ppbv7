@@ -1,0 +1,313 @@
+<?php
+/**
+ * @version 7.7
+ */
+?>
+<!DOCTYPE html>
+
+<html lang="<?php echo $this->htmlLang(); ?>" dir="<?php echo $htmlDir = $this->htmlDir(); ?>">
+<head>
+    <?php echo $this->headTitle(); ?>
+
+    <?php
+    $this->headMeta()
+        ->appendName('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
+        ->appendHttpEquiv('X-UA-Compatible', 'IE=edge');
+    echo $this->headMeta();
+
+    /** add rtl bootstrap css if the case */
+    if ($htmlDir == \Cube\View\Helper\HtmlDir::RTL) {
+        $this->script()
+            ->addHeaderCode('<link href="' . $this->baseUrl . '/css/bootstrap-rtl.min.css" rel="stylesheet" type="text/css">')
+            ->addHeaderCode('<link href="' . $this->baseUrl . '/css/style.rtl.css" media="all" rel="stylesheet" type="text/css">');
+    }
+    ?>
+
+    <?php echo $this->script()->displayHeaderCode(); ?>
+    <link href="<?php echo $this->baseUrl; ?>/<?php echo $this->themesFolder; ?>/green/css/style.css" media="screen"
+          rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<header>
+    <!-- branding header -->
+    <div class="branding-header">
+        <div class="container">
+            <!-- logo left -->
+            <div class="logo">
+                <a href="<?php echo $this->url(null, 'app-home'); ?>"
+                   title="<?php echo $this->settings['sitename']; ?>">
+                    <img src="<?php echo $this->thumbnail()->generateImagePath($this->settings['site_logo_path']); ?>"
+                         alt="<?php echo $this->settings['sitename']; ?>">
+                </a>
+            </div>
+
+            <div class="header-bar">
+                <div class="login-buttons hidden-xs pull-right">
+                    <span class="welcome-msg">
+                        <?php echo $this->_('Welcome'); ?>,
+                        <b><?php echo (isset($this->loggedInUser['username'])) ? $this->loggedInUser['username'] : $this->_('Guest'); ?></b>
+                    </span>
+                    <?php if (count($this->loggedInUser) > 0) { ?>
+                        <a href="<?php echo $this->url(null,
+                            'members-index'); ?>"><?php echo $this->_('Members Area'); ?></a>
+                        <a href="<?php echo $this->url(null,
+                            'members-logout'); ?>"><?php echo $this->_('Logout'); ?></a>
+                    <?php
+                    }
+                    else {
+                        ?>
+                        <a <?php echo ($this->settings['registration_type'] == 'quick' && !$this->settings['enable_recaptcha']) ? 'class="dialog-box"' : ''; ?>
+                           href="<?php echo $this->url(array('module' => 'members', 'controller' => 'user', 'action' => ($this->settings['registration_type'] == 'quick' && !$this->settings['enable_recaptcha']) ? 'register-modal' : 'register')); ?>"
+                           title="<?php echo $this->_('Sign up'); ?>"><?php echo $this->_('Sign up'); ?></a>
+                        <a class="dialog-box"
+                           href="<?php echo $this->url(array('module' => 'members', 'controller' => 'user', 'action' => 'login-modal')); ?>"
+                           title="<?php echo $this->_('Sign in'); ?>"><?php echo $this->_('Sign in'); ?></a>
+                    <?php } ?>
+                    <a href="<?php echo $this->url(array('module' => 'members', 'controller' => 'tools', 'action' => 'watched-items')); ?>"
+                       title="<?php echo $this->_('Wishlist'); ?>"><?php echo $this->_('Wishlist'); ?></a>
+                    <?php if ($this->settings['user_languages']) { ?>
+                        <div class="pull-right">
+                            <?php echo $this->language(); ?>
+                        </div>
+                    <?php } ?>
+                </div>
+
+                <div class="header-search-form">
+                    <?php
+                    $categories = $this->categories()->getData();
+
+                    if (!count($categories)) {
+                        $categoriesService = $this->categories()->getCategories();
+                        $categories = $this->categories(
+                            $categoriesService->getTable()
+                                ->select()
+                                ->where('parent_id IS NULL')
+                                ->where('enable_auctions = ?', 1)
+                                ->where('user_id IS NULL')
+                                ->order(array('order_id ASC', 'name ASC'))
+                        );
+                    }
+
+                    /** @var \Cube\Controller\Request $request */
+                    $request = $this->request()->getRequest();
+                    $categoryId = $request->getParam('category_id');
+                    ?>
+
+                    <form class="form-inline form-header" action="<?php echo $this->url(null, 'listings-search'); ?>"
+                          method="get">
+                        <div class="form-group hidden-xs hidden-sm">
+                            <select name="parent_id" class="category-select">
+                                <option value="0"><?php echo $this->_('Choose Category'); ?></option>
+                                <?php foreach ($categories as $category) { ?>
+                                    <option
+                                        value="<?php echo $category['id']; ?>" <?php echo ($category['id'] == $request->getParam('parent_id')) ? 'selected' : ''; ?>><?php echo $this->_($category['name']); ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input id="basic-search" type="text" name="keywords" class="form-control input-search"
+                                   value="<?php echo $this->request()->getRequest()->getParam('keywords'); ?>"
+                                   placeholder="<?php echo $this->_('Search ...'); ?>" required>
+                        </div>
+                        <button type="submit"
+                                class="btn btn-primary hidden-xs"><?php echo $this->_('Search'); ?></button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- end logo left -->
+
+        </div>
+
+        <?php if ($this->settings['user_languages']) { ?>
+            <div class="pull-right visible-xs">
+                <?php echo $this->language(); ?>
+            </div>
+        <?php } ?>
+    </div>
+    <!-- end branding header -->
+
+    <!-- header advert -->
+    <?php
+    $parentId = $request->getParam('parent_id');
+    $advert = $this->advert()->findBySection('header', false, array($parentId));
+
+
+    if ($advert !== null) {
+        ?>
+        <p class="text-center">
+            <?php echo $this->advert($advert)->display(); ?>
+        </p>
+    <?php } ?>
+
+    <?php
+    $categories = $this->categories()->getData();
+
+    if (!count($categories)) {
+        $categoriesService = $this->categories()->getCategories();
+        $categories = $this->categories(
+            $categoriesService->getTable()
+                ->select()
+                ->where('parent_id IS NULL')
+                ->where('enable_auctions = ?', 1)
+                ->where('user_id IS NULL')
+        );
+    }
+
+    $request = $this->request()->getRequest();
+    $categoryId = $request->getParam('category_id');
+    ?>
+    <!-- search bar -->
+    <div class="search-bar">
+        <div class="container">
+            <!-- browse menu -->
+            <div class="browse-menu col-md-3 hidden-xs hidden-sm">
+                <a id="browse-btn" href="#"><?php echo $this->_('Categories'); ?><span> &#x25BC; </span></a>
+            </div>
+            <ul id="browse-content">
+                <?php
+                /** @var \Ppb\Db\Table\Row\Category $category */
+                foreach ($categories as $category) {
+                    $counter = $category->getCounter();
+
+                    if ($counter > 0 || !$this->settings['hide_empty_categories']) {
+                        ?>
+                        <li>
+                            <a href="<?php echo $this->url($category->link()); ?>">
+                                <?php echo $this->_($category['name']); ?>
+                            </a>
+
+                            <?php
+                            if ($this->settings['category_counters']) {
+                                echo '<small>(' . $counter . ')</small>';
+                            }
+                            ?>
+
+                        </li>
+                    <?php } ?>
+                <?php } ?>
+            </ul>
+            <!-- end browse menu -->
+
+            <!-- main navigation -->
+            <div class="col-md-9 col-sm-12">
+                <?php
+                $container = $this->navigation()->getInitialContainer()->findOneBy('id', 'header');
+
+                echo $this->navigation()
+                    ->setContainer($container)
+                    ->setPartial('_main-navigation.phtml')
+                    ->menu();
+                ?>
+
+            </div>
+            <!-- end main navigation -->
+
+        </div>
+        <!-- end advanced search -->
+    </div>
+    <!-- end search bar -->
+</header>
+
+
+<!--container fluid -->
+<div id="wrapper">
+
+    <div class="container">
+        <!-- layout content -->
+        <?php if ($this->isMembersModule === true) { ?>
+            <?php echo $this->render('_members.phtml'); ?>
+        <?php
+        }
+        else {
+            ?>
+            <?php echo $this->render('_heading.phtml'); ?>
+            <?php echo $this->getContent(); ?>
+        <?php } ?>
+
+        <div class="clearfix"></div>
+    </div>
+    <!-- end container fluid -->
+</div>
+
+<footer>
+    <div class="container">
+        <?php
+        if ($this->settings['enable_recently_viewed_listings']) {
+            echo $this->action('recently-viewed', 'browse', 'listings');
+        }
+        ?>
+
+        <!-- footer adverts -->
+        <?php
+        $advert = $this->advert()->findBySection('footer', false, array($parentId));
+
+        if ($advert !== null) {
+            ?>
+            <p class="text-center">
+                <?php echo $this->advert($advert)->display(); ?>
+            </p>
+        <?php } ?>
+
+        <div class="col-sm-5 col-xs-12">
+            <div>
+                Powered by <a href="http://www.phpprobid.com/" target="_blank">PHP Pro Bid</a>. &copy;<?php echo date('Y'); ?> Online Ventures Software
+            </div>
+            <?php if ($this->settings['enable_social_network_links']) { ?>
+                <div class="social">
+                    <?php echo $this->social()->clearListing()->display(); ?>
+                </div>
+            <?php } ?>
+        </div>
+
+        <div class="col-sm-7 col-xs-12">
+            <?php
+            $contentSectionsService = $this->contentSections()->getContentSections();
+            $contentSections = $this->contentSections(
+                $contentSectionsService->getTable()
+                    ->select()
+                    ->where('parent_id IS NULL')
+                    ->order('order_id ASC')
+            );
+            ?>
+            <!-- these links are only temporary - will alter all of this while in beta -->
+
+            <ul class="links">
+                <?php
+                /** @var \Ppb\Db\Table\Row\ContentSection $section */
+                foreach ($contentSections as $section) {
+                    ?>
+                    <li>
+                        &nbsp;
+                        <a href="<?php echo $this->url($section->link()); ?>">
+                            <?php echo $this->_($section['name']); ?>
+                        </a>
+                    </li>
+                <?php } ?>
+
+            </ul>
+
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</footer>
+
+<div class="loading-modal"></div>
+
+<?php //var_dump(\Cube\Debug::getSqlQueries()); ?>
+
+<!-- cookie usage confirmation helper -->
+<?php echo $this->cookieUsage(); ?>
+
+<!-- Scroll to Top -->
+<a class="scroll-top" style="display: none; ">&#8679;</a>
+
+<!-- client side scripts [loaded in bootstrap] -->
+<?php echo $this->script()->displayBodyCode(); ?>
+
+<!-- any theme specific js code and includes should be added below -->
+<script src="<?php echo $this->baseUrl; ?>/<?php echo $this->themesFolder; ?>/standard/js/all.js"
+        type="text/javascript"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<?php
+/**
+ * @version 7.6
+ */
+/** @var \Ppb\Db\Table\Row\User $user */
+?>
+
+<blockquote class="bq bq-info">
+    <?php echo $this->userDetails()->setUser($user)->status(); ?>
+</blockquote>
+
+<?php if ($user->userPaymentMode() == 'account') { ?>
+    <nav class="navbar navbar-filter navbar-border-top">
+        <?php if ($user['balance'] > $this->settings['min_invoice_value'] && $user['balance'] > 0) { ?>
+            <div class="navbar-left">
+                <a class="btn btn-default"
+                   href="<?php echo $this->url(array('module' => 'app', 'controller' => 'payment', 'action' => 'credit-balance')); ?>">
+                    <?php echo $this->_('Clear Account Balance'); ?>
+                </a>
+            </div>
+        <?php } ?>
+
+        <?php if ($user['balance'] <= 0) { ?>
+            <form class="navbar-form navbar-right"
+                  action="<?php echo $this->url(array('module' => 'app', 'controller' => 'payment', 'action' => 'credit-balance')); ?>"
+                  method="get">
+
+                <div class="form-group">
+                    <?php echo
+                    $this->formElement('text', 'amount')
+                        ->setAttributes(array(
+                            'placeholder' => sprintf($this->_('Amount [%s]'), $this->settings['currency']),
+                            'class'       => 'form-control input-small'
+                        ))
+                        ->render();
+                    ?>
+                </div>
+                <?php echo
+                $this->formElement('submit', 'submit', $this->_('Credit Account'))
+                    ->setAttributes(array('class' => 'btn btn-default'))
+                    ->render();
+                ?>
+            </form>
+        <?php } ?>
+
+    </nav>
+<?php } ?>
+
+<?php if ($this->settings['enable_messaging']) { ?>
+
+    <h4 class="headline">
+        <span><?php echo $this->_('Messages Received'); ?></span>
+    </h4>
+    <?php echo($this->action('browse', 'messaging', null, array('summary' => true))); ?>
+<?php } ?>
+<!-- watch list -->
