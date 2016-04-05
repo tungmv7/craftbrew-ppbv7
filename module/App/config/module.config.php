@@ -7,114 +7,114 @@
 return array(
     'routes' => array(
         // route to home page
-        'app-home'                             => array(
+        'app-home' => array(
             '/',
             array(
                 'controller' => 'index',
-                'action'     => 'index',
+                'action' => 'index',
             ),
         ),
-        'app-ipn'                              => array(
+        'app-ipn' => array(
             'payment/ipn/:gateway',
             array(
                 'controller' => 'payment',
-                'action'     => 'ipn',
+                'action' => 'ipn',
             ),
         ),
-        'app-advert-redirect'                  => array(
+        'app-advert-redirect' => array(
             'advert/:id',
             array(
                 'controller' => 'index',
-                'action'     => 'advert-redirect',
+                'action' => 'advert-redirect',
             ),
         ),
-        'app-content-sections'                 => array(
+        'app-content-sections' => array(
             'section/:name/:id',
             array(
                 'controller' => 'sections',
-                'action'     => 'view',
+                'action' => 'view',
             ),
             array(
                 'id' => '[\d]+',
             ),
         ),
-        'app-content-pages'                    => array(
+        'app-content-pages' => array(
             'page/:name/:id',
             array(
                 'controller' => 'pages',
-                'action'     => 'view',
+                'action' => 'view',
             ),
             array(
                 'id' => '[\d]+',
             ),
         ),
-        'app-rss-index'                        => array(
+        'app-rss-index' => array(
             'rss',
             array(
                 'controller' => 'rss',
-                'action'     => 'index',
+                'action' => 'index',
             ),
         ),
-        'app-rss-feed'                         => array(
+        'app-rss-feed' => array(
             'rss/feed/:type',
             array(
                 'controller' => 'rss',
-                'action'     => 'feed',
+                'action' => 'feed',
             ),
         ),
-        'app-sitemap'                          => array(
+        'app-sitemap' => array(
             'sitemap.xml',
             array(
                 'controller' => 'index',
-                'action'     => 'sitemap',
+                'action' => 'sitemap',
             ),
         ),
-        'link-play-video'                      => array(
+        'link-play-video' => array(
             'play-video/:id',
             array(
                 'controller' => 'index',
-                'action'     => 'play-video',
+                'action' => 'play-video',
             ),
         ),
-        'app-payment-completed'                => array(
+        'app-payment-completed' => array(
             'payment/completed',
             array(
                 'controller' => 'payment',
-                'action'     => 'completed',
+                'action' => 'completed',
             ),
         ),
-        'app-payment-failed'                   => array(
+        'app-payment-failed' => array(
             'payment/failed',
             array(
                 'controller' => 'payment',
-                'action'     => 'failed',
+                'action' => 'failed',
             ),
         ),
         'app-payment-completed-transaction-id' => array(
             'payment/completed/:transaction_id',
             array(
                 'controller' => 'payment',
-                'action'     => 'completed',
+                'action' => 'completed',
             ),
         ),
-        'app-payment-failed-transaction-id'    => array(
+        'app-payment-failed-transaction-id' => array(
             'payment/failed/:transaction_id',
             array(
                 'controller' => 'payment',
-                'action'     => 'failed',
+                'action' => 'failed',
             ),
         ),
-        'app-error-notfound'                   => array(
+        'app-error-notfound' => array(
             'not-found',
             array(
                 'controller' => 'error',
-                'action'     => 'not-found',
+                'action' => 'not-found',
             ),
         ),
     ),
-    'view'   => array(
+    'view' => array(
         'layouts_path' => __DIR__ . '/../view/layout',
-        'views_path'   => __DIR__ . '/../view',
-        'layout_file'  => 'layout.phtml',
+        'views_path' => __DIR__ . '/../view',
+        'layout_file' => 'layout.phtml',
     ),
 );

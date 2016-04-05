@@ -64,11 +64,12 @@
             <div class="nav-container">
                 <a class="btn btn-menu" href="#main-nav"><i class="fa fa-bars"></i>  Menu</a>
                 <ul id="main-nav" class="nav" style="display: none;">
-                    <li><a href="javascript:;">Auctions</a></li>
-                    <li><a href="javascript:;">News</a></li>
-                    <li><a href="javascript:;">Contact us</a></li>
+                    <li><a href="<?php echo $this->url(array('module' => 'members', 'controller' => 'user', 'action' => 'register')); ?>">Register</a></li>
+                    <li><a href="<?php echo $this->url(array('module' => 'members', 'controller' => 'stores', 'action' => 'index')); ?>">Auctions</a></li>
+                    <li><a href="<?php echo $this->url(array('module' => 'app', 'controller' => 'section', 'action' => 'view', 'id' => 7)); ?>">News</a></li>
+                    <li><a href="<?php echo $this->url(array('module' => 'app', 'controller' => 'section', 'action' => 'view', 'id' => 4)); ?>">Contact us</a></li>
                 </ul>
-                <a class="btn btn-facebook"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
+                <a class="btn btn-facebook" href="<?php echo $this->url(array('module' => 'members', 'controller' => 'user', 'action' => 'facebook-login')); ?>"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
             </div>
         </div>
     </header>

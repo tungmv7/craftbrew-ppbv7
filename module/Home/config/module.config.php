@@ -5,17 +5,17 @@
 
 return array(
     'routes' => array(
-        'home-index'                         => array(
-            'browse',
+        'home-index' => array(
+            '/home',
             array(
                 'controller' => 'home',
-                'action'     => 'index',
+                'action' => 'index',
             ),
         )
     ),
-    'view'   => array(
+    'view' => array(
         'layouts_path' => __DIR__ . '/../view/layout',
-        'views_path'   => __DIR__ . '/../view',
-        'layout_file'  => 'layout-home.phtml',
+        'views_path' => __DIR__ . '/../view',
+        'layout_file' => 'layout-home.phtml',
     ),
 );
