@@ -19,6 +19,6 @@ set_include_path(APPLICATION_PATH . DIRECTORY_SEPARATOR . 'library');
 
 require_once 'Cube/Application.php';
 
-$application = Cube\Application::init(include 'config/global.config.php');
+$application = Cube\Application::init(include 'config/local.config.php');
 $application->bootstrap()
         ->run();

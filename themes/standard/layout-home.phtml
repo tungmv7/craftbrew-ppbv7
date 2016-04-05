@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <?php $assetsDir = $this->baseUrl . '/' . $this->themesFolder . "/standard/assets/"; ?>
+    <title>Home</title>
+    <meta charset="utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <link rel="icon" href="<?= $assetsDir ?>images/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="<?= $assetsDir ?>css/grid.css"/>
+    <link rel="stylesheet" href="<?= $assetsDir ?>css/style.css"/>
+    <link rel="stylesheet" href="<?= $assetsDir ?>css/owl-carousel.css"/>
+    <link rel="stylesheet" href="<?= $assetsDir ?>css/google-map.css"/>
+    <script type="text/javascript">
+        var baseAssetDir = "<?= $assetsDir ?>/";
+    </script>
+    <script src="<?= $assetsDir ?>js/jquery.js"></script>
+    <script src="<?= $assetsDir ?>js/jquery-migrate-1.2.1.js"></script><!--[if lt IE 9]>
+    <html class="lt-ie9">
+    <div style="clear: both; text-align:center; position: relative;"><a href="http://windows.microsoft.com/en-US/internet-explorer/.."><img src="<?= $assetsDir ?>images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."/></a></div>
+    </html>
+    <script src="<?= $assetsDir ?>js/html5shiv.js"></script><![endif]-->
+    <script src="<?= $assetsDir ?>js/device.min.js"></script>
+</head>
+<body>
+<div class="page">
+    <header>
+        <style type="text/css">
+            .nav-container {
+                position: absolute;
+                top: -1.5rem;
+                left: 0;
+                right:0;
+                text-align: left;
+            }
+            .nav-container .btn {
+                color: #777;
+                border-color: #777;
+                display: inline-block;
+                margin: 0;
+            }
+            .nav-container .btn-menu {
+                /*float: left;*/
+            }
+            .nav-container .btn-facebook {
+                float: right;
+            }
+            .nav {
+                display: inline-block;
+            }
+            .nav > li {
+                list-style: none;
+                display: inline-block;
+                line-height: 2.8em;
+            }
+            .nav > li > a {
+                padding: 0.5em 0.5em 0;
+                color: #616161;
+                line-height: 2.22222em;
+                vertical-align: middle;
+            }
+        </style>
+        <div class="container" style="position: relative">
+            <h1 class="brand"><a href="./"><img src="<?= $assetsDir ?>images/logo.png" alt=""/></a></h1>
+            <div class="nav-container">
+                <a class="btn btn-menu" href="#main-nav"><i class="fa fa-bars"></i>  Menu</a>
+                <ul id="main-nav" class="nav" style="display: none;">
+                    <li><a href="javascript:;">Auctions</a></li>
+                    <li><a href="javascript:;">News</a></li>
+                    <li><a href="javascript:;">Contact us</a></li>
+                </ul>
+                <a class="btn btn-facebook"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
+            </div>
+        </div>
+    </header>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".btn-menu").on('click', function(e) {
+                e.preventDefault();
+                var navId = $(this).attr('href');
+                $(navId).toggle();
+            });
+        });
+    </script>
+    <!--
+    ========================================================
+                                CONTENT
+    ========================================================
+    -->
+    <main>
+        <?php echo $this->getContent(); ?>
+
+        <section class="well-1 well-inset-2"><span class="half-circle"><span>Visit our <br>shop</span></span>
+            <div class="container center">
+                <div class="row inverse">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4"><img src="<?= $assetsDir ?>images/page-1_img04.jpg" alt="" class="circle"></div>
+                    <div class="col-md-4 md-right well-inset-1">
+                        <h2>100% natural ingredients</h2>
+                        <p class="text-muted">They quickly found a building with its own unique character that would be perfect for their brewery. They soon added Joel, their head brewer, to the team, who shared their passion for craft beer and had connections to both Mark and Paul (Mark and Joel grew up in Virginia, MN.</p><a href="#" class="btn hr-left">read more</a>
+                    </div>
+                </div>
+                <div class="vertical-hr"></div>
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4"><img src="<?= $assetsDir ?>images/page-1_img05.jpg" alt="" class="circle"></div>
+                    <div class="col-md-4 md-left well-inset-1">
+                        <h2>Limited edition beer</h2>
+                        <p class="text-muted">Located in the historic Lyndale Theater in the LynLake neighborhood of Minneapolis, the brewery features a lineup of high-quality flagship craft beers along with seasonal rotations, specialties and the occasional one-off. Each is constructed to bring out the bold flavors and aromas of the high-quality ingredients.</p><a href="#" class="btn hr-right">read more</a>
+                    </div>
+                </div>
+                <div class="vertical-hr"></div>
+                <div class="row inverse">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4"><img src="<?= $assetsDir ?>images/page-1_img06.jpg" alt="" class="circle"></div>
+                    <div class="col-md-4 md-right well-inset-1">
+                        <h2>Progressive technologies</h2>
+                        <p class="text-muted">Our product of our first double-mash brew filling up the mash tun once, running off all that sugary goodness, then filling up the mash once again in order to yield a highly concentrated wort. The result: a 9.5% kick in the ass. Amber candi syrup was used to further boost ABV and keep the body light.</p><a href="#" class="btn hr-left">read more</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section data-url="images/parallax2.jpg" data-mobile="true" class="well-3 center parallax">
+            <div class="container">
+                <h2 class="uppercase">Testimonials:</h2>
+                <div id="owl-carousel-2" class="owl-carousel">
+                    <blockquote class="item">
+                        <p>
+                            <q>Fragrant with the spicy aromas of clove, coriander and citrus, Quick Wit is a Belgian-style wheat ale with a beautiful golden straw hue and a solid white head. Hints of banana and clove combine with a gentle citrus and wheat tang, ending with a dry pepper and fruit finish. Dried sweet and bitter orange peels are used along with coriander to bring out the subtle nuances of citrus and spice to complement the malt and yeast.The Keynote Speaker is Big Hops with Five Malts to bring in the balance. Did I mention hops? </q>
+                        </p>
+                        <div class="hr-both"><img src="<?= $assetsDir ?>images/page-1_img07.jpg" alt=""></div>
+                        <p>
+                            <cite>April Johnson</cite>
+                        </p>
+                    </blockquote>
+                    <blockquote class="item">
+                        <p>
+                            <q>The Keynote Speaker is Big Hops with Five Malts to bring in the balance. Did I mention hops? Nugget, Crystal, Chinook, Cascade, Centennial, with Citra on the dry hop. A huge THANKS to Paul Cebar for letting us use the name from his album Sucha Much. A cask of Sorachi Ace blended with a kettle sour that our brewers have been playing with. They also added some blackberries for good measure. It’s tart, but not mouth puckeringly so.  Delicious, refreshing, and definitely won’t last long!  </q>
+                        </p>
+                        <div class="hr-both"><img src="<?= $assetsDir ?>images/page-1_img08.jpg" alt=""></div>
+                        <p>
+                            <cite>Tom Sawyer</cite>
+                        </p>
+                    </blockquote>
+                    <blockquote class="item">
+                        <p>
+                            <q>A cask of Sorachi Ace blended with a kettle sour that our brewers have been playing with. They also added some blackberries for good measure. It’s tart, but not mouth puckeringly so.  Delicious, refreshing, and definitely won’t last long!   We’re pairing up Brooklyn Lager, Oktoberfest, and Post Road Pumpkin Ale with a hearty pork with apple raisin chutney that goes perfectly with long, cool nights and jacket-ready days.</q>
+                        </p>
+                        <div class="hr-both"><img src="<?= $assetsDir ?>images/page-1_img09.jpg" alt=""></div>
+                        <p>
+                            <cite>John Smith</cite>
+                        </p>
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <section class="well-4">
+            <div class="container">
+                <div class="brand"><img src="<?= $assetsDir ?>images/logo.png" alt=""></div>
+                <div class="copyright">© <span id="copyright-year"></span> <br> All Rights Reserved<!-- {%FOOTER_LINK} -->
+                </div>
+                <ul class="inline-list hr-both">
+                    <li><a href="https://www.facebook.com/CraftbrewsAustralia" class="icon fa-facebook"></a></li>
+                    <li><a href="https://twitter.com/team_CraftbrewsGo" class="icon fa-twitter"></a></li>
+                </ul>
+            </div>
+        </section>
+        <section class="map">
+            <div id="google-map" class="map_model"></div>
+            <ul class="map_locations">
+                <li data-x="-34.939456" data-y="138.5494764">
+                    <p>640 Anzac HWY, Glenelg East, South Australia, 5045 <span>team@craftbrews.com.au</span></p>
+                </li>
+            </ul>
+        </section>
+    </footer>
+</div>
+<script src="<?= $assetsDir ?>js/script.js"></script>
+<!-- coded by Kirk-->
+</body>
+</html>

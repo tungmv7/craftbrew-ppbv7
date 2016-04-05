@@ -26,9 +26,9 @@ return array(
     'db'         => array(
         'adapter'  => '\\Cube\\Db\\Adapter\\PDO\\Mysql',
         'host'     => 'localhost',
-        'dbname'   => 'craftbre_ppb_v7',
-        'username' => 'craftbre_ppbv7',
-        'password' => 'ppb7MJqnXERsjZMJ',
+        'dbname'   => 'craftbrews',
+        'username' => 'root',
+        'password' => '123@cms',
         'prefix'   => 'ppb_',
         'charset'  => 'utf8'
     ),

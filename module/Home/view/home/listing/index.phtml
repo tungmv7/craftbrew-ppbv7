@@ -1,0 +1,29 @@
+<?php
+/**
+ * @version 7.4
+ */
+/** @var \Ppb\Db\Table\Rowset\Listings $listings */
+/** @var string $class */
+/** @var bool $carousel */
+if (count($listings) > 0) {
+    //$carouselId = 'carousel' . ucfirst($params['type']);
+    $carouselId = 'owl-carousel-1';
+    $nbListings = count($listings);
+
+    $counter = 0;
+    $active = 'active';
+    ?>
+    <div id="<?php echo $carouselId; ?>" class="owl-carousel">
+        <?php
+        foreach ($listings as $listing) {
+            $link = $this->url($listing->link());
+            echo "<div class=\"item\">";
+            echo "<a href=\"".$link."\">";
+            echo $this->thumbnail($listing->getMainImage(), 250, true, array('alt' => $listing['name']));
+            echo "</a>";
+            echo "<h6>".$listing['name']."</h6>";
+            echo "</div>";
+        }
+        ?>
+    </div>
+<?php } ?>
