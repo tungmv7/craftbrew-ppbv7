@@ -534,6 +534,8 @@ header {
   padding-bottom: 1.68rem;
   background: url(../images/header-bg.jpg) center no-repeat;
   background-size: cover;
+  position: relative;
+  overflow: hidden;
 }
 @media (max-width: 767px) {
   header {

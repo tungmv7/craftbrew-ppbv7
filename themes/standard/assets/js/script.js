@@ -71,8 +71,7 @@ include('js/jquery.easing.1.3.js');
 (function ($) {
     var o = document.getElementById("google-map");
     if (o) {
-
-        document.write('<script src="https://maps.google.com/maps/api/js?sensor=false"></script>');
+        document.write('<script src="https://maps.google.com/maps/api/js?key=AIzaSyAA8nXLhZTVKw2N9WPEjxGu2Z4WDaSlU5o&sensor=false"></script>');
         include('js/jquery.rd-google-map.js');
 
         $(document).ready(function () {

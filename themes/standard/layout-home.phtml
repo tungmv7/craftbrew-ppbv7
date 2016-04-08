@@ -5,7 +5,7 @@
     <title>Home</title>
     <meta charset="utf-8"/>
     <meta name="format-detection" content="telephone=no"/>
-    <link rel="icon" href="<?= $assetsDir ?>images/favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="<?= $assetsDir ?>images/favicon.png" type="image/png"/>
     <link rel="stylesheet" href="<?= $assetsDir ?>css/grid.css"/>
     <link rel="stylesheet" href="<?= $assetsDir ?>css/style.css"/>
     <link rel="stylesheet" href="<?= $assetsDir ?>css/owl-carousel.css"/>
@@ -59,7 +59,21 @@
                 line-height: 2.22222em;
                 vertical-align: middle;
             }
+            #featured-video {
+                width: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                padding: 0;
+                margin: 0;
+                overflow: hidden;
+            }
         </style>
+        <video id="featured-video" autoplay  poster="http://craftbrews.local/themes/standard/assets/images/header-bg.jpg" loop>
+            <source src="http://craftbrews.local/themes/standard/assets/images/background.mp4"></source>
+        </video>
         <div class="container" style="position: relative">
             <h1 class="brand"><a href="./"><img src="<?= $assetsDir ?>images/logo.png" alt=""/></a></h1>
             <div class="nav-container">
@@ -68,6 +82,11 @@
                     <li><a href="<?php echo $this->url(array('module' => 'members', 'controller' => 'stores', 'action' => 'index')); ?>">Auctions</a></li>
                     <li><a href="<?php echo $this->url("news"); ?>">News</a></li>
                     <li><a href="<?php echo $this->url("contact-us"); ?>">Contact us</a></li>
+                    <?php
+                    if (count($this->loggedInUser) == 0) { ?>
+                        <li><a href="<?php echo $this->url(array('module' => 'members', 'controller' => 'user', 'action' => 'login')); ?>">Sign in</a></li>
+                    <?php }
+                    ?>
                 </ul>
                 <?php if (count($this->loggedInUser) > 0): ?>
                     <a class="btn btn-register" href="<?php echo $this->url(null, 'members-index'); ?>">Welcome, <?= $this->loggedInUser['username'] ?></a>
@@ -148,7 +167,7 @@
         <section class="map">
             <div id="google-map" class="map_model"></div>
             <ul class="map_locations">
-                <li data-x="-34.939456" data-y="138.5494764">
+                <li data-x="-34.9257077" data-y="138.583259" data-zoom="3">
                     <p>640 Anzac HWY, Glenelg East, South Australia, 5045 <span>team@craftbrews.com.au</span></p>
                 </li>
             </ul>
