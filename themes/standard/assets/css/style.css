@@ -437,6 +437,9 @@ blockquote p:first-child q {
   display: block;
   padding-top: 19px;
   padding-bottom: 22px;
+  max-width: 50%;
+  margin: 0 auto;
+  font-size: 18px;
 }
 blockquote p:first-child:before {
   display: inline-block;
@@ -445,13 +448,13 @@ blockquote p:first-child:before {
   height: 40px;
   background: url(../images/quote-1.png);
 }
-blockquote p:first-child:after {
+/*blockquote p:first-child:after {
   display: inline-block;
   content: "";
   width: 28px;
   height: 20px;
   background: url(../images/quote-2.png);
-}
+}*/
 blockquote img {
   border-radius: 50%;
 }

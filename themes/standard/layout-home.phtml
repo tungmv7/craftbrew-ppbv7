@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="<?= $assetsDir ?>css/owl-carousel.css"/>
     <link rel="stylesheet" href="<?= $assetsDir ?>css/google-map.css"/>
     <script type="text/javascript">
-        var baseAssetDir = "<?= $assetsDir ?>/";
+        var baseAssetDir = "<?= $assetsDir ?>";
     </script>
     <script src="<?= $assetsDir ?>js/jquery.js"></script>
     <script src="<?= $assetsDir ?>js/jquery-migrate-1.2.1.js"></script><!--[if lt IE 9]>
@@ -125,37 +125,10 @@
                 </div>
             </div>
         </section>
-        <section data-url="images/parallax2.jpg" data-mobile="true" class="well-3 center parallax">
+        <section data-url="<?= $assetsDir ?>images/parallax2.jpg" data-mobile="true" class="well-3 center parallax">
             <div class="container">
-                <h2 class="uppercase">Testimonials:</h2>
-                <div id="owl-carousel-2" class="owl-carousel">
-                    <blockquote class="item">
-                        <p>
-                            <q>Fragrant with the spicy aromas of clove, coriander and citrus, Quick Wit is a Belgian-style wheat ale with a beautiful golden straw hue and a solid white head. Hints of banana and clove combine with a gentle citrus and wheat tang, ending with a dry pepper and fruit finish. Dried sweet and bitter orange peels are used along with coriander to bring out the subtle nuances of citrus and spice to complement the malt and yeast.The Keynote Speaker is Big Hops with Five Malts to bring in the balance. Did I mention hops? </q>
-                        </p>
-                        <div class="hr-both"><img src="<?= $assetsDir ?>images/page-1_img07.jpg" alt=""></div>
-                        <p>
-                            <cite>April Johnson</cite>
-                        </p>
-                    </blockquote>
-                    <blockquote class="item">
-                        <p>
-                            <q>The Keynote Speaker is Big Hops with Five Malts to bring in the balance. Did I mention hops? Nugget, Crystal, Chinook, Cascade, Centennial, with Citra on the dry hop. A huge THANKS to Paul Cebar for letting us use the name from his album Sucha Much. A cask of Sorachi Ace blended with a kettle sour that our brewers have been playing with. They also added some blackberries for good measure. It’s tart, but not mouth puckeringly so.  Delicious, refreshing, and definitely won’t last long!  </q>
-                        </p>
-                        <div class="hr-both"><img src="<?= $assetsDir ?>images/page-1_img08.jpg" alt=""></div>
-                        <p>
-                            <cite>Tom Sawyer</cite>
-                        </p>
-                    </blockquote>
-                    <blockquote class="item">
-                        <p>
-                            <q>A cask of Sorachi Ace blended with a kettle sour that our brewers have been playing with. They also added some blackberries for good measure. It’s tart, but not mouth puckeringly so.  Delicious, refreshing, and definitely won’t last long!   We’re pairing up Brooklyn Lager, Oktoberfest, and Post Road Pumpkin Ale with a hearty pork with apple raisin chutney that goes perfectly with long, cool nights and jacket-ready days.</q>
-                        </p>
-                        <div class="hr-both"><img src="<?= $assetsDir ?>images/page-1_img09.jpg" alt=""></div>
-                        <p>
-                            <cite>John Smith</cite>
-                        </p>
-                    </blockquote>
+                <h2 class="uppercase">Craft brew news</h2>
+                <div id="owl-carousel-3" class="owl-carousel">
                 </div>
             </div>
         </section>
@@ -183,6 +156,40 @@
     </footer>
 </div>
 <script src="<?= $assetsDir ?>js/script.js"></script>
-<!-- coded by Kirk-->
+<script type="text/javascript">
+    $(document).ready(function(){
+        var news_template = '<blockquote class="item"><p><q>{{msg}}</q></p><div class="hr-both">{{avatar}}</div></blockquote>';
+        $.get('<?= $this->baseUrl ?>/social/twitter/data.json', function(data) {
+            var html = "";
+            data.forEach(function(e, i, a) {
+                var temp = news_template.replace('{{msg}}', e.msg).replace('{{display_name}}', e.display_name);
+                if (e.image != undefined) {
+                    temp = temp.replace('{{avatar}}', '<img src="' + e.image + ":thumb" + '" />');
+                } else {
+                    temp = temp.replace('{{avatar}}', '');
+                }
+                html += temp;
+            });
+            var o = $('#owl-carousel-3');
+            o.html(html);
+            if (o.length > 0) {
+                o.owlCarousel({
+                    margin: 30,
+                    smartSpeed: 450,
+                    loop: true,
+                    dots: true,
+                    dotsEach: 1,
+                    nav: false,
+                    navClass: ['owl-prev fa fa-angle-left', 'owl-next fa fa-angle-right'],
+                    responsive: {
+                        0: { items: 1 },
+                        768: { items: 1},
+                        980: { items: 1}
+                    }
+                });
+            }
+        });
+    });
+</script>
 </body>
 </html>
