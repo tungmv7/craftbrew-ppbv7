@@ -25,9 +25,9 @@
 
         defaults = {
             map: {
-                x: -73.9924068,
-                y: 40.646197,
-                zoom: 14
+                x: 138.583259,
+                y: -34.9257077,
+                zoom: 13
             },
             locations: []
         };
@@ -35,7 +35,6 @@
 
     var getLocations = function ($map, settings) {
         var $locations = $map.parent().find('.' + settings.locationsClass).find('li');
-
         var locations = [];
 
 
