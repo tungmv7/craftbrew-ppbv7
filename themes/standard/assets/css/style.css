@@ -524,6 +524,11 @@ blockquote .hr-both + p {
 .parallax p {
   color: #fff;
 }
+.parallax p:nth-child(2) {
+  margin: 0 auto;
+  width: 80%;
+  padding: 0;
+}
 
 /*========================================================
 					 HEADER  Section

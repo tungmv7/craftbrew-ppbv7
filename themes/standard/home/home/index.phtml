@@ -1,20 +1,8 @@
 <?php $assetsDir = $this->baseUrl . '/' . $this->themesFolder . "/standard/assets/"; ?>
 <section class="well-1 center"><span class="half-circle"><span>Virtual <br>tour</span></span>
     <div class="container">
-        <h2 class="uppercase">High quality & perfect taste</h2>
-        <div class="row offset-1">
-            <div class="col-md-6">
-                <p class="md-right">Brewery is a Vancouver, BC born and built craft brewery. Our West Coast lifestyle and love for great quality beers for every occasion lead us to the design, development and brew of our favourite pints. Consistent quality is paramount as we strive to create beers that cater to not only our thirsty palate.</p>
-            </div>
-            <div class="col-md-6">
-                <p class="md-left">At Brewery we are inspired by more than just great tasting sessionable beers, we enjoy taking a collaborative approach towards our other passions in life including music, photography, clothing, art, events and especially those who are taking risks and making great things happen. It’s All Happening!</p>
-            </div>
-        </div>
-        <div class="row offset-0">
-            <div class="col-md-6 col-md-offset-3">
-                <p class="text-muted">We worked close with our friends at LATER.mag on their Issue 3.2 release event, transforming the brewery and designing a growler to match the event. Each growler sold came paired with fresh new mag.</p><a href="#" class="btn hr-both">read more</a>
-            </div>
-        </div>
+        <h2 class="uppercase"><?= $news->title ?></h2>
+        <?= $news->content ?>
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <?php echo $this->action('index', 'listing', 'home',

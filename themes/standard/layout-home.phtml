@@ -10,11 +10,14 @@
     <link rel="stylesheet" href="<?= $assetsDir ?>css/style.css"/>
     <link rel="stylesheet" href="<?= $assetsDir ?>css/owl-carousel.css"/>
     <link rel="stylesheet" href="<?= $assetsDir ?>css/google-map.css"/>
+    <link rel="stylesheet" href="<?= $this->baseUrl . '/' ?>js/slick/slick.css"/>
+    <link rel="stylesheet" href="<?= $this->baseUrl . '/' ?>js/slick/slick-theme.css"/>
     <script type="text/javascript">
         var baseAssetDir = "<?= $assetsDir ?>";
     </script>
     <script src="<?= $assetsDir ?>js/jquery.js"></script>
-    <script src="<?= $assetsDir ?>js/jquery-migrate-1.2.1.js"></script><!--[if lt IE 9]>
+    <script src="<?= $this->baseUrl . '/' ?>js/slick/slick.min.js"></script><!--[if lt IE 9]>
+    <script src="<?= $assetsDir ?>js/jquery.js"></script>
     <html class="lt-ie9">
     <div style="clear: both; text-align:center; position: relative;"><a href="http://windows.microsoft.com/en-US/internet-explorer/.."><img src="<?= $assetsDir ?>images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."/></a></div>
     </html>
@@ -70,9 +73,26 @@
                 margin: 0;
                 overflow: hidden;
             }
+            .jq-slider .img-advert {
+                display: block;
+                width: 95%;
+                height: auto;
+                margin: 0 auto;
+            }
+
+            .jq-slider {
+                margin-bottom: 0px;
+            }
+            .slick-dots li button:before,
+            .slick-dots li.slick-active button:before {
+                color: #fff;
+            }
+            .slick-dots li button:before {
+                font-size: 11px;
+            }
         </style>
-        <video id="featured-video" autoplay  poster="http://craftbrews.local/themes/standard/assets/images/header-bg.jpg" loop>
-            <source src="http://craftbrews.local/themes/standard/assets/images/background.mp4"></source>
+        <video id="featured-video" autoplay  poster="<?= $assetsDir ?>images/header-bg.jpg" loop>
+            <source src="<?= $assetsDir ?>images/background.mp4" />
         </video>
         <div class="container" style="position: relative">
             <h1 class="brand"><a href="./"><img src="<?= $assetsDir ?>images/logo.png" alt=""/></a></h1>
@@ -104,6 +124,11 @@
                 var navId = $(this).attr('href');
                 $(navId).toggle();
             });
+            $('.jq-slider').slick({
+                dots: true,
+                arrows: false,
+                autoplay: true
+            });
         });
     </script>
     <!--
@@ -116,20 +141,37 @@
 
         <section class="well-1 well-inset-2"><span class="half-circle"><span>Visit our <br>shop</span></span>
             <div class="container center">
+                <?php
+                $adverts = $this->advert()->findBySection('slider', true);
 
-                <div class="row inverse">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-4">
-                        <img src="<?= $assetsDir ?>images/page-1_img04.jpg" alt="" class="circle">
-                        <h2 style="margin: 20px 0;">Shop 1 Ads</h2>
+                $nbAdverts = count($adverts);
+                $activeClass = 'active';
+
+                if ($nbAdverts > 0) {
+                    ?>
+                    <div class="jq-slider">
+                        <?php foreach ($adverts as $advert) { ?>
+                            <div>
+                                <?php echo $this->advert($advert)->display(); ?>
+                            </div>
+                        <?php } ?>
                     </div>
-                    <div class="col-md-2"></div>
-                    <div class="col-md-4">
-                        <img src="<?= $assetsDir ?>images/page-1_img05.jpg" alt="" class="circle">
-                        <h2 style="margin: 20px 0;">Shop 2 Ads</h2>
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
+
+                <?php } ?>
+
+<!--                <div class="row inverse">-->
+<!--                    <div class="col-md-1"></div>-->
+<!--                    <div class="col-md-4">-->
+<!--                        <img src="--><?//= $assetsDir ?><!--images/page-1_img04.jpg" alt="" class="circle">-->
+<!--                        <h2 style="margin: 20px 0;">Shop 1 Ads</h2>-->
+<!--                    </div>-->
+<!--                    <div class="col-md-2"></div>-->
+<!--                    <div class="col-md-4">-->
+<!--                        <img src="--><?//= $assetsDir ?><!--images/page-1_img05.jpg" alt="" class="circle">-->
+<!--                        <h2 style="margin: 20px 0;">Shop 2 Ads</h2>-->
+<!--                    </div>-->
+<!--                    <div class="col-md-1"></div>-->
+<!--                </div>-->
 
                 <!--
                 <div class="row inverse">
@@ -194,15 +236,16 @@
 <script src="<?= $assetsDir ?>js/script.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-        var news_template = '<blockquote class="item"><p><q>{{msg}}</q></p><div class="hr-both">{{avatar}}</div></blockquote>';
-        $.get('<?= $this->baseUrl ?>/social/twitter/data.json', function(data) {
+        var news_template = '<blockquote class="item"><p><q><a href="{{link}}">{{title}}</a></q></p>{{excerpt}}<div class="hr-both"><a href="{{link}}">{{image}}</a></div></blockquote>';
+        $.get('https://www.craftbrews.com.au/ppbv7/news/wp-json/wp/v2/posts?_embed', function(data) {
+            // console.log(data);
             var html = "";
             data.forEach(function(e, i, a) {
-                var temp = news_template.replace('{{msg}}', e.msg).replace('{{display_name}}', e.display_name);
-                if (e.image != undefined) {
-                    temp = temp.replace('{{avatar}}', '<img src="' + e.image + ":thumb" + '" />');
+                var temp = news_template.replace('{{title}}', e.title.rendered).replace('{{excerpt}}', e.excerpt.rendered).replace('{{link}}', e.link).replace('{{link}}', e.link);
+                if (e.better_featured_image != undefined) {
+                    temp = temp.replace('{{image}}', '<img src="' + e.better_featured_image.media_details.sizes.thumbnail.source_url + '" />');
                 } else {
-                    temp = temp.replace('{{avatar}}', '');
+                    temp = temp.replace('{{image}}', '');
                 }
                 html += temp;
             });
@@ -225,6 +268,36 @@
                 });
             }
         });
+//        $.get('<?//= $this->baseUrl ?>///social/twitter/data.json', function(data) {
+//            var html = "";
+//            data.forEach(function(e, i, a) {
+//                var temp = news_template.replace('{{msg}}', e.msg).replace('{{display_name}}', e.display_name);
+//                if (e.image != undefined) {
+//                    temp = temp.replace('{{avatar}}', '<img src="' + e.image + ":thumb" + '" />');
+//                } else {
+//                    temp = temp.replace('{{avatar}}', '');
+//                }
+//                html += temp;
+//            });
+//            var o = $('#owl-carousel-3');
+//            o.html(html);
+//            if (o.length > 0) {
+//                o.owlCarousel({
+//                    margin: 30,
+//                    smartSpeed: 450,
+//                    loop: true,
+//                    dots: true,
+//                    dotsEach: 1,
+//                    nav: false,
+//                    navClass: ['owl-prev fa fa-angle-left', 'owl-next fa fa-angle-right'],
+//                    responsive: {
+//                        0: { items: 1 },
+//                        768: { items: 1},
+//                        980: { items: 1}
+//                    }
+//                });
+//            }
+//        });
     });
 </script>
 </body>

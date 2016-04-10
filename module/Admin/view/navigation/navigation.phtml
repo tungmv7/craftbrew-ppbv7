@@ -9,7 +9,7 @@
 ?>
 <nav class="navbar navbar-default navbar-static-top main-navigation hidden-xs" role="navigation">
     <div class="container">
-        <ul class="nav navbar-nav" id="main-nav">
+        <ul style="margin-left: 120px" class="nav navbar-nav" id="main-nav">
             <?php foreach ($this->menu->pages as $page) { ?>
                 <?php if ($page->filter != 'true' && $this->navigation()->accept($page)) { ?>
                     <li <?php echo ($page->isActive(true)) ? 'class="active"' : ''; ?>>

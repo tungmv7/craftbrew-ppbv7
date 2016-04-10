@@ -19,7 +19,10 @@ use Ppb\Controller\Action\AbstractAction,
 class Home extends AbstractAction
 {
     public function Index() {
-        return [];
+        $contentPagesService = new Service\ContentPages();
+        return [
+            'news' => $contentPagesService->findBy('section_id', 7)
+        ];
     }
 
     public function Statistic()
@@ -38,7 +41,7 @@ class Home extends AbstractAction
 
         return [
             'statistics' => [
-//                ['sorts-of-beer', 'sorts of beer', 0, 'We are always brewing up something new, with a rotating selection of seasonals, nitros, and casks for you to try.'],
+                // ['sorts-of-beer', 'sorts of beer', 0, 'We are always brewing up something new, with a rotating selection of seasonals, nitros, and casks for you to try.'],
                 ['products-every-day', 'products', $approvedListing, 'Always fresh, always rotating, these beers are hand-pulled into your glass at "cellar temperature" (55º), allowing for maximum flavor and aroma to pop out.'],
                 ['shops', 'shops', $seller, 'Our brewing and packaging teams include people who speak English, Arabic, Urdu, Spanish, Mandingo and French.'],
                 ['users', 'users', $buyer, 'Our technical director owns the upstate farm she grew up on, producing maple syrup and growing crops and the hops used in our Greenmarket.']
