@@ -39,7 +39,7 @@ return array(
     ),
     /* mail is global for all modules */
     'mail'       => array(
-        'transport'    => 'mail',
+        'transport'    => 'smtp',
         'layouts_path' => __DIR__ . '/../themes/standard',
         'views_path'   => __DIR__ . '/../module/App/view/emails',
         'layout_file'  => 'email.phtml',
